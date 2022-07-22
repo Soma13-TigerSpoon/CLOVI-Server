@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class CloviApplicationTests {
 
 	@Test
-	void contextLoads() {
+	public void contextLoads() {
 	}
 
 }
