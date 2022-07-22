@@ -1,2 +1,2 @@
 # Server
-Spring-Boot API Server
+CLOVI Spring-Boot API Server
