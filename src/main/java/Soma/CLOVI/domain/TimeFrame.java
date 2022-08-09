@@ -1,12 +1,8 @@
 package Soma.CLOVI.domain;
 
-import Soma.CLOVI.domain.Base.BaseEntity;
 import Soma.CLOVI.domain.Base.BaseTimeEntity;
 import Soma.CLOVI.domain.item.Item;
-import Soma.CLOVI.domain.youtube.Video;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -18,8 +14,9 @@ import java.util.List;
         @Index(name = "i_end_time", columnList = "endTime")
 })
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TimeFrame extends BaseTimeEntity {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "time_id")
     private Long id;
 
@@ -31,7 +28,7 @@ public class TimeFrame extends BaseTimeEntity {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "time_id")
-    private List<ShopItem> itemList = new ArrayList<>();
+    private List<Item> itemList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "model_id")
@@ -39,16 +36,14 @@ public class TimeFrame extends BaseTimeEntity {
 
 
     @Builder
-    public TimeFrame(Long startTime, Long endTime, Model model, List<ShopItem> shopItems){
+    public TimeFrame(Long startTime, Long endTime, Model model){
         this.startTime = startTime;
         this.endTime = endTime;
         this.model = model;
-        for(ShopItem shopItem : shopItems){
-            this.itemList.add(shopItem);
-        }
     }
 
-    public TimeFrame() {
-
+    public void addItem(Item item){
+        this.itemList.add(item);
     }
+
 }

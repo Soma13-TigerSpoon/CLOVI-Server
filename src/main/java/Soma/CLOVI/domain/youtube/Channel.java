@@ -1,17 +1,14 @@
 package Soma.CLOVI.domain.youtube;
 
-import Soma.CLOVI.domain.user.YoutubeCreator;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import Soma.CLOVI.domain.Base.BaseTimeEntity;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Getter @Setter
-public class Channel {
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Channel extends BaseTimeEntity {
 
     @Id @GeneratedValue
     @Column(name = "channel_id")
@@ -27,7 +24,4 @@ public class Channel {
         this.profileImgUrl = profileImgUrl;
     }
 
-    public Channel() {
-
-    }
 }

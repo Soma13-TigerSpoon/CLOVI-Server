@@ -3,9 +3,7 @@ package Soma.CLOVI.domain.youtube;
 import Soma.CLOVI.domain.Base.BaseTimeEntity;
 import Soma.CLOVI.domain.TimeFrame;
 import Soma.CLOVI.domain.user.YoutubeCreator;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,10 +14,11 @@ import java.util.List;
         @Index(name = "i_title", columnList = "title"),
         @Index(name = "i_video_url", columnList = "videoUrl")
 })
-@Getter @Setter
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Video extends BaseTimeEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "video_id")
     private Long id;
 
@@ -58,7 +57,4 @@ public class Video extends BaseTimeEntity {
         }
     }
 
-    public Video() {
-
-    }
 }

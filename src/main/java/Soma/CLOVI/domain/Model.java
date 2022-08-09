@@ -2,6 +2,7 @@ package Soma.CLOVI.domain;
 
 import Soma.CLOVI.domain.Base.BaseEntity;
 import Soma.CLOVI.domain.Base.BaseTimeEntity;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,8 +11,9 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Model extends BaseTimeEntity {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "model_id")
     private Long id;
 
@@ -22,9 +24,6 @@ public class Model extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    public Model() {
-
-    }
 
     @Builder
     public Model(String name, float height_cm, float weight_kg, Gender gender) {

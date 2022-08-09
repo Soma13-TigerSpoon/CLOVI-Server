@@ -5,16 +5,15 @@ import Soma.CLOVI.domain.Base.BaseTimeEntity;
 import Soma.CLOVI.domain.item.Item;
 import Soma.CLOVI.domain.shop.Shop;
 import Soma.CLOVI.dto.use.SoldOutStatus;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Getter @Setter
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ShopItem extends BaseTimeEntity {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "shop_item_id")
     private Long id;
 
@@ -27,10 +26,6 @@ public class ShopItem extends BaseTimeEntity {
     private SoldOutStatus soldOutStatus;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id")
-    private Item item;
-
-    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shop_id")
     private Shop shop;
 
@@ -38,17 +33,13 @@ public class ShopItem extends BaseTimeEntity {
     private Long timeId;
 
 
-    public ShopItem(){
-    }
-
     @Builder
-    public ShopItem(String itemUrl, String itemImgUrl, Long price, Long stock, SoldOutStatus soldOutStatus, Item item, Shop shop) {
+    public ShopItem(String itemUrl, String itemImgUrl, Long price, Long stock, SoldOutStatus soldOutStatus, Shop shop) {
         this.itemUrl = itemUrl;
         this.itemImgUrl = itemImgUrl;
         this.price = price;
         this.stock = stock;
         this.soldOutStatus = soldOutStatus;
-        this.item = item;
         this.shop = shop;
     }
 }
