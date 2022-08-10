@@ -1,8 +1,11 @@
 package Soma.CLOVI.domain.shop;
 
 import Soma.CLOVI.domain.Base.BaseEntity;
+import Soma.CLOVI.domain.Base.BaseTimeEntity;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -11,7 +14,8 @@ import javax.persistence.*;
         @Index(name = "i_shop_name", columnList = "shopName")
 })
 @Getter
-public class Shop extends BaseEntity {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Shop extends BaseTimeEntity {
     @Id @GeneratedValue
     @Column(name = "shop_id")
     private Long id;
@@ -24,9 +28,6 @@ public class Shop extends BaseEntity {
 
     private String shopLogoUrl;
 
-    public Shop() {
-
-    }
 
     @Builder
     public Shop(String shopName, String description, String shopUrl, String shopLogoUrl) {

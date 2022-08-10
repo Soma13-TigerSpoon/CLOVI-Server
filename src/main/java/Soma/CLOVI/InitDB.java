@@ -13,7 +13,6 @@ import Soma.CLOVI.domain.youtube.Video;
 import Soma.CLOVI.dto.use.SoldOutStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
@@ -77,28 +76,26 @@ public class InitDB {
                     .color("Black")
                     .size("XXL")
                     .itemType(ItemType.TOP)
+                    .imgUrl("https://www.lotteon.com/m/product/LO1865153271?sitmNo=LO1865153271_1865153272&mall_no=1&dp_infw_cd=SCH%EA%B0%A4%EB%9F%AC%EB%A6%AC%EB%94%94%ED%8C%8C%ED%8A%B8%EB%A8%BC%ED%8A%B8")
                     .build();
 
             Item item2 = Item.builder()
                     .itemName("나누슈카 로고 볼캡")
-                    .itemType(ItemType.CAP)
-                    .size("free")
                     .color("Black")
+                    .size("free")
+                    .itemType(ItemType.CAP)
+                    .imgUrl("https://cdn.mustit.co.kr/lib/upload/product/luxboy/2022/05/1653037065-72.jpeg/_dims_/resize/500x500/extent/500x500")
                     .build();
 
             Item item3 = Item.builder()
                     .itemName("페이탈리즘 #0280 mer two tuck wide indigo")
-                    .size("48")
                     .color("Indigo Blue")
+                    .size("48")
                     .itemType(ItemType.PANTS)
+                    .imgUrl("https://image.msscdn.net/images/prd_img/20220519/2569788/detail_2569788_10_500.jpg?t=20220530104204")
                     .build();
 
-            em.persist(item1);
-            em.persist(item2);
-            em.persist(item3);
-
             ShopItem shopItem1 = ShopItem.builder()
-                    .item(item1)
                     .shop(lotteOnShop)
                     .itemImgUrl("https://contents.lotteon.com/itemimage/_v143540/LO/18/65/15/32/71/_1/86/51/53/27/2/LO1865153271_1865153272_1.png/dims/optimize/dims/resizemc/400x400")
                     .itemUrl("https://www.lotteon.com/m/product/LO1865153271?sitmNo=LO1865153271_1865153272&mall_no=1&dp_infw_cd=SCH%EA%B0%A4%EB%9F%AC%EB%A6%AC%EB%94%94%ED%8C%8C%ED%8A%B8%EB%A8%BC%ED%8A%B8")
@@ -107,7 +104,6 @@ public class InitDB {
                     .build();
 
             ShopItem shopItem2 = ShopItem.builder()
-                    .item(item1)
                     .shop(trenbeShop)
                     .itemImgUrl("https://image-cdn.trenbe.com/productmain/1655965617308-11fdd4fc-163a-41f8-9351-56ec85cf1958.jpeg")
                     .itemUrl("https://www.trenbe.com/product/SOUVENIR+VST1000+32567796")
@@ -117,7 +113,6 @@ public class InitDB {
 
             ShopItem shopItem3 = ShopItem.builder()
                     .shop(mustitShop)
-                    .item(item2)
                     .itemImgUrl("https://cdn.mustit.co.kr/lib/upload/product/luxboy/2022/05/1653037065-72.jpeg/_dims_/resize/500x500/extent/500x500")
                     .itemUrl("https://m.web.mustit.co.kr/m/product/product_detail/42280054")
                     .price(116200L)
@@ -126,7 +121,6 @@ public class InitDB {
 
             ShopItem shopItem4 = ShopItem.builder()
                     .shop(musinsaShop)
-                    .item(item3)
                     .itemImgUrl("https://image.msscdn.net/images/prd_img/20220519/2569788/detail_2569788_10_500.jpg?t=20220530104204")
                     .itemUrl("https://www.musinsa.com/app/goods/2569788")
                     .price(57780L)
@@ -134,18 +128,24 @@ public class InitDB {
                     .build();
 
 
-            shopItemList1.add(shopItem1);
-            shopItemList1.add(shopItem2);
+            item1.addShopItem(shopItem1);
+            item1.addShopItem(shopItem2);
 
-            shopItemList2.add(shopItem3);
-            shopItemList2.add(shopItem4);
+            item2.addShopItem(shopItem3);
+            item3.addShopItem(shopItem4);
+
+            em.persist(item1);
+            em.persist(item2);
+            em.persist(item3);
+
 
             TimeFrame timeFrame1 = TimeFrame.builder()
                     .startTime(191L)
                     .endTime(196L)
                     .model(model)
-                    .shopItems(shopItemList1)
                     .build();
+            timeFrame1.addItem(item1);
+            timeFrame1.addItem(item2);
 
             em.persist(timeFrame1);
 
@@ -153,8 +153,10 @@ public class InitDB {
                     .startTime(334L)
                     .endTime(337L)
                     .model(model)
-                    .shopItems(shopItemList2)
                     .build();
+
+            timeFrame2.addItem(item3);
+
             em.persist(timeFrame2);
 
             List<TimeFrame> timeFrameList = new ArrayList<>();

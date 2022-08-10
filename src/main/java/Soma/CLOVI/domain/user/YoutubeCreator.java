@@ -1,26 +1,20 @@
 package Soma.CLOVI.domain.user;
 
 import Soma.CLOVI.domain.Base.BaseTimeEntity;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class YoutubeCreator extends BaseTimeEntity {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="creator_id")
     private Long id;
 
     private String creatorName;
     private String profileImgUrl;
-
-    public YoutubeCreator() {
-
-    }
     @Builder
     public YoutubeCreator(String creatorName, String profileImgUrl) {
         this.creatorName = creatorName;

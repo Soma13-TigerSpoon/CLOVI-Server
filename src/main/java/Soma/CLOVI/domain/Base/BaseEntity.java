@@ -16,7 +16,12 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @Getter
 public class BaseEntity {
+    @CreatedBy
+    @Column(updatable = false)
+    private String createBy;
 
+    @LastModifiedBy
+    private String lastModifiedBy;
     // 시간
     @CreatedDate
     @Column(updatable = false)
