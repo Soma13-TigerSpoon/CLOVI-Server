@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 public class ShopItemResponseDto {
+    private Long id;
 
     private String shopName;
 
@@ -25,6 +26,7 @@ public class ShopItemResponseDto {
     private String soldOutStatus;
 
     public ShopItemResponseDto(ShopItem shopItem){
+        this.id = shopItem.getId();
         this.shopName = shopItem.getItemUrl();
         this.shopUrl = shopItem.getShop().getShopName();
         this.itemImgUrl = shopItem.getItemImgUrl();

@@ -8,6 +8,7 @@ import java.util.List;
 
 @Getter
 public class VideoResponseDto {
+    private Long id;
     private String creator;
 
     private String profileImgUrl;
@@ -15,6 +16,7 @@ public class VideoResponseDto {
     private List<TimeShopItemResponseDto> lists = new ArrayList<>();
 
     public VideoResponseDto(Video video){
+        this.id = video.getId();
         this.creator = video.getYoutubeCreator().getCreatorName();
         this.profileImgUrl = video.getYoutubeCreator().getProfileImgUrl();
 

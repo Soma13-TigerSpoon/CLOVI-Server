@@ -10,6 +10,8 @@ import java.util.List;
 @Getter
 public class ItemResponseDto {
 
+    private Long id;
+
     private String name;
 
     private String type;
@@ -22,6 +24,7 @@ public class ItemResponseDto {
     List<ShopItemResponseDto> shops = new ArrayList<>();
 
     public ItemResponseDto(Item item){
+        this.id = item.getId();
         this.name = item.getItemName();
         this.type = item.getItemType().toString();
         this.typeName = item.getItemType().getOrder();
