@@ -14,8 +14,8 @@ public class ItemResponseDto {
 
     private String name;
 
-    private String type;
-    private int typeName;
+    private String typeName;
+    private int type;
     private String itemImgUrl;
 
     private String color;
@@ -26,8 +26,8 @@ public class ItemResponseDto {
     public ItemResponseDto(Item item){
         this.id = item.getId();
         this.name = item.getItemName();
-        this.type = item.getItemType().toString();
-        this.typeName = item.getItemType().getOrder();
+        this.typeName = item.getItemType().toString();
+        this.type = item.getItemType().getOrder();
         this.color = item.getColor();
         this.size = item.getSize();
         this.itemImgUrl = item.getImgUrl();
