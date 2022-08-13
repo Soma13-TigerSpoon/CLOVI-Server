@@ -1,13 +1,15 @@
 package Soma.CLOVI.domain.shop;
 
-import Soma.CLOVI.domain.Base.BaseEntity;
 import Soma.CLOVI.domain.Base.BaseTimeEntity;
+import Soma.CLOVI.domain.ManyToMany.ShopItem;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(indexes = {
@@ -17,7 +19,6 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Shop extends BaseTimeEntity {
     @Id @GeneratedValue
-    @Column(name = "shop_id")
     private Long id;
 
     private String shopName;
@@ -28,12 +29,14 @@ public class Shop extends BaseTimeEntity {
 
     private String shopLogoUrl;
 
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "shop")
+    private List<ShopItem> shopItems = new ArrayList<>();
 
-    @Builder
-    public Shop(String shopName, String description, String shopUrl, String shopLogoUrl) {
+    public Shop(String shopName, String shopLogoUrl) {
         this.shopName = shopName;
-        this.description = description;
-        this.shopUrl = shopUrl;
         this.shopLogoUrl = shopLogoUrl;
+    }
+    public void addShopItem(ShopItem shopItem){
+        this.shopItems.add(shopItem);
     }
 }

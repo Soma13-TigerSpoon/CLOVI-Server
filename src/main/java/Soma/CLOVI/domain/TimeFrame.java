@@ -2,6 +2,7 @@ package Soma.CLOVI.domain;
 
 import Soma.CLOVI.domain.Base.BaseTimeEntity;
 import Soma.CLOVI.domain.item.Item;
+import Soma.CLOVI.domain.youtube.Video;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,12 +24,12 @@ public class TimeFrame extends BaseTimeEntity {
     private Long startTime;
     private Long endTime;
 
-    @Column(name = "video_id")
-    private Long videoId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Video video;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "time_id")
-    private List<Item> itemList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "timeFrame", cascade = CascadeType.ALL)
+    private List<Item> items = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "model_id")
@@ -36,14 +37,15 @@ public class TimeFrame extends BaseTimeEntity {
 
 
     @Builder
-    public TimeFrame(Long startTime, Long endTime, Model model){
+    public TimeFrame(Long startTime, Long endTime, Model model, Video video){
         this.startTime = startTime;
         this.endTime = endTime;
         this.model = model;
+        this.video = video;
     }
 
     public void addItem(Item item){
-        this.itemList.add(item);
+        this.items.add(item);
     }
 
 }

@@ -1,12 +1,7 @@
 package Soma.CLOVI.dto.use;
 
-import Soma.CLOVI.domain.ShopItem;
-import lombok.Data;
+import Soma.CLOVI.domain.ManyToMany.ShopItem;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import javax.validation.constraints.NotNull;
 
 
 @Getter

@@ -24,8 +24,6 @@ public class Model extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-
-    @Builder
     public Model(String name, float height_cm, float weight_kg, Gender gender) {
         this.name = name;
         this.height_cm = height_cm;

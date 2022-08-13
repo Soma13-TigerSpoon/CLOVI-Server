@@ -1,7 +1,10 @@
 package Soma.CLOVI.domain.item;
 
 import Soma.CLOVI.domain.Base.BaseTimeEntity;
-import Soma.CLOVI.domain.ShopItem;
+import Soma.CLOVI.domain.ManyToMany.ShopItem;
+import Soma.CLOVI.domain.ManyToMany.VideoItem;
+import Soma.CLOVI.domain.TimeFrame;
+import Soma.CLOVI.domain.youtube.Video;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,7 +19,6 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Item extends BaseTimeEntity {
     @Id @GeneratedValue
-    @Column(name = "item_id")
     private Long id;
 
     private String itemName;
@@ -29,18 +31,25 @@ public class Item extends BaseTimeEntity {
     private ItemType itemType;
 
     //=연관관계 매핑=//
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "item_id")
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<ShopItem> shopItems = new ArrayList<>();
 
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private TimeFrame timeFrame;
+
+    @OneToMany(mappedBy = "item")
+    private List<VideoItem> videoItems = new ArrayList<>();
+
     @Builder
-    public Item(String itemName, String description, String color, String size, ItemType itemType, String imgUrl) {
+    public Item(String itemName, String description, String color, String size, String imgUrl, ItemType itemType, TimeFrame timeFrame) {
         this.itemName = itemName;
         this.description = description;
         this.color = color;
         this.size = size;
-        this.itemType = itemType;
         this.imgUrl = imgUrl;
+        this.itemType = itemType;
+        this.timeFrame = timeFrame;
     }
 
     public void addShopItem(ShopItem shopItem){

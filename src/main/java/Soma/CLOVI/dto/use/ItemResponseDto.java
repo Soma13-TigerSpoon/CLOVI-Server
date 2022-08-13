@@ -1,6 +1,6 @@
 package Soma.CLOVI.dto.use;
 
-import Soma.CLOVI.domain.ShopItem;
+import Soma.CLOVI.domain.ManyToMany.ShopItem;
 import Soma.CLOVI.domain.item.Item;
 import lombok.Getter;
 
