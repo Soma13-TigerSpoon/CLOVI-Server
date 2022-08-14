@@ -15,9 +15,9 @@ public class TimeShopItemResponseDto {
 
     public TimeShopItemResponseDto(TimeFrame timeFrame){
         this.times = new TimeResponseDto(timeFrame);
-        for(Item item : timeFrame.getItems()){
+        for(Item item : timeFrame.getItems()){ // Select Item
             items.add(new ItemResponseDto(item));
         }
-        this.model = new ModelResponseDto(timeFrame.getModel());
+        this.model = new ModelResponseDto(timeFrame.getModel()); // Select Model
     }
 }

@@ -23,7 +23,7 @@ public class ShopItemResponseDto {
     public ShopItemResponseDto(ShopItem shopItem){
         this.id = shopItem.getId();
         this.shopName = shopItem.getItemUrl();
-        this.shopUrl = shopItem.getShop().getShopName();
+        this.shopUrl = shopItem.getShop().getShopName(); // Select Shop
         this.itemImgUrl = shopItem.getItemImgUrl();
         this.shopLogoUrl = shopItem.getShop().getShopLogoUrl();
         this.price = shopItem.getPrice();

@@ -26,6 +26,6 @@ public class VideoController {
         if(result == null){
             return new BaseResponse(HttpStatus.BAD_REQUEST,ProcessStatus.FAIL, MessageCode.ERROR_REQ_PARAM_VIDEO_ID);
         }
-        return new BaseResponse(videoService.search(videoUrl), HttpStatus.OK, ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET);
+        return new BaseResponse(result, HttpStatus.OK, ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET);
     }
 }

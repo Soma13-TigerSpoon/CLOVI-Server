@@ -31,8 +31,8 @@ public class ItemResponseDto {
         this.color = item.getColor();
         this.size = item.getSize();
         this.itemImgUrl = item.getImgUrl();
-        for(ShopItem shopItem : item.getShopItems()){
-            shops.add(new ShopItemResponseDto(shopItem));
+        for(ShopItem shopItem : item.getShopItems()){ // Select ShopItem
+            this.shops.add(new ShopItemResponseDto(shopItem));
         }
 
     }

@@ -17,15 +17,14 @@ public class VideoResponseDto {
 
     public VideoResponseDto(Video video){
         this.id = video.getId();
-        this.creator = video.getChannel().getYoutubeCreator().getCreatorName();
-        this.profileImgUrl = video.getChannel().getYoutubeCreator().getProfileImgUrl();
+        this.creator = video.getYoutubeCreator().getCreatorName(); // Select Channel
+        this.profileImgUrl = video.getYoutubeCreator().getProfileImgUrl(); // Select YoutubeCreator
 
-        List<TimeFrame> timeFrames = video.getTimeFrames();
+        List<TimeFrame> timeFrames = video.getTimeFrames(); // Select TimeFrame
         if(!timeFrames.isEmpty()){
             for(TimeFrame timeFrame : video.getTimeFrames()){
                 this.lists.add(new TimeShopItemResponseDto(timeFrame));
             }
         }
-
     }
 }
