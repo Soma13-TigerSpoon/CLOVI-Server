@@ -20,7 +20,7 @@ public class VideoController {
     public BaseResponse HelloDocker(){
         return new BaseResponse("HelloDocker", HttpStatus.OK, ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET);
     }
-    @GetMapping("/api/video")
+    @GetMapping("/api/v1/video")
     public BaseResponse videoResponseV1(@RequestParam("videoUrl") String videoUrl){
         VideoResponseDto result = videoService.search(videoUrl);
         if(result == null){
