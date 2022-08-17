@@ -8,13 +8,13 @@ import lombok.Getter;
 public class ShopItemResponseDto {
     private Long id;
 
-    private String shopName;
+    private String name;
 
     private String shopUrl;
 
     private String itemImgUrl;
 
-    private String shopLogoUrl;
+    private String logoUrl;
 
     private Long price;
 
@@ -22,10 +22,10 @@ public class ShopItemResponseDto {
 
     public ShopItemResponseDto(ShopItem shopItem){
         this.id = shopItem.getId();
-        this.shopName = shopItem.getItemUrl();
-        this.shopUrl = shopItem.getShop().getShopName(); // Select Shop
+        this.name = shopItem.getShop().getName();
+        this.shopUrl = shopItem.getShopUrl(); // Select Shop
         this.itemImgUrl = shopItem.getItemImgUrl();
-        this.shopLogoUrl = shopItem.getShop().getShopLogoUrl();
+        this.logoUrl = shopItem.getShop().getLogoUrl();
         this.price = shopItem.getPrice();
         this.soldOutStatus = (shopItem.getSoldOutStatus() == SoldOutStatus.Y) ? "SoldOut" : "InStock";
     }

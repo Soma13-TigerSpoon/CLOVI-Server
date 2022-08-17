@@ -1,5 +1,6 @@
 package Soma.CLOVI.dto.use;
 
+import Soma.CLOVI.domain.ManyToMany.TimeItem;
 import Soma.CLOVI.domain.TimeFrame;
 import Soma.CLOVI.domain.item.Item;
 import lombok.Getter;
@@ -15,8 +16,8 @@ public class TimeShopItemResponseDto {
 
     public TimeShopItemResponseDto(TimeFrame timeFrame){
         this.times = new TimeResponseDto(timeFrame);
-        for(Item item : timeFrame.getItems()){ // Select Item
-            items.add(new ItemResponseDto(item));
+        for(TimeItem item : timeFrame.getItems()){ // Select Item
+            items.add(new ItemResponseDto(item.getItem()));
         }
         this.model = new ModelResponseDto(timeFrame.getModel()); // Select Model
     }

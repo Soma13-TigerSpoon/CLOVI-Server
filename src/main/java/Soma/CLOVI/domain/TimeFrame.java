@@ -1,6 +1,7 @@
 package Soma.CLOVI.domain;
 
 import Soma.CLOVI.domain.Base.BaseTimeEntity;
+import Soma.CLOVI.domain.ManyToMany.TimeItem;
 import Soma.CLOVI.domain.item.Item;
 import Soma.CLOVI.domain.youtube.Video;
 import lombok.*;
@@ -11,8 +12,7 @@ import java.util.List;
 
 @Entity
 @Table(indexes = {
-        @Index(name = "i_start_time", columnList = "startTime"),
-        @Index(name = "i_end_time", columnList = "endTime")
+        @Index(name = "i_start_time", columnList = "start"),
 })
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,15 +21,15 @@ public class TimeFrame extends BaseTimeEntity {
     @Column(name = "time_id")
     private Long id;
 
-    private Long startTime;
-    private Long endTime;
+    private Long start;
+    private Long end;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Video video;
 
 
-    @OneToMany(mappedBy = "timeFrame", cascade = CascadeType.ALL)
-    private List<Item> items = new ArrayList<>();
+    @OneToMany(mappedBy = "time", cascade = CascadeType.ALL)
+    private List<TimeItem> items = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "model_id")
@@ -37,15 +37,15 @@ public class TimeFrame extends BaseTimeEntity {
 
 
     @Builder
-    public TimeFrame(Long startTime, Long endTime, Model model, Video video){
-        this.startTime = startTime;
-        this.endTime = endTime;
+    public TimeFrame(Long start, Long end, Model model, Video video){
+        this.start = start;
+        this.end = end;
         this.model = model;
         this.video = video;
     }
 
-    public void addItem(Item item){
-        this.items.add(item);
+    public void addItem(TimeItem timeItem){
+        this.items.add(timeItem);
     }
 
 }

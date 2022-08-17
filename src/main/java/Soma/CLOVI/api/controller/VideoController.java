@@ -15,11 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class VideoController {
     private final VideoService videoService;
-
-    @GetMapping("/")
-    public BaseResponse HelloDocker(){
-        return new BaseResponse("HelloDocker", HttpStatus.OK, ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET);
-    }
     @GetMapping("/api/v1/video")
     public BaseResponse videoResponseV1(@RequestParam("videoUrl") String videoUrl){
         VideoResponseDto result = videoService.search(videoUrl);

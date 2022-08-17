@@ -1,6 +1,5 @@
 package Soma.CLOVI.domain.ManyToMany;
 
-import Soma.CLOVI.domain.Base.BaseEntity;
 import Soma.CLOVI.domain.Base.BaseTimeEntity;
 import Soma.CLOVI.domain.item.Item;
 import Soma.CLOVI.domain.shop.Shop;
@@ -8,17 +7,16 @@ import Soma.CLOVI.dto.use.SoldOutStatus;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ShopItem extends BaseTimeEntity {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    private String itemUrl;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String shopUrl;
     private String itemImgUrl;
     private Long price;
 
@@ -35,7 +33,7 @@ public class ShopItem extends BaseTimeEntity {
 
     @Builder
     public ShopItem(String itemUrl, String itemImgUrl, Long price, Long stock, SoldOutStatus soldOutStatus, Shop shop, Item item) {
-        this.itemUrl = itemUrl;
+        this.shopUrl = itemUrl;
         this.itemImgUrl = itemImgUrl;
         this.price = price;
         this.stock = stock;

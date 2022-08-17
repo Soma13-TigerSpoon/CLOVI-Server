@@ -13,28 +13,28 @@ import java.util.List;
 
 @Entity
 @Table(indexes = {
-        @Index(name = "i_shop_name", columnList = "shopName")
+        @Index(name = "i_shop_name", columnList = "name")
 })
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Shop extends BaseTimeEntity {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String shopName;
+    private String name;
 
     private String description;
 
-    private String shopUrl;
+    private String url;
 
-    private String shopLogoUrl;
+    private String logoUrl;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "shop")
     private List<ShopItem> shopItems = new ArrayList<>();
 
-    public Shop(String shopName, String shopLogoUrl) {
-        this.shopName = shopName;
-        this.shopLogoUrl = shopLogoUrl;
+    public Shop(String name, String logoUrl) {
+        this.name = name;
+        this.logoUrl = logoUrl;
     }
     public void addShopItem(ShopItem shopItem){
         this.shopItems.add(shopItem);
