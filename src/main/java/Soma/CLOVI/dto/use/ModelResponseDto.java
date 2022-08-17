@@ -2,11 +2,11 @@ package Soma.CLOVI.dto.use;
 
 import Soma.CLOVI.domain.Model;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
-@Data
-@NoArgsConstructor
+@Getter
 public class ModelResponseDto {
 
     private Long id;

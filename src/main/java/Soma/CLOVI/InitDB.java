@@ -1,6 +1,7 @@
 package Soma.CLOVI;
 
 import Soma.CLOVI.domain.Gender;
+import Soma.CLOVI.domain.ManyToMany.TimeItem;
 import Soma.CLOVI.domain.ManyToMany.VideoItem;
 import Soma.CLOVI.domain.Model;
 import Soma.CLOVI.domain.ManyToMany.ShopItem;
@@ -67,8 +68,8 @@ public class InitDB {
 
 
             TimeFrame timeFrame1 = TimeFrame.builder()
-                    .startTime(191L)
-                    .endTime(196L)
+                    .start(191L)
+                    .end(196L)
                     .model(model)
                     .video(video)
                     .build();
@@ -76,8 +77,8 @@ public class InitDB {
             //em.persist(timeFrame1);
 
             TimeFrame timeFrame2 = TimeFrame.builder()
-                    .startTime(334L)
-                    .endTime(337L)
+                    .start(334L)
+                    .end(337L)
                     .model(model)
                     .video(video)
                     .build();
@@ -85,29 +86,26 @@ public class InitDB {
 
 
             Item item1 = Item.builder()
-                    .itemName("갤러리 디파트먼트 Vintage Souvenir 반팔티")
+                    .name("갤러리 디파트먼트 Vintage Souvenir 반팔티")
                     .color("Black")
                     .size("XXL")
                     .itemType(ItemType.TOP)
-                    .timeFrame(timeFrame1)
                     .imgUrl("https://www.lotteon.com/m/product/LO1865153271?sitmNo=LO1865153271_1865153272&mall_no=1&dp_infw_cd=SCH%EA%B0%A4%EB%9F%AC%EB%A6%AC%EB%94%94%ED%8C%8C%ED%8A%B8%EB%A8%BC%ED%8A%B8")
                     .build();
 
             Item item2 = Item.builder()
-                    .itemName("나누슈카 로고 볼캡")
+                    .name("나누슈카 로고 볼캡")
                     .color("Black")
                     .size("free")
                     .itemType(ItemType.CAP)
-                    .timeFrame(timeFrame2)
                     .imgUrl("https://cdn.mustit.co.kr/lib/upload/product/luxboy/2022/05/1653037065-72.jpeg/_dims_/resize/500x500/extent/500x500")
                     .build();
 
             Item item3 = Item.builder()
-                    .itemName("페이탈리즘 #0280 mer two tuck wide indigo")
+                    .name("페이탈리즘 #0280 mer two tuck wide indigo")
                     .color("Indigo Blue")
                     .size("48")
                     .itemType(ItemType.PANTS)
-                    .timeFrame(timeFrame2)
                     .imgUrl("https://image.msscdn.net/images/prd_img/20220519/2569788/detail_2569788_10_500.jpg?t=20220530104204")
                     .build();
 
@@ -158,9 +156,14 @@ public class InitDB {
             item2.addShopItem(shopItem3);
             item3.addShopItem(shopItem4);
 
-            timeFrame1.addItem(item1);
-            timeFrame2.addItem(item2);
-            timeFrame2.addItem(item3);
+            TimeItem timeItem1 = new TimeItem(timeFrame1,item1);
+            TimeItem timeItem2 = new TimeItem(timeFrame2,item2);
+            TimeItem timeItem3 = new TimeItem(timeFrame2,item3);
+
+            timeFrame1.addItem(timeItem1);
+            timeFrame2.addItem(timeItem2);
+            timeFrame2.addItem(timeItem3);
+
 
             video.addVideoItem(videoItem1);
             video.addVideoItem(videoItem2);
@@ -169,10 +172,10 @@ public class InitDB {
             video.addTimeFrame(timeFrame1);
             video.addTimeFrame(timeFrame2);
 
+            youtubeCreator.addChannel(channel);
 
             channel.addVideo(video);
 
-            youtubeCreator.addChannel(channel);
 
             em.persist(youtubeCreator);
         }

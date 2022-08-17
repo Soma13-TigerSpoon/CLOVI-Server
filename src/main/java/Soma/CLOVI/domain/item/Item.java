@@ -2,9 +2,9 @@ package Soma.CLOVI.domain.item;
 
 import Soma.CLOVI.domain.Base.BaseTimeEntity;
 import Soma.CLOVI.domain.ManyToMany.ShopItem;
+import Soma.CLOVI.domain.ManyToMany.TimeItem;
 import Soma.CLOVI.domain.ManyToMany.VideoItem;
 import Soma.CLOVI.domain.TimeFrame;
-import Soma.CLOVI.domain.youtube.Video;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,15 +13,15 @@ import java.util.List;
 
 @Entity
 @Table(indexes = {
-        @Index(name = "i_item_name", columnList = "itemName")
+        @Index(name = "i_item_name", columnList = "name")
 })
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Item extends BaseTimeEntity {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String itemName;
+    private String name;
 
     private String description;
     private String color;
@@ -35,24 +35,24 @@ public class Item extends BaseTimeEntity {
     private List<ShopItem> shopItems = new ArrayList<>();
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private TimeFrame timeFrame;
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    private List<TimeItem> times = new ArrayList<>();
 
-    @OneToMany(mappedBy = "item")
-    private List<VideoItem> videoItems = new ArrayList<>();
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    private List<VideoItem> videos = new ArrayList<>();
 
     @Builder
-    public Item(String itemName, String description, String color, String size, String imgUrl, ItemType itemType, TimeFrame timeFrame) {
-        this.itemName = itemName;
+    public Item(String name, String description, String color, String size, String imgUrl, ItemType itemType) {
+        this.name = name;
         this.description = description;
         this.color = color;
         this.size = size;
         this.imgUrl = imgUrl;
         this.itemType = itemType;
-        this.timeFrame = timeFrame;
     }
 
     public void addShopItem(ShopItem shopItem){
         this.shopItems.add(shopItem);
     }
+
 }

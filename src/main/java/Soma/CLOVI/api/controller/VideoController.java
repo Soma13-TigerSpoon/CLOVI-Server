@@ -15,17 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class VideoController {
     private final VideoService videoService;
-
-    @GetMapping("/")
-    public BaseResponse HelloDocker(){
-        return new BaseResponse("HelloDocker", HttpStatus.OK, ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET);
-    }
-    @GetMapping("/api/video")
+    @GetMapping("/api/v1/video")
     public BaseResponse videoResponseV1(@RequestParam("videoUrl") String videoUrl){
         VideoResponseDto result = videoService.search(videoUrl);
         if(result == null){
             return new BaseResponse(HttpStatus.BAD_REQUEST,ProcessStatus.FAIL, MessageCode.ERROR_REQ_PARAM_VIDEO_ID);
         }
-        return new BaseResponse(videoService.search(videoUrl), HttpStatus.OK, ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET);
+        return new BaseResponse(result, HttpStatus.OK, ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET);
     }
 }

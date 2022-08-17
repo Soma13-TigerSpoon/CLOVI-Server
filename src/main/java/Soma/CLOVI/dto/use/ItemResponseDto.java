@@ -25,14 +25,14 @@ public class ItemResponseDto {
 
     public ItemResponseDto(Item item){
         this.id = item.getId();
-        this.name = item.getItemName();
+        this.name = item.getName();
         this.typeName = item.getItemType().toString();
         this.type = item.getItemType().getOrder();
         this.color = item.getColor();
         this.size = item.getSize();
         this.itemImgUrl = item.getImgUrl();
-        for(ShopItem shopItem : item.getShopItems()){
-            shops.add(new ShopItemResponseDto(shopItem));
+        for(ShopItem shopItem : item.getShopItems()){ // Select ShopItem
+            this.shops.add(new ShopItemResponseDto(shopItem));
         }
 
     }

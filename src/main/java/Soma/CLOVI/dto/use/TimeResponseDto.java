@@ -13,7 +13,7 @@ public class TimeResponseDto {
 
     public TimeResponseDto(TimeFrame timeFrame){
         this.id = timeFrame.getId();
-        start = timeFrame.getStartTime();
-        end = timeFrame.getEndTime();
+        this.start = timeFrame.getStart();
+        this.end = timeFrame.getEnd();
     }
 }

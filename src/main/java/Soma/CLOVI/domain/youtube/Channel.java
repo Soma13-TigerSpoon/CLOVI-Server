@@ -13,11 +13,11 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Channel extends BaseTimeEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String Name;
-    private String Url;
+    private String url;
     private String profileImgUrl;
 
     @OneToMany(mappedBy = "channel", cascade = CascadeType.ALL)
@@ -28,7 +28,7 @@ public class Channel extends BaseTimeEntity {
 
     public Channel(String name, String url, String profileImgUrl, YoutubeCreator youtubeCreator) {
         this.Name = name;
-        this.Url = url;
+        this.url = url;
         this.profileImgUrl = profileImgUrl;
         this.youtubeCreator = youtubeCreator;
     }
