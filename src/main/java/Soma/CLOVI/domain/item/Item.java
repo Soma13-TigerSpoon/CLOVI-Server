@@ -5,11 +5,13 @@ import Soma.CLOVI.domain.ManyToMany.ShopItem;
 import Soma.CLOVI.domain.ManyToMany.TimeItem;
 import Soma.CLOVI.domain.ManyToMany.VideoItem;
 import Soma.CLOVI.domain.TimeFrame;
+import Soma.CLOVI.dto.use.TimeItemRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(indexes = {
@@ -31,14 +33,14 @@ public class Item extends BaseTimeEntity {
     private ItemType itemType;
 
     //=연관관계 매핑=//
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "item", cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     private List<ShopItem> shopItems = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "item", cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     private List<TimeItem> times = new ArrayList<>();
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "item", cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     private List<VideoItem> videos = new ArrayList<>();
 
     @Builder
@@ -51,6 +53,13 @@ public class Item extends BaseTimeEntity {
         this.itemType = itemType;
     }
 
+    public Item(TimeItemRequestDto timeItemRequestDto){
+        this.name = timeItemRequestDto.getName();
+        this.imgUrl = timeItemRequestDto.getItemImgUrl();
+        this.color = timeItemRequestDto.getColor();
+        this.size = timeItemRequestDto.getSize();
+        this.itemType = ItemType.types.get(timeItemRequestDto.getType());
+    }
     public void addShopItem(ShopItem shopItem){
         this.shopItems.add(shopItem);
     }

@@ -43,10 +43,10 @@ public class InitDB {
             em.persist(model);
 
 
-            Shop lotteOnShop = new Shop("LotteOn", "https://ko.m.wikipedia.org/wiki/%ED%8C%8C%EC%9D%BC:Lotte_%22Value_Line%22_logo.svg");
-            Shop trenbeShop = new Shop("Trenbe","https://www.techm.kr/news/thumbnail/202008/74445_67428_1335_v150.jpg");
-            Shop mustitShop = new Shop("Mustit","https://s3.ap-northeast-2.amazonaws.com/mustit-ux/img/m/m_common/ban_share_common.png");
-            Shop musinsaShop = new Shop("Musinsa","https://pds.saramin.co.kr/company/logo/202202/21/r7n4lg_iaut-i637x_logo.JPG");
+            Shop lotteOnShop = new Shop("lotteOn", "https://ko.m.wikipedia.org/wiki/%ED%8C%8C%EC%9D%BC:Lotte_%22Value_Line%22_logo.svg");
+            Shop trenbeShop = new Shop("trenbe","https://www.techm.kr/news/thumbnail/202008/74445_67428_1335_v150.jpg");
+            Shop mustitShop = new Shop("mustit","https://s3.ap-northeast-2.amazonaws.com/mustit-ux/img/m/m_common/ban_share_common.png");
+            Shop musinsaShop = new Shop("musinsa","https://pds.saramin.co.kr/company/logo/202202/21/r7n4lg_iaut-i637x_logo.JPG");
 
             em.persist(lotteOnShop);
             em.persist(trenbeShop);
@@ -54,13 +54,12 @@ public class InitDB {
             em.persist(mustitShop);
 
 
-            YoutubeCreator youtubeCreator =  new YoutubeCreator("핏더사이즈","https://yt3.ggpht.com/ytc/AMLnZu-opBs4fsY6Vw06U1VMoTpcaepRcYtkmmPSuOl1=s176-c-k-c0x00ffffff-no-rj");
+            YoutubeCreator youtubeCreator =  new YoutubeCreator("핏더사이즈");
 
-            Channel channel = new Channel("핏더사이즈",null ,"https://www.youtube.com/c/%ED%95%8F%EB%8D%94%EC%82%AC%EC%9D%B4%EC%A6%88/about",youtubeCreator);
+            Channel channel = new Channel("핏더사이즈","https://www.youtube.com/c/%ED%95%8F%EB%8D%94%EC%82%AC%EC%9D%B4%EC%A6%88/about" ,"https://yt3.ggpht.com/ytc/AMLnZu-opBs4fsY6Vw06U1VMoTpcaepRcYtkmmPSuOl1=s176-c-k-c0x00ffffff-no-rj",youtubeCreator);
 
             Video video = new Video("여름 가성비 데님팬츠 맛집 찾았다☀",
                     "i1iAY4brK-s",
-                    "https://i.ytimg.com/an_webp/i1iAY4brK-s/mqdefault_6s.webp?du=3000&sqp=CO2jrJcG&rs=AOn4CLAHALx7ZUVWi-aSbqe3Qdup7hU7rg",
                     696L,
                     youtubeCreator,
                     channel);
@@ -68,8 +67,7 @@ public class InitDB {
 
 
             TimeFrame timeFrame1 = TimeFrame.builder()
-                    .start(191L)
-                    .end(196L)
+                    .capturePoint(191L)
                     .model(model)
                     .video(video)
                     .build();
@@ -77,8 +75,7 @@ public class InitDB {
             //em.persist(timeFrame1);
 
             TimeFrame timeFrame2 = TimeFrame.builder()
-                    .start(334L)
-                    .end(337L)
+                    .capturePoint(334L)
                     .model(model)
                     .video(video)
                     .build();
@@ -159,6 +156,10 @@ public class InitDB {
             TimeItem timeItem1 = new TimeItem(timeFrame1,item1);
             TimeItem timeItem2 = new TimeItem(timeFrame2,item2);
             TimeItem timeItem3 = new TimeItem(timeFrame2,item3);
+            em.persist(item1);
+            em.persist(item2);
+            em.persist(item3);
+            em.flush();
 
             timeFrame1.addItem(timeItem1);
             timeFrame2.addItem(timeItem2);

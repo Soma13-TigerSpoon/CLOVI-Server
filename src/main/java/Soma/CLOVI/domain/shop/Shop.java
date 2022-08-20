@@ -29,7 +29,7 @@ public class Shop extends BaseTimeEntity {
 
     private String logoUrl;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "shop")
+    @OneToMany(mappedBy = "shop")
     private List<ShopItem> shopItems = new ArrayList<>();
 
     public Shop(String name, String logoUrl) {
