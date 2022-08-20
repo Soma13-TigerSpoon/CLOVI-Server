@@ -1,7 +1,10 @@
 package Soma.CLOVI.domain.item;
 
 import Soma.CLOVI.domain.Base.BaseTimeEntity;
-import Soma.CLOVI.domain.ShopItem;
+import Soma.CLOVI.domain.ManyToMany.ShopItem;
+import Soma.CLOVI.domain.ManyToMany.TimeItem;
+import Soma.CLOVI.domain.ManyToMany.VideoItem;
+import Soma.CLOVI.domain.TimeFrame;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,16 +13,15 @@ import java.util.List;
 
 @Entity
 @Table(indexes = {
-        @Index(name = "i_item_name", columnList = "itemName")
+        @Index(name = "i_item_name", columnList = "name")
 })
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Item extends BaseTimeEntity {
-    @Id @GeneratedValue
-    @Column(name = "item_id")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String itemName;
+    private String name;
 
     private String description;
     private String color;
@@ -29,21 +31,28 @@ public class Item extends BaseTimeEntity {
     private ItemType itemType;
 
     //=연관관계 매핑=//
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "item_id")
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<ShopItem> shopItems = new ArrayList<>();
 
+
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    private List<TimeItem> times = new ArrayList<>();
+
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    private List<VideoItem> videos = new ArrayList<>();
+
     @Builder
-    public Item(String itemName, String description, String color, String size, ItemType itemType, String imgUrl) {
-        this.itemName = itemName;
+    public Item(String name, String description, String color, String size, String imgUrl, ItemType itemType) {
+        this.name = name;
         this.description = description;
         this.color = color;
         this.size = size;
-        this.itemType = itemType;
         this.imgUrl = imgUrl;
+        this.itemType = itemType;
     }
 
     public void addShopItem(ShopItem shopItem){
         this.shopItems.add(shopItem);
     }
+
 }

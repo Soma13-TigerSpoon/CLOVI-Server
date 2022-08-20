@@ -7,11 +7,13 @@ import lombok.Getter;
 
 @Getter
 public class TimeResponseDto {
+    private Long id;
     private Long start;
     private Long end;
 
     public TimeResponseDto(TimeFrame timeFrame){
-        start = timeFrame.getStartTime();
-        end = timeFrame.getEndTime();
+        this.id = timeFrame.getId();
+        this.start = timeFrame.getStart();
+        this.end = timeFrame.getEnd();
     }
 }

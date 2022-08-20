@@ -1,34 +1,31 @@
 package Soma.CLOVI.dto.use;
 
-import Soma.CLOVI.domain.ShopItem;
-import lombok.Data;
+import Soma.CLOVI.domain.ManyToMany.ShopItem;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import javax.validation.constraints.NotNull;
 
 
 @Getter
 public class ShopItemResponseDto {
+    private Long id;
 
-    private String shopName;
+    private String name;
 
     private String shopUrl;
 
     private String itemImgUrl;
 
-    private String shopLogoUrl;
+    private String logoUrl;
 
     private Long price;
 
     private String soldOutStatus;
 
     public ShopItemResponseDto(ShopItem shopItem){
-        this.shopName = shopItem.getItemUrl();
-        this.shopUrl = shopItem.getShop().getShopName();
+        this.id = shopItem.getId();
+        this.name = shopItem.getShop().getName();
+        this.shopUrl = shopItem.getShopUrl(); // Select Shop
         this.itemImgUrl = shopItem.getItemImgUrl();
-        this.shopLogoUrl = shopItem.getShop().getShopLogoUrl();
+        this.logoUrl = shopItem.getShop().getLogoUrl();
         this.price = shopItem.getPrice();
         this.soldOutStatus = (shopItem.getSoldOutStatus() == SoldOutStatus.Y) ? "SoldOut" : "InStock";
     }

@@ -8,6 +8,7 @@ import java.util.List;
 
 @Getter
 public class VideoResponseDto {
+    private Long id;
     private String creator;
 
     private String profileImgUrl;
@@ -15,16 +16,15 @@ public class VideoResponseDto {
     private List<TimeShopItemResponseDto> lists = new ArrayList<>();
 
     public VideoResponseDto(Video video){
-        this.creator = video.getYoutubeCreator().getCreatorName();
-        this.profileImgUrl = video.getYoutubeCreator().getProfileImgUrl();
+        this.id = video.getId();
+        this.creator = video.getYoutubeCreator().getCreatorName(); // Select Channel
+        this.profileImgUrl = video.getYoutubeCreator().getProfileImgUrl(); // Select YoutubeCreator
 
-        List<TimeFrame> timeFrames = video.getTimeFrames();
-        System.out.println(timeFrames);
+        List<TimeFrame> timeFrames = video.getTimeFrames(); // Select TimeFrame
         if(!timeFrames.isEmpty()){
             for(TimeFrame timeFrame : video.getTimeFrames()){
                 this.lists.add(new TimeShopItemResponseDto(timeFrame));
             }
         }
-
     }
 }

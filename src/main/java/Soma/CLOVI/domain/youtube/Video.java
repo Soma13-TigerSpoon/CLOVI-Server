@@ -1,6 +1,7 @@
 package Soma.CLOVI.domain.youtube;
 
 import Soma.CLOVI.domain.Base.BaseTimeEntity;
+import Soma.CLOVI.domain.ManyToMany.VideoItem;
 import Soma.CLOVI.domain.TimeFrame;
 import Soma.CLOVI.domain.user.YoutubeCreator;
 import lombok.*;
@@ -19,7 +20,6 @@ import java.util.List;
 public class Video extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "video_id")
     private Long id;
 
     private String title;
@@ -33,28 +33,31 @@ public class Video extends BaseTimeEntity {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "channel_id")
     private Channel channel;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creator_id")
     private YoutubeCreator youtubeCreator;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "video_id")
+    @OneToMany(mappedBy = "video", cascade = CascadeType.ALL)
+    private List<VideoItem> videoItems = new ArrayList<>();
+
+    @OneToMany(mappedBy = "video", cascade = CascadeType.ALL)
     private List<TimeFrame> timeFrames = new ArrayList<>();
 
-    @Builder
-    public Video(String title, String videoUrl, String thumbnailUrl, Long length, YoutubeCreator youtubeCreator, Channel channel, List<TimeFrame> timeFrames) {
+    public Video(String title, String videoUrl, String thumbnailUrl, Long length, YoutubeCreator youtubeCreator, Channel channel) {
         this.title = title;
         this.videoUrl = videoUrl;
         this.thumbnailUrl = thumbnailUrl;
         this.length = length;
         this.youtubeCreator = youtubeCreator;
         this.channel = channel;
-        for(TimeFrame timeFrame : timeFrames){
-            this.timeFrames.add(timeFrame);
-        }
+    }
+
+    public void addTimeFrame(TimeFrame timeFrame){
+        this.timeFrames.add(timeFrame);
+    }
+    public void addVideoItem(VideoItem videoItem) {
+        this.videoItems.add(videoItem);
     }
 
 }
