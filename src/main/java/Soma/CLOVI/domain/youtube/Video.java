@@ -4,6 +4,7 @@ import Soma.CLOVI.domain.Base.BaseTimeEntity;
 import Soma.CLOVI.domain.ManyToMany.VideoItem;
 import Soma.CLOVI.domain.TimeFrame;
 import Soma.CLOVI.domain.user.YoutubeCreator;
+import Soma.CLOVI.dto.use.VideoRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -38,21 +39,29 @@ public class Video extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private YoutubeCreator youtubeCreator;
 
-    @OneToMany(mappedBy = "video", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "video", cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     private List<VideoItem> videoItems = new ArrayList<>();
 
     @OneToMany(mappedBy = "video", cascade = CascadeType.ALL)
     private List<TimeFrame> timeFrames = new ArrayList<>();
 
-    public Video(String title, String videoUrl, String thumbnailUrl, Long length, YoutubeCreator youtubeCreator, Channel channel) {
+    public Video(String title, String videoUrl, Long length, YoutubeCreator youtubeCreator, Channel channel) {
         this.title = title;
         this.videoUrl = videoUrl;
-        this.thumbnailUrl = thumbnailUrl;
+        this.thumbnailUrl = String.format("https://img.youtube.com/vi/%s/default.jpg",this.videoUrl);;
         this.length = length;
         this.youtubeCreator = youtubeCreator;
         this.channel = channel;
     }
-
+    public Video(VideoRequestDto videoRequestDto, Channel channel) {
+        this.title = videoRequestDto.getVideoTitle();
+        this.videoUrl = videoRequestDto.getVideoUrlId();
+        this.videoUrl = videoRequestDto.getVideoUrlId();
+        this.thumbnailUrl = String.format("https://img.youtube.com/vi/%s/default.jpg",this.videoUrl);
+        this.length = videoRequestDto.getVideoLength();
+        this.youtubeCreator = channel.getYoutubeCreator();
+        this.channel = channel;
+    }
     public void addTimeFrame(TimeFrame timeFrame){
         this.timeFrames.add(timeFrame);
     }

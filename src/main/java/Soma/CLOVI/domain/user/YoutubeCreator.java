@@ -22,9 +22,8 @@ public class YoutubeCreator extends BaseTimeEntity {
     @OneToMany(mappedBy = "youtubeCreator", cascade = CascadeType.ALL)
     private List<Channel> channels = new ArrayList<>();
 
-    public YoutubeCreator(String creatorName, String profileImgUrl) {
+    public YoutubeCreator(String creatorName) {
         this.creatorName = creatorName;
-        this.profileImgUrl = profileImgUrl;
     }
 
     public void addChannel(Channel channel){
