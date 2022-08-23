@@ -12,7 +12,9 @@ spring:
         #show_sql: true
         format_sql: true
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-
+  mvc: # Swagger
+    pathmatch:
+      matching-strategy: ant_path_matcher
 logging.level:
   org.hibernate.SQL: debug
   # org.hibernate.type: trace
