@@ -21,7 +21,7 @@ public class Channel extends BaseTimeEntity {
     private String channelUrl;
     private String profileImgUrl;
 
-    @OneToMany(mappedBy = "channel", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "channel",cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     private List<Video> videos = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -29,7 +29,7 @@ public class Channel extends BaseTimeEntity {
 
     public Channel(String name, String url, String profileImgUrl, YoutubeCreator youtubeCreator) {
         this.name = name;
-        this.channelUrl = "https://www.youtube.com"+url;
+        this.channelUrl = url;
         this.profileImgUrl = profileImgUrl;
         this.youtubeCreator = youtubeCreator;
     }
