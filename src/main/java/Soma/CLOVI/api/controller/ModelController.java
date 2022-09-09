@@ -20,7 +20,7 @@ public class ModelController {
     private final ModelService modelService;
 
     @GetMapping("/api/v1/models")
-    public BaseResponse models() {
+    public BaseResponse getModelV1() {
         return new BaseResponse(modelService.searchList(), HttpStatus.OK, ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET_LIST);
     }
 }

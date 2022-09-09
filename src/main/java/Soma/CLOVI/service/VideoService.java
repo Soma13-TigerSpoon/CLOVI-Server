@@ -6,7 +6,6 @@ import Soma.CLOVI.domain.youtube.Video;
 import Soma.CLOVI.dto.use.VideoRequestDto;
 import Soma.CLOVI.dto.use.VideoResponseDto;
 import Soma.CLOVI.repository.ChannelRepository;
-import Soma.CLOVI.repository.YoutubeCreatorRepository;
 import Soma.CLOVI.repository.video.VideoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,14 +21,12 @@ public class VideoService {
     private final VideoRepository videoRepository;
 
     private final ChannelRepository channelRepository;
-    private final YoutubeCreatorRepository youtubeCreatorRepository;
 
 
     public VideoResponseDto search(String videoUrl){
         Optional<Video> video = videoRepository.findByVideoUrl(videoUrl);
         if(video.isPresent()){
             VideoResponseDto result = new VideoResponseDto(video.get());
-
             return result;
         }
         return null;
@@ -37,17 +34,17 @@ public class VideoService {
 
     @Transactional
     public Long save(VideoRequestDto videoRequestDto) {
-        Channel channel = isChannelExist(videoRequestDto.getChannelName(), videoRequestDto.getChannelUrl(), videoRequestDto.getChannelImg());
+        Channel channel = isChannelExist(videoRequestDto.getChannelName(), videoRequestDto.getChannelUrl());
         Video video = videoRepository.findByVideoUrl(videoRequestDto.getVideoUrlId()).orElse(
                 new Video(videoRequestDto, channel)
-
         );
+        channelRepository.save(channel);
         videoRepository.save(video);
         return video.getId();
     }
-    public Channel isChannelExist(String channelName, String channelUrl, String profileImgUrl){
+    public Channel isChannelExist(String channelName, String channelUrl){
         return channelRepository.findByName(channelName).orElse(
-                new Channel(channelName,channelUrl,profileImgUrl,new YoutubeCreator(channelName)) // 지금 유튜버는 채널명만 이름으로 가지고 있도록 함.
+                new Channel(channelName,channelUrl,null,null) // 지금 유튜버는 채널명만 이름으로 가지고 있도록 함.
         );
     }
 }

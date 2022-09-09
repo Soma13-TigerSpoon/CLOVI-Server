@@ -42,7 +42,7 @@ public class Video extends BaseTimeEntity {
     @OneToMany(mappedBy = "video", cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     private List<VideoItem> videoItems = new ArrayList<>();
 
-    @OneToMany(mappedBy = "video", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "video", cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     private List<TimeFrame> timeFrames = new ArrayList<>();
 
     public Video(String title, String videoUrl, Long length, YoutubeCreator youtubeCreator, Channel channel) {
@@ -55,7 +55,6 @@ public class Video extends BaseTimeEntity {
     }
     public Video(VideoRequestDto videoRequestDto, Channel channel) {
         this.title = videoRequestDto.getVideoTitle();
-        this.videoUrl = videoRequestDto.getVideoUrlId();
         this.videoUrl = videoRequestDto.getVideoUrlId();
         this.thumbnailUrl = String.format("https://img.youtube.com/vi/%s/default.jpg",this.videoUrl);
         this.length = videoRequestDto.getVideoLength();

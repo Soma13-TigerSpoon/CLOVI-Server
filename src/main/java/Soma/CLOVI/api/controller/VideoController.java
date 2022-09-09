@@ -13,20 +13,20 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class VideoController {
     private final VideoService videoService;
-    @GetMapping("/api/v1/video")
-    public BaseResponse videoResponseV1(@RequestParam("videoUrl") String videoUrl){
+    @GetMapping("/api/v1/videos")
+    public BaseResponse getVideoV1(@RequestParam("videoUrl") String videoUrl){
         VideoResponseDto result = videoService.search(videoUrl);
         if(result == null){
             return new BaseResponse(HttpStatus.BAD_REQUEST,ProcessStatus.FAIL, MessageCode.ERROR_REQ_PARAM_VIDEO_ID);
         }
         return new BaseResponse(result, HttpStatus.OK, ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET);
     }
-    @PostMapping("api/v1/video")
+    @PostMapping("api/v1/videos")
     public BaseResponse saveVideoV1(@RequestBody VideoRequestDto videoRequestDto){
         Long result = videoService.save(videoRequestDto);
         if(result == null){
             return new BaseResponse(HttpStatus.BAD_REQUEST,ProcessStatus.FAIL, MessageCode.ERROR_REQ_PARAM_VIDEO_ID);
         }
-        return new BaseResponse(result, HttpStatus.OK, ProcessStatus.SUCCESS, MessageCode.SUCCESS_CREATE);
+        return new BaseResponse(new IdResponseDto(result), HttpStatus.OK, ProcessStatus.SUCCESS, MessageCode.SUCCESS_CREATE);
     }
 }

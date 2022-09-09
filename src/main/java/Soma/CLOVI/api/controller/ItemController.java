@@ -17,12 +17,12 @@ public class ItemController {
     private final ItemService itemService;
 
     @GetMapping("/api/v1/items")
-    public BaseResponse items(@RequestParam("itemIdList") List<Long> itemIdList){
+    public BaseResponse getItemsV1(@RequestParam("itemIdList") List<Long> itemIdList){
         return new BaseResponse(itemService.getItems(itemIdList), HttpStatus.OK, ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET);
     }
 
-    @PostMapping("/api/v1/item")
-    public BaseResponse item(@RequestBody TimeItemRequestDto timeItemRequestDto){
+    @PostMapping("/api/v1/items")
+    public BaseResponse saveItemV1(@RequestBody TimeItemRequestDto timeItemRequestDto){
         return new BaseResponse(itemService.save(timeItemRequestDto), HttpStatus.OK, ProcessStatus.SUCCESS, MessageCode.SUCCESS_CREATE);
     }
 }
