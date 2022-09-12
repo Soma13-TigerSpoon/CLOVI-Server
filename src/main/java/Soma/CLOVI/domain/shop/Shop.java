@@ -2,41 +2,48 @@ package Soma.CLOVI.domain.shop;
 
 import Soma.CLOVI.domain.Base.BaseTimeEntity;
 import Soma.CLOVI.domain.ManyToMany.ShopItem;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Table(indexes = {
-        @Index(name = "i_shop_name", columnList = "name")
+    @Index(name = "i_shop_name", columnList = "name")
 })
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Shop extends BaseTimeEntity {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    private String name;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    private String description;
+  private String name;
 
-    private String url;
+  private String description;
 
-    private String logoUrl;
+  private String url;
 
-    @OneToMany(mappedBy = "shop")
-    private List<ShopItem> shopItems = new ArrayList<>();
+  private String logoUrl;
 
-    public Shop(String name, String logoUrl) {
-        this.name = name;
-        this.logoUrl = logoUrl;
-    }
-    public void addShopItem(ShopItem shopItem){
-        this.shopItems.add(shopItem);
-    }
+  @OneToMany(mappedBy = "shop")
+  private List<ShopItem> shopItems = new ArrayList<>();
+
+  public Shop(String name, String logoUrl) {
+    this.name = name;
+    this.logoUrl = logoUrl;
+  }
+
+  public void addShopItem(ShopItem shopItem) {
+    this.shopItems.add(shopItem);
+  }
 }

@@ -1,17 +1,15 @@
 package Soma.CLOVI.service;
 
-import Soma.CLOVI.domain.user.YoutubeCreator;
 import Soma.CLOVI.domain.youtube.Channel;
 import Soma.CLOVI.domain.youtube.Video;
 import Soma.CLOVI.dto.use.VideoRequestDto;
 import Soma.CLOVI.dto.use.VideoResponseDto;
 import Soma.CLOVI.repository.ChannelRepository;
 import Soma.CLOVI.repository.video.VideoRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)

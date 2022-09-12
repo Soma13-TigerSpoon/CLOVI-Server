@@ -1,29 +1,29 @@
 package Soma.CLOVI.dto.use;
 
-import lombok.Getter;
-
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
 
 @Getter
 public class TimeItemRequestDto {
-    //video-data
-    private Long videoId;
 
-    //model-data
-    private Long modelId;
+  //video-data
+  private Long videoId;
 
-    //time-data
-    private String capturePoint;
+  //model-data
+  private Long modelId;
 
-    //item-data
-    private String name;
-    private int type;
-    private String typeName;
-    private String itemImgUrl;
-    private String color;
-    private String size;
+  //time-data
+  private String capturePoint;
 
-    //shop-data
-    private List<ShopItemRequestDto> shopItems = new ArrayList<>();
+  //item-data
+  private String name;
+  private int type;
+  private String typeName;
+  private String itemImgUrl;
+  private String color;
+  private String size;
+
+  //shop-data
+  private List<ShopItemRequestDto> shopItems = new ArrayList<>();
 }

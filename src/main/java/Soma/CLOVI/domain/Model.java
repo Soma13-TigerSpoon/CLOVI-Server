@@ -1,33 +1,38 @@
 package Soma.CLOVI.domain;
 
-import Soma.CLOVI.domain.Base.BaseEntity;
 import Soma.CLOVI.domain.Base.BaseTimeEntity;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Model extends BaseTimeEntity {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "model_id")
-    private Long id;
 
-    private String name;
-    private float height_cm;
-    private float weight_kg;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "model_id")
+  private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
+  private String name;
+  private float height_cm;
+  private float weight_kg;
 
-    public Model(String name, float height_cm, float weight_kg, Gender gender) {
-        this.name = name;
-        this.height_cm = height_cm;
-        this.weight_kg = weight_kg;
-        this.gender = gender;
-    }
+  @Enumerated(EnumType.STRING)
+  private Gender gender;
+
+  public Model(String name, float height_cm, float weight_kg, Gender gender) {
+    this.name = name;
+    this.height_cm = height_cm;
+    this.weight_kg = weight_kg;
+    this.gender = gender;
+  }
 }
