@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Data
 public class ShopItemRequestDto {
+  private Long shopId;
   private Long itemId;
 
   private String shopName;
