@@ -3,7 +3,7 @@ package Soma.CLOVI.domain.ManyToMany;
 import Soma.CLOVI.domain.Base.BaseTimeEntity;
 import Soma.CLOVI.domain.item.Item;
 import Soma.CLOVI.domain.shop.Shop;
-import Soma.CLOVI.dto.use.ShopItemRequestDto;
+import Soma.CLOVI.dto.requests.ShopItemRequestDto;
 import Soma.CLOVI.dto.use.SoldOutStatus;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

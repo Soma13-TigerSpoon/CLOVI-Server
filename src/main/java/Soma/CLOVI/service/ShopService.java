@@ -1,5 +1,6 @@
 package Soma.CLOVI.service;
 
+import Soma.CLOVI.domain.shop.Shop;
 import Soma.CLOVI.dto.use.ShopResponseDto;
 import Soma.CLOVI.repository.ShopRepository;
 import java.util.List;
@@ -17,5 +18,10 @@ public class ShopService {
 
   public List<ShopResponseDto> getShops() {
     return shopRepository.findAll().stream().map(ShopResponseDto::new).collect(Collectors.toList());
+  }
+
+  public Shop getById(Long shopId) {
+    return shopRepository.findById(shopId).orElseThrow(
+        () -> new IllegalArgumentException("해당 Id를 가진 쇼팡몰이 없습니다. id=" + shopId));
   }
 }

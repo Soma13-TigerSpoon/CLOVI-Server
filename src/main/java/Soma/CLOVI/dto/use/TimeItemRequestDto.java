@@ -1,5 +1,6 @@
 package Soma.CLOVI.dto.use;
 
+import Soma.CLOVI.dto.requests.ShopItemRequestDto;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;

@@ -10,8 +10,8 @@ import Soma.CLOVI.domain.TimeFrame;
 import Soma.CLOVI.domain.item.Item;
 import Soma.CLOVI.domain.shop.Shop;
 import Soma.CLOVI.domain.youtube.Video;
+import Soma.CLOVI.dto.requests.ShopItemRequestDto;
 import Soma.CLOVI.dto.use.ItemResponseDto;
-import Soma.CLOVI.dto.use.ShopItemRequestDto;
 import Soma.CLOVI.dto.use.TimeItemRequestDto;
 import Soma.CLOVI.repository.Item.ItemRepository;
 import Soma.CLOVI.repository.Item.ItemRepositoryImpl;
@@ -87,4 +87,8 @@ public class ItemService {
     return item.getId();
   }
 
+  public Item getById(Long itemId) {
+    return itemRepository.findById(itemId).orElseThrow(
+        () -> new IllegalArgumentException("해당 Id를 가진 아이템이 없습니다. id=" + itemId));
+  }
 }
