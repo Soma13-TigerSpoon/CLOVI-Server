@@ -1,9 +1,7 @@
 package Soma.CLOVI.dto.use;
 
 import Soma.CLOVI.domain.Model;
-import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 
 @Getter
