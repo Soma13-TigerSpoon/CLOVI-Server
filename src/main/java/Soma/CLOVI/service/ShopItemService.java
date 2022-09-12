@@ -27,10 +27,8 @@ public class ShopItemService {
 //    if(isExistUrl(shopItemRequestDto.getShopUrl())){
 //      throw new IllegalArgumentException("이미 존재하는 판매처 입니다.");
 //    }
-    System.out.println(shopItemRequestDto);
-
     Item item = itemService.getById(shopItemRequestDto.getItemId());
-    Shop shop = shopService.getById(shopItemRequestDto.getShopId());
+    Shop shop = shopService.getByName(shopItemRequestDto.getShopName());
 
     ShopItem shopItem = new ShopItem(shopItemRequestDto,item,shop);
     shopItemRepository.save(shopItem);

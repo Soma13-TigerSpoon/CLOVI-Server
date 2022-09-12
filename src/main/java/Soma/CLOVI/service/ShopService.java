@@ -24,4 +24,10 @@ public class ShopService {
     return shopRepository.findById(shopId).orElseThrow(
         () -> new IllegalArgumentException("해당 Id를 가진 쇼팡몰이 없습니다. id=" + shopId));
   }
+
+  public Shop getByName(String shopName) {
+    return shopRepository.findByName(shopName).orElse(
+        new Shop(shopName, null)
+    );
+  }
 }
