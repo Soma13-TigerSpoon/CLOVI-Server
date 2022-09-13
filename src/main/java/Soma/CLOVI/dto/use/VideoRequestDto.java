@@ -1,8 +1,9 @@
 package Soma.CLOVI.dto.use;
 
+import lombok.Data;
 import lombok.Getter;
 
-@Getter
+@Data
 public class VideoRequestDto {
 
   private String channelName;

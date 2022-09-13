@@ -1,11 +1,13 @@
 package Soma.CLOVI.dto.use;
 
+import static Soma.CLOVI.common.common.StringTimeToLong;
 import Soma.CLOVI.dto.requests.ShopItemRequestDto;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Data;
 import lombok.Getter;
 
-@Getter
+@Data
 public class TimeItemRequestDto {
 
   //video-data
@@ -15,9 +17,11 @@ public class TimeItemRequestDto {
   private Long modelId;
 
   //time-data
-  private String capturePoint;
+  private String startTime;
 
   //item-data
+  private Long parentId;
+
   private String name;
   private int type;
   private String typeName;
@@ -27,4 +31,8 @@ public class TimeItemRequestDto {
 
   //shop-data
   private List<ShopItemRequestDto> shopItems = new ArrayList<>();
+
+  public Long getStartTime(){
+    return StringTimeToLong(this.startTime);
+  }
 }
