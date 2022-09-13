@@ -53,14 +53,14 @@ public class ItemService {
     Video video = videoRepository.findById(timeItemRequestDto.getVideoId()).orElseThrow(
         () -> new IllegalArgumentException("해당 비디오가 없습니다. id=" + timeItemRequestDto.getVideoId()));
 
-    Long capturePoint = StringTimeToLong(timeItemRequestDto.getCapturePoint());
+    Long capturePoint = timeItemRequestDto.getStartTime();
     TimeFrame timeFrame = timeFrameRepository.findByCapturePointBetween(capturePoint - 2,
         capturePoint + 2).orElse(
         new TimeFrame(capturePoint, model, video)
     );
-    // 상품은 이름으로 있는지 파악
-
-    Item item = itemRepository.findByName(timeItemRequestDto.getName()).orElse(
+    // 상품은 이름과 색깔로 있는지 파악
+    Item item = itemRepository.findByNameAndColor(timeItemRequestDto.getName(),
+        timeItemRequestDto.getColor()).orElse(
         new Item(timeItemRequestDto)
     );
     itemRepository.save(item);

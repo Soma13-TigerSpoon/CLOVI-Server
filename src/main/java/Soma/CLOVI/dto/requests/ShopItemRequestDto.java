@@ -11,6 +11,7 @@ public class ShopItemRequestDto {
   private String shopName;
   private String shopUrl;
   private String imgUrl;
+  private String name;
 
   private Long price;
 }

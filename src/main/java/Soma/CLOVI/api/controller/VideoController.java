@@ -9,6 +9,7 @@ import Soma.CLOVI.dto.use.VideoResponseDto;
 import Soma.CLOVI.service.VideoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,23 +23,24 @@ public class VideoController {
   private final VideoService videoService;
 
   @GetMapping("/api/v1/videos")
-  public BaseResponse getVideoV1(@RequestParam("videoUrl") String videoUrl) {
+  public ResponseEntity getVideoV1(@RequestParam("videoUrl") String videoUrl) {
     VideoResponseDto result = videoService.search(videoUrl);
     if (result == null) {
-      return new BaseResponse(HttpStatus.BAD_REQUEST, ProcessStatus.FAIL,
-          MessageCode.ERROR_REQ_PARAM_VIDEO_ID);
+      return ResponseEntity.badRequest().body(new BaseResponse(HttpStatus.BAD_REQUEST.value(), ProcessStatus.FAIL,
+          MessageCode.ERROR_REQ_PARAM_VIDEO_ID));
     }
-    return new BaseResponse(result, HttpStatus.OK, ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET);
+    return ResponseEntity.ok(new BaseResponse(result, HttpStatus.OK.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET));
   }
 
   @PostMapping("api/v1/videos")
-  public BaseResponse saveVideoV1(@RequestBody VideoRequestDto videoRequestDto) {
+  public ResponseEntity saveVideoV1(@RequestBody VideoRequestDto videoRequestDto) {
+    System.out.println(videoRequestDto);
     Long result = videoService.save(videoRequestDto);
     if (result == null) {
-      return new BaseResponse(HttpStatus.BAD_REQUEST, ProcessStatus.FAIL,
-          MessageCode.ERROR_REQ_PARAM_VIDEO_ID);
+      return ResponseEntity.badRequest().body(new BaseResponse(HttpStatus.BAD_REQUEST.value(), ProcessStatus.FAIL,
+          MessageCode.ERROR_REQ_PARAM_VIDEO_ID));
     }
-    return new BaseResponse(new IdResponseDto(result), HttpStatus.OK, ProcessStatus.SUCCESS,
-        MessageCode.SUCCESS_CREATE);
+    return new ResponseEntity<>(new BaseResponse(new IdResponseDto(result), HttpStatus.CREATED.value(), ProcessStatus.SUCCESS,
+        MessageCode.SUCCESS_CREATE), HttpStatus.CREATED);
   }
 }
