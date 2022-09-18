@@ -1,7 +1,7 @@
 package Soma.CLOVI.service;
 
 import Soma.CLOVI.domain.shop.Shop;
-import Soma.CLOVI.dto.use.ShopResponseDto;
+import Soma.CLOVI.dto.response.ShopResponseDto;
 import Soma.CLOVI.repository.ShopRepository;
 import java.util.List;
 import java.util.Optional;

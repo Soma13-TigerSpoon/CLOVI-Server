@@ -4,7 +4,7 @@ import Soma.CLOVI.domain.Base.BaseTimeEntity;
 import Soma.CLOVI.domain.ManyToMany.ShopItem;
 import Soma.CLOVI.domain.ManyToMany.TimeItem;
 import Soma.CLOVI.domain.ManyToMany.VideoItem;
-import Soma.CLOVI.dto.use.TimeItemRequestDto;
+import Soma.CLOVI.dto.requests.TimeItemRequestDto;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;

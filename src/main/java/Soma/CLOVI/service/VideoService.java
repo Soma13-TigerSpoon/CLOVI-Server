@@ -2,8 +2,8 @@ package Soma.CLOVI.service;
 
 import Soma.CLOVI.domain.youtube.Channel;
 import Soma.CLOVI.domain.youtube.Video;
-import Soma.CLOVI.dto.use.VideoRequestDto;
-import Soma.CLOVI.dto.use.VideoResponseDto;
+import Soma.CLOVI.dto.requests.VideoRequestDto;
+import Soma.CLOVI.dto.response.VideoResponseDto;
 import Soma.CLOVI.repository.ChannelRepository;
 import Soma.CLOVI.repository.video.VideoRepository;
 import java.util.Optional;

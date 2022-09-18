@@ -4,7 +4,7 @@ import Soma.CLOVI.domain.Base.BaseTimeEntity;
 import Soma.CLOVI.domain.ManyToMany.VideoItem;
 import Soma.CLOVI.domain.TimeFrame;
 import Soma.CLOVI.domain.user.YoutubeCreator;
-import Soma.CLOVI.dto.use.VideoRequestDto;
+import Soma.CLOVI.dto.requests.VideoRequestDto;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;

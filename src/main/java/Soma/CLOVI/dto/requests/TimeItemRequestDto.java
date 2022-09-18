@@ -1,4 +1,4 @@
-package Soma.CLOVI.dto.use;
+package Soma.CLOVI.dto.requests;
 
 import static Soma.CLOVI.common.common.StringTimeToLong;
 import Soma.CLOVI.dto.requests.ShopItemRequestDto;

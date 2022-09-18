@@ -1,6 +1,6 @@
 package Soma.CLOVI.service;
 
-import Soma.CLOVI.dto.use.ModelResponseDto;
+import Soma.CLOVI.dto.response.ModelResponseDto;
 import Soma.CLOVI.repository.ModelRepository;
 import java.util.List;
 import java.util.stream.Collectors;

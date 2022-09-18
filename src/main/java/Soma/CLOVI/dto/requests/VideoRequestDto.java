@@ -1,4 +1,4 @@
-package Soma.CLOVI.dto.use;
+package Soma.CLOVI.dto.requests;
 
 import lombok.Data;
 import lombok.Getter;

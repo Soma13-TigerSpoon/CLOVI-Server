@@ -1,7 +1,5 @@
 package Soma.CLOVI.service;
 
-import static Soma.CLOVI.common.common.StringTimeToLong;
-
 import Soma.CLOVI.domain.ManyToMany.ShopItem;
 import Soma.CLOVI.domain.ManyToMany.TimeItem;
 import Soma.CLOVI.domain.ManyToMany.VideoItem;
@@ -11,8 +9,8 @@ import Soma.CLOVI.domain.item.Item;
 import Soma.CLOVI.domain.shop.Shop;
 import Soma.CLOVI.domain.youtube.Video;
 import Soma.CLOVI.dto.requests.ShopItemRequestDto;
-import Soma.CLOVI.dto.use.ItemResponseDto;
-import Soma.CLOVI.dto.use.TimeItemRequestDto;
+import Soma.CLOVI.dto.response.ItemResponseDto;
+import Soma.CLOVI.dto.requests.TimeItemRequestDto;
 import Soma.CLOVI.repository.Item.ItemRepository;
 import Soma.CLOVI.repository.Item.ItemRepositoryImpl;
 import Soma.CLOVI.repository.ModelRepository;

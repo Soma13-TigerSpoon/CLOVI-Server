@@ -1,4 +1,4 @@
-package Soma.CLOVI.dto.use;
+package Soma.CLOVI.dto.response;
 
 import Soma.CLOVI.domain.youtube.Channel;
 import lombok.Getter;

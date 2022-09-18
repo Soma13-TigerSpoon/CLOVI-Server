@@ -1,4 +1,4 @@
-package Soma.CLOVI.dto.use;
+package Soma.CLOVI.dto.response;
 
 public enum SoldOutStatus {
   Y(true, "active"), N(false, "inactive");

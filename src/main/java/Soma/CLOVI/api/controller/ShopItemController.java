@@ -4,15 +4,13 @@ import Soma.CLOVI.api.response.BaseResponse;
 import Soma.CLOVI.api.response.MessageCode;
 import Soma.CLOVI.api.response.ProcessStatus;
 import Soma.CLOVI.dto.requests.ShopItemRequestDto;
-import Soma.CLOVI.dto.use.IdResponseDto;
+import Soma.CLOVI.dto.response.IdResponseDto;
 import Soma.CLOVI.service.ShopItemService;
-import com.fasterxml.jackson.databind.ser.Serializers.Base;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
