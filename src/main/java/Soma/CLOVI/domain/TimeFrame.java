@@ -32,7 +32,6 @@ public class TimeFrame extends BaseTimeEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "time_id")
   private Long id;
 
   private Long capturePoint;
@@ -45,7 +44,6 @@ public class TimeFrame extends BaseTimeEntity {
   private List<TimeItem> items = new ArrayList<>();
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "model_id")
   private Model model;
 
 

@@ -19,7 +19,6 @@ public class Model extends BaseTimeEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "model_id")
   private Long id;
 
   private String name;

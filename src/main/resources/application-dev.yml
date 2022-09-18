@@ -1,12 +1,12 @@
 spring:
   datasource:
-    url: ${DB.url}
-    username: ${DB.username}
-    password: ${DB.password}
+    url: jdbc:mysql://localhost:3306/CLOVI_TEST?serverTimezone=Asia/Seoul
+    username: root
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
     properties:
       hibernate:
         show_sql: true
