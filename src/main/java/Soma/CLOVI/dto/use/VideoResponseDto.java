@@ -19,7 +19,7 @@ public class VideoResponseDto {
   public VideoResponseDto(Video video) {
     this.id = video.getId();
     this.creator = video.getChannel().getName(); // Select Channel
-    this.profileImgUrl = video.getYoutubeCreator().getProfileImgUrl(); // Select YoutubeCreator
+    this.profileImgUrl = video.getChannel().getProfileImgUrl(); // Select Channel Image
 
     List<TimeFrame> timeFrames = video.getTimeFrames(); // Select TimeFrame
     if (!timeFrames.isEmpty()) {

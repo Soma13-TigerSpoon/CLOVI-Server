@@ -30,7 +30,7 @@ public class ShopItemService {
     System.out.println(shopItemRequestDto);
 
     Item item = itemService.getById(shopItemRequestDto.getItemId());
-    Shop shop = shopService.getById(shopItemRequestDto.getShopId());
+    Shop shop = shopService.getByHostname(shopItemRequestDto.getHostname());
 
     ShopItem shopItem = new ShopItem(shopItemRequestDto,item,shop);
     shopItemRepository.save(shopItem);

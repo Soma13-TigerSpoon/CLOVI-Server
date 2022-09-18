@@ -66,9 +66,9 @@ public class ItemService {
     itemRepository.save(item);
 
     for (ShopItemRequestDto shopItemRequestDto : timeItemRequestDto.getShopItems()) {
-      String shopName = shopItemRequestDto.getShopName();
-      Shop shop = shopRepository.findByName(shopName).orElse(
-          new Shop(shopName, null)
+      String hostname = shopItemRequestDto.getHostname();
+      Shop shop = shopRepository.findByHostname(hostname).orElse(
+          new Shop(hostname)
       );
       ShopItem shopItem = shopItemRepository.findByShopUrl(shopItemRequestDto.getShopUrl()).orElse(
           new ShopItem(shopItemRequestDto, item, shop)

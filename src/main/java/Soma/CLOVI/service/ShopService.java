@@ -4,6 +4,7 @@ import Soma.CLOVI.domain.shop.Shop;
 import Soma.CLOVI.dto.use.ShopResponseDto;
 import Soma.CLOVI.repository.ShopRepository;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,9 +20,17 @@ public class ShopService {
   public List<ShopResponseDto> getShops() {
     return shopRepository.findAll().stream().map(ShopResponseDto::new).collect(Collectors.toList());
   }
-
-  public Shop getById(Long shopId) {
-    return shopRepository.findById(shopId).orElseThrow(
-        () -> new IllegalArgumentException("해당 Id를 가진 쇼팡몰이 없습니다. id=" + shopId));
+  @Transactional
+  public Shop getByHostname(String hostname) {
+    Optional<Shop> shop =  shopRepository.findByHostname(hostname);
+    Shop result;
+    if(shop.isEmpty()){
+      result = new Shop(hostname);
+      shopRepository.save(result);
+    }
+    else{
+      result = shop.get();
+    }
+    return result;
   }
 }

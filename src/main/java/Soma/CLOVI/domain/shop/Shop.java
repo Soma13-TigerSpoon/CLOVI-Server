@@ -35,6 +35,7 @@ public class Shop extends BaseTimeEntity {
 
   private String logoUrl;
 
+  private String hostname;
   @OneToMany(mappedBy = "shop")
   private List<ShopItem> shopItems = new ArrayList<>();
 
@@ -42,7 +43,9 @@ public class Shop extends BaseTimeEntity {
     this.name = name;
     this.logoUrl = logoUrl;
   }
-
+  public Shop(String hostname) {
+    this.hostname = hostname;
+  }
   public void addShopItem(ShopItem shopItem) {
     this.shopItems.add(shopItem);
   }
