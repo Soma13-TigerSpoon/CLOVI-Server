@@ -18,6 +18,8 @@ public class ItemResponseDto {
   private String color;
   private String size;
 
+  private CategoryResponseDto category;
+
   public ItemResponseDto(Item item) {
     this.id = item.getId();
     this.name = item.getName();
@@ -26,6 +28,7 @@ public class ItemResponseDto {
     this.color = item.getColor();
     this.size = item.getSize();
     this.itemImgUrl = item.getImgUrl();
+    this.category = new CategoryResponseDto(item.getCategory());
     for (ShopItem shopItem : item.getShopItems()) { // Select ShopItem
       this.shops.add(new ShopItemResponseDto(shopItem));
     }

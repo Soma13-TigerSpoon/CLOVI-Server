@@ -1,4 +1,4 @@
-package Soma.CLOVI.repository.video;
+package Soma.CLOVI.repository.Video;
 
 import Soma.CLOVI.domain.youtube.Video;
 import org.springframework.data.jpa.repository.JpaRepository;

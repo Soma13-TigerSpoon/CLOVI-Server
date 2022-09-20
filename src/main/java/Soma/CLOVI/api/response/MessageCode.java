@@ -2,6 +2,7 @@ package Soma.CLOVI.api.response;
 
 import lombok.Getter;
 
+
 @Getter
 public enum MessageCode {
   //공통
@@ -9,7 +10,8 @@ public enum MessageCode {
       "SC003"),
 
   //영상관련
-  ERROR_REQ_PARAM_VIDEO_ID("존재하지 않는 영상 ID 입니다.", "EV001");
+  ERROR_REQ_PARAM_VIDEO_ID("존재하지 않는 영상 ID 입니다.", "EV001"),
+  ERROR_REQ_PARAM_CATEGORY_ID("유효하지 않는 카테고리 ID 입니다.", "EC001");
 
   private String message;
   private String code;

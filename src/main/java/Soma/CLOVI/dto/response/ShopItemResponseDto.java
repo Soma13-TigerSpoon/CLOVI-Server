@@ -13,8 +13,6 @@ public class ShopItemResponseDto {
 
   private String shopUrl;
 
-  private String itemImgUrl;
-
   private String logoUrl;
 
   private Long price;
@@ -25,7 +23,6 @@ public class ShopItemResponseDto {
     this.id = shopItem.getId();
     this.name = shopItem.getShop().getName();
     this.shopUrl = shopItem.getShopUrl(); // Select Shop
-    this.itemImgUrl = shopItem.getItemImgUrl();
     this.logoUrl = shopItem.getShop().getLogoUrl();
     this.price = shopItem.getPrice();
     this.soldOutStatus = (shopItem.getSoldOutStatus() == SoldOutStatus.Y) ? "SoldOut" : "InStock";
