@@ -14,9 +14,10 @@ public class CategoryRepositoryImpl {
 
   private final JPAQueryFactory queryFactory;
 
-  public List<Category> getParentsCategory(){
+  public List<Category> getAllCategory(){
     List<Category> queryResults = queryFactory.selectFrom(category)
         .where(category.ParentCategory.isNull())
+        .orderBy(category.order.asc())
         .fetch();
     return queryResults;
   }

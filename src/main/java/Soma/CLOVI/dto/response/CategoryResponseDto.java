@@ -10,14 +10,19 @@ public class CategoryResponseDto {
 
   private Long categoryId;
   private String categoryName;
-  //private List<CategoryResponseDto> childCategory = new ArrayList<>();
+
+  private int order;
+  private List<CategoryResponseDto> childCategory = new ArrayList<>();
 
 
   public CategoryResponseDto(Category category) {
     this.categoryId = category.getId();
     this.categoryName = category.getName();
+    System.out.println(category);
+    this.order = category.getOrder();
+    System.out.println(category.getChildCategorys().size());
+    for(Category child : category.getChildCategorys()){
+      childCategory.add(new CategoryResponseDto(child));
+    }
   }
-//  public void addChildCategory(Category category){
-//    childCategory.add(new CategoryResponseDto(category));
-//  }
 }
