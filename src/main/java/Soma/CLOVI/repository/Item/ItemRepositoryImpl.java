@@ -21,7 +21,7 @@ public class ItemRepositoryImpl implements ItemCustomRepository {
     public List<Item> searchByIdList(List<Long> ItemIdList) {
         List<Item> queryResults = queryFactory.selectFrom(item)
                 .where(item.id.in(ItemIdList))
-                .orderBy(item.itemType.desc())
+                .orderBy(item.category.order.desc())
                 .fetch();
         return queryResults;
     }

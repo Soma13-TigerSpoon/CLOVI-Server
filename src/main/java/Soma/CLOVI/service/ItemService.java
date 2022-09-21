@@ -66,12 +66,18 @@ public class ItemService {
         () -> new IllegalArgumentException(MessageCode.ERROR_REQ_PARAM_CATEGORY_ID.getMessage())
     );
 
+    //부모 아이템 조회 --> null이 아닌 경우에
+    Item parentItem = timeItemRequestDto.getParentId() < 0 ? null : itemRepository.findById(timeItemRequestDto.getParentId()).orElseThrow(
+        () -> new IllegalArgumentException(MessageCode.ERROR_REQ_PARAM_ITEM_ID.getMessage())
+    ) ;
+
 
     // 상품은 이름과 색깔로 있는지 파악
     Item item = itemRepository.findByNameAndColor(timeItemRequestDto.getName(),
         timeItemRequestDto.getColor()).orElse(
-        new Item(timeItemRequestDto,category)
+        new Item(timeItemRequestDto,category,parentItem)
     );
+    System.out.println(category.equals(null));
     itemRepository.save(item);
 
     for (ShopItemRequestDto shopItemRequestDto : timeItemRequestDto.getShopItems()) {
