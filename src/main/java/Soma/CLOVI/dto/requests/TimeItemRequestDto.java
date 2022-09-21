@@ -23,6 +23,7 @@ public class TimeItemRequestDto {
   private Long parentId;
 
   private String name;
+  private String brand;
   private Long categoryId;
   private boolean isWide;
   private String itemImgUrl;

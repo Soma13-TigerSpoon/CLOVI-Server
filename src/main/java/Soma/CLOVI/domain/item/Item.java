@@ -45,6 +45,8 @@ public class Item extends BaseTimeEntity {
   private String description;
   private String color;
   private String size;
+
+  private String brand;
   @Lob
   private String imgUrl;
 
@@ -85,8 +87,9 @@ public class Item extends BaseTimeEntity {
     this.imgUrl = timeItemRequestDto.getItemImgUrl();
     this.color = timeItemRequestDto.getColor();
     this.size = timeItemRequestDto.getSize();
-    this.category = category;
+    this.brand = timeItemRequestDto.getBrand();
     this.fitStyle = timeItemRequestDto.isWide() ? FitStyle.와이드 : null;
+    this.category = category;
     this.parent = parent;
   }
 

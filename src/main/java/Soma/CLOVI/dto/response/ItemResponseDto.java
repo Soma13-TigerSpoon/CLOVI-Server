@@ -19,6 +19,7 @@ public class ItemResponseDto {
   private String color;
   private String size;
 
+  private String brand;
   private CategoryResponseDto category;
 
   public ItemResponseDto(Item item) {
@@ -27,6 +28,7 @@ public class ItemResponseDto {
     this.type = item.getCategory().getOrder();
     this.color = item.getColor();
     this.size = item.getSize();
+    this.brand = item.getBrand();
     this.itemImgUrl = item.getImgUrl();
     this.category = new CategoryResponseDto(item.getCategory());
     for (ShopItem shopItem : item.getShopItems()) { // Select ShopItem
