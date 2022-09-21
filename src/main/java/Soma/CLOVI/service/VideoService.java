@@ -5,7 +5,7 @@ import Soma.CLOVI.domain.youtube.Video;
 import Soma.CLOVI.dto.requests.VideoRequestDto;
 import Soma.CLOVI.dto.response.VideoResponseDto;
 import Soma.CLOVI.repository.ChannelRepository;
-import Soma.CLOVI.repository.video.VideoRepository;
+import Soma.CLOVI.repository.Video.VideoRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

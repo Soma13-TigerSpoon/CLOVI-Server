@@ -10,7 +10,7 @@ import lombok.Getter;
 @Data
 public class TimeItemRequestDto {
 
-  //video-data
+  //Video-data
   private Long videoId;
 
   //model-data
@@ -23,8 +23,8 @@ public class TimeItemRequestDto {
   private Long parentId;
 
   private String name;
-  private int type;
-  private String typeName;
+  private Long categoryId;
+  private boolean isWide;
   private String itemImgUrl;
   private String color;
   private String size;

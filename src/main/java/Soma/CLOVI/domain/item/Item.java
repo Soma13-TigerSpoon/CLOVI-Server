@@ -4,6 +4,7 @@ import Soma.CLOVI.domain.Base.BaseTimeEntity;
 import Soma.CLOVI.domain.ManyToMany.ShopItem;
 import Soma.CLOVI.domain.ManyToMany.TimeItem;
 import Soma.CLOVI.domain.ManyToMany.VideoItem;
+import Soma.CLOVI.domain.category.Category;
 import Soma.CLOVI.dto.requests.TimeItemRequestDto;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,12 +12,14 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -45,7 +48,14 @@ public class Item extends BaseTimeEntity {
   @Enumerated(EnumType.STRING)
   private ItemType itemType;
 
+  @Enumerated(EnumType.STRING)
+  private FitStyle fitStyle;
+
   //=연관관계 매핑=//
+
+  @OneToOne(fetch = FetchType.LAZY)
+  private Category category;
+
   @OneToMany(mappedBy = "item", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   private List<ShopItem> shopItems = new ArrayList<>();
 
@@ -67,12 +77,13 @@ public class Item extends BaseTimeEntity {
     this.itemType = itemType;
   }
 
-  public Item(TimeItemRequestDto timeItemRequestDto) {
+  public Item(TimeItemRequestDto timeItemRequestDto, Category category) {
     this.name = timeItemRequestDto.getName();
     this.imgUrl = timeItemRequestDto.getItemImgUrl();
     this.color = timeItemRequestDto.getColor();
     this.size = timeItemRequestDto.getSize();
-    this.itemType = ItemType.types.get(timeItemRequestDto.getType());
+    this.category = category;
+    this.fitStyle = timeItemRequestDto.isWide() ? FitStyle.와이드 : null;
   }
 
   public void addShopItem(ShopItem shopItem) {
