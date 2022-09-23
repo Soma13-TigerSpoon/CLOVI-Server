@@ -1,6 +1,6 @@
 package Soma.CLOVI.dto.response;
 
-import Soma.CLOVI.domain.ManyToMany.TimeItem;
+import Soma.CLOVI.domain.ManyToMany.TimeItemAffiliationLink;
 import Soma.CLOVI.domain.TimeFrame;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,12 +11,12 @@ public class TimeShopItemResponseDto {
 
   private TimeResponseDto times;
   private ModelResponseDto model;
-  private List<ItemResponseDto> items = new ArrayList<>();
+  private List<ItemAffiliationLinkResponseDto> items = new ArrayList<>();
 
   public TimeShopItemResponseDto(TimeFrame timeFrame) {
     this.times = new TimeResponseDto(timeFrame);
-    for (TimeItem item : timeFrame.getItems()) { // Select Item
-      items.add(new ItemResponseDto(item.getItem()));
+    for (TimeItemAffiliationLink item : timeFrame.getItems()) { // Select Item
+      items.add(new ItemAffiliationLinkResponseDto(item.getItem(),item.getAffiliationLink()));
     }
     this.model = new ModelResponseDto(timeFrame.getModel()); // Select Model
   }

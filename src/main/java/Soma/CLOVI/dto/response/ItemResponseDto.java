@@ -1,5 +1,6 @@
 package Soma.CLOVI.dto.response;
 
+import Soma.CLOVI.domain.AffiliationLink;
 import Soma.CLOVI.domain.ManyToMany.ShopItem;
 import Soma.CLOVI.domain.item.Item;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class ItemResponseDto {
 
   private Long id;
   private String name;
-  private int type;
+  private int order;
   private String itemImgUrl;
   private String color;
   private String size;
@@ -25,7 +26,7 @@ public class ItemResponseDto {
   public ItemResponseDto(Item item) {
     this.id = item.getId();
     this.name = item.getName();
-    this.type = item.getCategory().getOrder();
+    this.order = item.getCategory().getOrders();
     this.color = item.getColor();
     this.size = item.getSize();
     this.brand = item.getBrand();
