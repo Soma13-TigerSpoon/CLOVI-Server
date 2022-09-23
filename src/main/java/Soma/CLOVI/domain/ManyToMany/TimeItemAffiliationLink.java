@@ -1,5 +1,6 @@
 package Soma.CLOVI.domain.ManyToMany;
 
+import Soma.CLOVI.domain.AffiliationLink;
 import Soma.CLOVI.domain.Base.BaseTimeEntity;
 import Soma.CLOVI.domain.TimeFrame;
 import Soma.CLOVI.domain.item.Item;
@@ -9,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TimeItem extends BaseTimeEntity {
+public class TimeItemAffiliationLink extends BaseTimeEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,10 +29,13 @@ public class TimeItem extends BaseTimeEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   private Item item;
 
+  @OneToOne(fetch = FetchType.LAZY)
+  private AffiliationLink affiliationLink;
 
-  public TimeItem(TimeFrame time, Item item) {
+  public TimeItemAffiliationLink(TimeFrame time, Item item, AffiliationLink affiliationLink) {
     this.time = time;
     this.item = item;
+    this.affiliationLink = affiliationLink;
   }
 
 }

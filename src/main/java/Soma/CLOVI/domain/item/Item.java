@@ -2,7 +2,7 @@ package Soma.CLOVI.domain.item;
 
 import Soma.CLOVI.domain.Base.BaseTimeEntity;
 import Soma.CLOVI.domain.ManyToMany.ShopItem;
-import Soma.CLOVI.domain.ManyToMany.TimeItem;
+import Soma.CLOVI.domain.ManyToMany.TimeItemAffiliationLink;
 import Soma.CLOVI.domain.ManyToMany.VideoItem;
 import Soma.CLOVI.domain.category.Category;
 import Soma.CLOVI.dto.requests.TimeItemRequestDto;
@@ -68,10 +68,10 @@ public class Item extends BaseTimeEntity {
 
 
   @OneToMany(mappedBy = "item", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-  private List<TimeItem> times = new ArrayList<>();
+  private List<TimeItemAffiliationLink> times = new ArrayList<>();
 
   @OneToMany(mappedBy = "item", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-  private List<VideoItem> videos = new ArrayList<>();
+  private List<VideoItem> videoItems = new ArrayList<>();
 
   @Builder
   public Item(String name, String description, String color, String size, String imgUrl) {

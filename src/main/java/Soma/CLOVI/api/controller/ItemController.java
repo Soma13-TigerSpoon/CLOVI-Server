@@ -6,6 +6,7 @@ import Soma.CLOVI.api.response.ProcessStatus;
 import Soma.CLOVI.dto.response.IdResponseDto;
 import Soma.CLOVI.dto.requests.TimeItemRequestDto;
 import Soma.CLOVI.service.ItemService;
+import Soma.CLOVI.service.query.ItemQueryService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,8 @@ public class ItemController {
 
   private final ItemService itemService;
 
+  private final ItemQueryService itemQueryService;
+
   @GetMapping("/api/v1/items")
   public ResponseEntity getItemsV1(@RequestParam("itemIdList") List<Long> itemIdList) {
     return ResponseEntity.ok(new BaseResponse(itemService.getItems(itemIdList), HttpStatus.OK.value(), ProcessStatus.SUCCESS,
@@ -31,7 +34,7 @@ public class ItemController {
   @PostMapping("/api/v1/items")
   public ResponseEntity saveItemV1(@RequestBody TimeItemRequestDto timeItemRequestDto) {
     System.out.println(timeItemRequestDto);
-    return new ResponseEntity<>(new BaseResponse(new IdResponseDto(itemService.save(timeItemRequestDto)), HttpStatus.CREATED.value(),
+    return new ResponseEntity<>(new BaseResponse(new IdResponseDto(itemQueryService.save(timeItemRequestDto)), HttpStatus.CREATED.value(),
         ProcessStatus.SUCCESS, MessageCode.SUCCESS_CREATE),HttpStatus.CREATED);
   }
 }

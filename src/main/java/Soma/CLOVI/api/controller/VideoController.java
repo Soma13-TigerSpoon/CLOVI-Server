@@ -7,6 +7,7 @@ import Soma.CLOVI.dto.response.IdResponseDto;
 import Soma.CLOVI.dto.requests.VideoRequestDto;
 import Soma.CLOVI.dto.response.VideoResponseDto;
 import Soma.CLOVI.service.VideoService;
+import Soma.CLOVI.service.query.VideoQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,8 @@ public class VideoController {
 
   private final VideoService videoService;
 
+  private final VideoQueryService videoQueryService;
+
   @GetMapping("/api/v1/videos")
   public ResponseEntity getVideoV1(@RequestParam("videoUrl") String videoUrl) {
     VideoResponseDto result = videoService.search(videoUrl);
@@ -35,7 +38,7 @@ public class VideoController {
   @PostMapping("api/v1/videos")
   public ResponseEntity saveVideoV1(@RequestBody VideoRequestDto videoRequestDto) {
     System.out.println(videoRequestDto);
-    Long result = videoService.save(videoRequestDto);
+    Long result = videoQueryService.save(videoRequestDto);
     if (result == null) {
       return ResponseEntity.badRequest().body(new BaseResponse(HttpStatus.BAD_REQUEST.value(), ProcessStatus.FAIL,
           MessageCode.ERROR_REQ_PARAM_VIDEO_ID));

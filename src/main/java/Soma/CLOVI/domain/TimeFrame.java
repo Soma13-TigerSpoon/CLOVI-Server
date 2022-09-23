@@ -1,19 +1,17 @@
 package Soma.CLOVI.domain;
 
 import Soma.CLOVI.domain.Base.BaseTimeEntity;
-import Soma.CLOVI.domain.ManyToMany.TimeItem;
+import Soma.CLOVI.domain.ManyToMany.TimeItemAffiliationLink;
 import Soma.CLOVI.domain.youtube.Video;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -41,7 +39,7 @@ public class TimeFrame extends BaseTimeEntity {
 
 
   @OneToMany(mappedBy = "time", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-  private List<TimeItem> items = new ArrayList<>();
+  private List<TimeItemAffiliationLink> items = new ArrayList<>();
 
   @ManyToOne(fetch = FetchType.LAZY)
   private Model model;
@@ -54,8 +52,8 @@ public class TimeFrame extends BaseTimeEntity {
     this.video = video;
   }
 
-  public void addItem(TimeItem timeItem) {
-    this.items.add(timeItem);
+  public void addItem(TimeItemAffiliationLink timeItemAffiliationLink) {
+    this.items.add(timeItemAffiliationLink);
   }
 
 }
