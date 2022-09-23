@@ -17,7 +17,7 @@ public class CategoryRepositoryImpl {
   public List<Category> getAllCategory(){
     List<Category> queryResults = queryFactory.selectFrom(category)
         .where(category.ParentCategory.isNull())
-        .orderBy(category.order.asc())
+        .orderBy(category.orders.asc())
         .fetch();
     return queryResults;
   }

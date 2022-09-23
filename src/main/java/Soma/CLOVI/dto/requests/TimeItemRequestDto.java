@@ -23,11 +23,15 @@ public class TimeItemRequestDto {
   private Long parentId;
 
   private String name;
+  private String brand;
   private Long categoryId;
   private boolean isWide;
   private String itemImgUrl;
   private String color;
   private String size;
+  //affiliationLink-data
+  private String affLink;
+  private Long affPrice;
 
   //shop-data
   private List<ShopItemRequestDto> shopItems = new ArrayList<>();

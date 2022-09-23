@@ -1,5 +1,6 @@
 package Soma.CLOVI.dto.response;
 
+import Soma.CLOVI.domain.AffiliationLink;
 import Soma.CLOVI.domain.ManyToMany.ShopItem;
 import Soma.CLOVI.domain.item.Item;
 import java.util.ArrayList;
@@ -10,27 +11,32 @@ import lombok.Getter;
 public class ItemResponseDto {
 
   List<ShopItemResponseDto> shops = new ArrayList<>();
+  List<ItemResponseDto> childItems = new ArrayList<>();
+
   private Long id;
   private String name;
-  private String typeName;
-  private int type;
+  private int order;
   private String itemImgUrl;
   private String color;
   private String size;
 
+  private String brand;
   private CategoryResponseDto category;
 
   public ItemResponseDto(Item item) {
     this.id = item.getId();
     this.name = item.getName();
-    this.typeName = item.getItemType().toString();
-    this.type = item.getItemType().getOrder();
+    this.order = item.getCategory().getOrders();
     this.color = item.getColor();
     this.size = item.getSize();
+    this.brand = item.getBrand();
     this.itemImgUrl = item.getImgUrl();
     this.category = new CategoryResponseDto(item.getCategory());
     for (ShopItem shopItem : item.getShopItems()) { // Select ShopItem
       this.shops.add(new ShopItemResponseDto(shopItem));
+    }
+    for (Item cur : item.getChildItems()){
+      this.childItems.add(new ItemResponseDto(cur));
     }
 
   }
