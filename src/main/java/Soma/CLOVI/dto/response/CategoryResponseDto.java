@@ -12,17 +12,15 @@ public class CategoryResponseDto {
   private String categoryName;
 
   private int order;
-  private List<CategoryResponseDto> childCategory = new ArrayList<>();
+  private List<CategoryResponseDto> childCategories = new ArrayList<>();
 
 
   public CategoryResponseDto(Category category) {
     this.categoryId = category.getId();
     this.categoryName = category.getName();
-    System.out.println(category);
     this.order = category.getOrders();
-    System.out.println(category.getChildCategorys().size());
-    for(Category child : category.getChildCategorys()){
-      childCategory.add(new CategoryResponseDto(child));
+    for(Category child : category.getChildCategories()){
+      childCategories.add(new CategoryResponseDto(child));
     }
   }
 }
