@@ -21,14 +21,14 @@ public class CategoryController {
 
   private final CategoryService categoryService;
 
-  @GetMapping("/api/v1/categorys")
-  public ResponseEntity getAllCategorysV1(){
-    return ResponseEntity.ok(new BaseResponse(categoryService.getAllCategorys(), HttpStatus.OK.value(), ProcessStatus.SUCCESS,
+  @GetMapping("/api/v1/categories")
+  public ResponseEntity getAllCategoriesV1(){
+    return ResponseEntity.ok(new BaseResponse(categoryService.getAllCategories(), HttpStatus.OK.value(), ProcessStatus.SUCCESS,
         MessageCode.SUCCESS_GET_LIST));
   }
-  @GetMapping("/api/v1/categorys/{parent_id}")
-  public ResponseEntity getChildCategorysV1(@PathVariable Long parent_id){
-    List<CategoryResponseDto> result = categoryService.getChildCategorys(parent_id);
+  @GetMapping("/api/v1/categories/{parent_id}")
+  public ResponseEntity getChildCategoriesV1(@PathVariable Long parent_id){
+    List<CategoryResponseDto> result = categoryService.getChildCategories(parent_id);
 
       return ResponseEntity.ok(new BaseResponse(result,HttpStatus.OK.value(),ProcessStatus.SUCCESS,MessageCode.SUCCESS_GET_LIST));
 
