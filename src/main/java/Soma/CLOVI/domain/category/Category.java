@@ -1,11 +1,14 @@
 package Soma.CLOVI.domain.category;
 
+import Soma.CLOVI.domain.Base.BaseTimeEntity;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,25 +24,20 @@ import lombok.ToString;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "category")
-public class Category {
+public class Category extends BaseTimeEntity {
 
   @Id
-  @Column(name = "id", nullable = false)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Size(max = 45)
-  @Column(name = "name", length = 45)
   private String name;
 
-  @NotNull
-  @Column(name = "depth", nullable = false)
   private Integer depth;
 
-  private Integer order;
+  private Integer orders;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "parent_id")
+  @JoinColumn(name="parent_id")
   private Category ParentCategory;
 
   @OneToMany(mappedBy = "ParentCategory", cascade = {CascadeType.PERSIST,CascadeType.MERGE})

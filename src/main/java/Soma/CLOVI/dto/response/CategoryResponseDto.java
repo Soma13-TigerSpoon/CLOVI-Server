@@ -19,7 +19,7 @@ public class CategoryResponseDto {
     this.categoryId = category.getId();
     this.categoryName = category.getName();
     System.out.println(category);
-    this.order = category.getOrder();
+    this.order = category.getOrders();
     System.out.println(category.getChildCategorys().size());
     for(Category child : category.getChildCategorys()){
       childCategory.add(new CategoryResponseDto(child));
