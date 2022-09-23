@@ -22,7 +22,7 @@ public class CategoryRepositoryImpl {
     return queryResults;
   }
 
-  public List<Category> getChildCategoryById(Long id){
+  public List<Category> getChildCategoriesByParentId(Long id){
     List<Category> queryResults = queryFactory.selectFrom(category)
         .where(category.ParentCategory.id.eq(id))
         .fetch();

@@ -15,13 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class CategoryService {
   private final CategoryRepositoryImpl categoryRepositoryImpl;
 
-  public List<CategoryResponseDto> getAllCategorys() {
+  public List<CategoryResponseDto> getAllCategories() {
     return categoryRepositoryImpl.getAllCategory().stream().
         map(category -> new CategoryResponseDto(category)).collect(Collectors.toList());
   }
 
-  public List<CategoryResponseDto> getChildCategorys(Long parentId) {
-    return categoryRepositoryImpl.getChildCategoryById(parentId).stream().
+  public List<CategoryResponseDto> getChildCategories(Long parentId) {
+    return categoryRepositoryImpl.getChildCategoriesByParentId(parentId).stream().
         map(category -> new CategoryResponseDto(category)).collect(Collectors.toList());
   }
 
