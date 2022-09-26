@@ -21,7 +21,6 @@ public class ItemResponseDto {
   private String size;
 
   private String brand;
-  private CategoryResponseDto category;
 
   public ItemResponseDto(Item item) {
     this.id = item.getId();
@@ -31,7 +30,6 @@ public class ItemResponseDto {
     this.size = item.getSize();
     this.brand = item.getBrand();
     this.itemImgUrl = item.getImgUrl();
-    this.category = new CategoryResponseDto(item.getCategory());
     for (ShopItem shopItem : item.getShopItems()) { // Select ShopItem
       this.shops.add(new ShopItemResponseDto(shopItem));
     }

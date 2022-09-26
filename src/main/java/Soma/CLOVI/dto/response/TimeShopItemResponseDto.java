@@ -11,12 +11,12 @@ public class TimeShopItemResponseDto {
 
   private TimeResponseDto times;
   private ModelResponseDto model;
-  private List<ItemAffiliationLinkResponseDto> items = new ArrayList<>();
+  private List<ItemAffiliateLinkResponseDto> items = new ArrayList<>();
 
   public TimeShopItemResponseDto(TimeFrame timeFrame) {
     this.times = new TimeResponseDto(timeFrame);
     for (TimeItemAffiliationLink item : timeFrame.getItems()) { // Select Item
-      items.add(new ItemAffiliationLinkResponseDto(item.getItem(),item.getAffiliationLink()));
+      items.add(new ItemAffiliateLinkResponseDto(item.getItem(),item.getAffiliationLink()));
     }
     this.model = new ModelResponseDto(timeFrame.getModel()); // Select Model
   }

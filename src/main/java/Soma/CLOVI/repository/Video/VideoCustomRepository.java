@@ -10,6 +10,6 @@ public interface VideoCustomRepository {
 
 
     List<Video> search(String videoUrl);
-    Page<Video> SearchPageSimple(Long postId, Pageable pageable);
-    Page<Video> SearchPageComplex(Long postId, Pageable pageable);
+    Page<Video> SearchPageSimple(Long channelId, Long categoryId, Pageable pageable);
+    Page<Video> SearchPageComplex(Long channelId, Long categoryId, Pageable pageable);
 }

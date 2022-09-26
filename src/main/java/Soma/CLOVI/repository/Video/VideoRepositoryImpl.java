@@ -20,12 +20,12 @@ public class VideoRepositoryImpl implements VideoCustomRepository{
     }
 
     @Override
-    public Page<Video> SearchPageSimple(Long postId, Pageable pageable) {
+    public Page<Video> SearchPageSimple(Long channelId, Long categoryId , Pageable pageable) {
         return null;
     }
 
     @Override
-    public Page<Video> SearchPageComplex(Long postId, Pageable pageable) {
+    public Page<Video> SearchPageComplex(Long channelId, Long categoryId , Pageable pageable) {
         return null;
     }
 }

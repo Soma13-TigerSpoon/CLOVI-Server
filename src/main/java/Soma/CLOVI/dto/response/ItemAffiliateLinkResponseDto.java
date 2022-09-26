@@ -5,13 +5,13 @@ import Soma.CLOVI.domain.item.Item;
 import lombok.Getter;
 
 @Getter
-public class ItemAffiliationLinkResponseDto {
+public class ItemAffiliateLinkResponseDto {
   private ItemResponseDto item;
-  private AffiliationLinkResponseDto affiliationLink;
+  private AffiliateLinkResponseDto affiliationLink;
 
-  public ItemAffiliationLinkResponseDto(Item item,
+  public ItemAffiliateLinkResponseDto(Item item,
       AffiliationLink affiliationLink) {
     this.item = new ItemResponseDto(item);
-    this.affiliationLink = affiliationLink == null ? null : new AffiliationLinkResponseDto(affiliationLink);
+    this.affiliationLink = affiliationLink == null ? null : new AffiliateLinkResponseDto(affiliationLink);
   }
 }
