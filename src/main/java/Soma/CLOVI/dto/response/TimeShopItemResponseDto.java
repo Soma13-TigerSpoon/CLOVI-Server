@@ -16,7 +16,7 @@ public class TimeShopItemResponseDto {
   public TimeShopItemResponseDto(TimeFrame timeFrame) {
     this.times = new TimeResponseDto(timeFrame);
     for (TimeItemAffiliationLink item : timeFrame.getItems()) { // Select Item
-      items.add(new ItemAffiliateLinkResponseDto(item.getItem(),item.getAffiliationLink()));
+      items.add(new ItemAffiliateLinkResponseDto(item.getItem(),item.getAffiliateLink()));
     }
     this.model = new ModelResponseDto(timeFrame.getModel()); // Select Model
   }

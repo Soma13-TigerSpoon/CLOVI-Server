@@ -1,8 +1,8 @@
 package Soma.CLOVI.repository;
 
-import Soma.CLOVI.domain.AffiliationLink;
+import Soma.CLOVI.domain.AffiliateLink;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AffiliationLinkRepository extends JpaRepository<AffiliationLink,Long> {
+public interface AffiliationLinkRepository extends JpaRepository<AffiliateLink,Long> {
 
 }

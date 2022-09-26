@@ -1,5 +1,6 @@
 package Soma.CLOVI.dto.requests;
 
+import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.Getter;
 

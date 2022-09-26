@@ -1,7 +1,7 @@
 package Soma.CLOVI.service.query;
 
 import Soma.CLOVI.api.response.MessageCode;
-import Soma.CLOVI.domain.AffiliationLink;
+import Soma.CLOVI.domain.AffiliateLink;
 import Soma.CLOVI.domain.ManyToMany.ShopItem;
 import Soma.CLOVI.domain.ManyToMany.TimeItemAffiliationLink;
 import Soma.CLOVI.domain.ManyToMany.VideoItem;
@@ -41,7 +41,9 @@ public class ItemQueryService {
   private final CategoryRepository categoryRepository;
   @Transactional
   public Long save(TimeItemRequestDto timeItemRequestDto) {
-
+    // logging, warning 등 이런 에러의 단계도 custom 할 수 있기 때문에 이걸 찾아보고
+    // APM 검색해서 한번 조사해보자
+    // 프로메테우스 데이터 -> 그라파나 -> 대쉬보드화 하기 !!! (APM 환경 만들기)
     Model model = modelRepository.findById(timeItemRequestDto.getModelId()).orElseThrow(
         () -> new IllegalArgumentException("해당 모델이 없습니다. id=" + timeItemRequestDto.getModelId()));
     Video video = videoRepository.findById(timeItemRequestDto.getVideoId()).orElseThrow(
@@ -57,7 +59,7 @@ public class ItemQueryService {
         () -> new IllegalArgumentException(MessageCode.ERROR_REQ_PARAM_CATEGORY_ID.getMessage())
     );
 
-    //부모 아이템 조회 --> null이 아닌 경우에
+    //부모 아이템 조회 --> null 이 아닌 경우에
     Item parentItem = timeItemRequestDto.getParentId() < 0 ? null : itemRepository.findById(timeItemRequestDto.getParentId()).orElseThrow(
         () -> new IllegalArgumentException(MessageCode.ERROR_REQ_PARAM_ITEM_ID.getMessage())
     ) ;
@@ -83,16 +85,16 @@ public class ItemQueryService {
       item.addShopItem(shopItem);
     };
 
-    AffiliationLink affiliationLink;
+    AffiliateLink affiliateLink;
     try{
-      affiliationLink = new AffiliationLink(timeItemRequestDto.getAffLink(),
+      affiliateLink = new AffiliateLink(timeItemRequestDto.getAffLink(),
           timeItemRequestDto.getAffPrice());
-      affiliationLinkRepository.save(affiliationLink);
+      affiliationLinkRepository.save(affiliateLink);
     }catch (Exception e){
-      affiliationLink = null;
+      affiliateLink = null;
     }
 
-    timeFrame.addItem(new TimeItemAffiliationLink(timeFrame, item, affiliationLink));
+    timeFrame.addItem(new TimeItemAffiliationLink(timeFrame, item, affiliateLink));
 
     videoRepository.save(video);
     VideoItem videoItem = new VideoItem(video, item);

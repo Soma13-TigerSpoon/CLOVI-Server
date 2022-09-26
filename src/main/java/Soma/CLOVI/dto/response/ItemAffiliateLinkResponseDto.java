@@ -1,6 +1,6 @@
 package Soma.CLOVI.dto.response;
 
-import Soma.CLOVI.domain.AffiliationLink;
+import Soma.CLOVI.domain.AffiliateLink;
 import Soma.CLOVI.domain.item.Item;
 import lombok.Getter;
 
@@ -10,8 +10,9 @@ public class ItemAffiliateLinkResponseDto {
   private AffiliateLinkResponseDto affiliationLink;
 
   public ItemAffiliateLinkResponseDto(Item item,
-      AffiliationLink affiliationLink) {
+      AffiliateLink affiliateLink) {
     this.item = new ItemResponseDto(item);
-    this.affiliationLink = affiliationLink == null ? null : new AffiliateLinkResponseDto(affiliationLink);
+    this.affiliationLink = affiliateLink == null ? null : new AffiliateLinkResponseDto(
+        affiliateLink);
   }
 }

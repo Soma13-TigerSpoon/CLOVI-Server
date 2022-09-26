@@ -1,6 +1,6 @@
 package Soma.CLOVI.dto.response;
 
-import Soma.CLOVI.domain.AffiliationLink;
+import Soma.CLOVI.domain.AffiliateLink;
 import java.time.LocalDateTime;
 import lombok.Getter;
 
@@ -11,11 +11,11 @@ public class AffiliateLinkResponseDto {
   private Long price;
 
 
-  public AffiliateLinkResponseDto(AffiliationLink affiliationLink) {
-    if(affiliationLink.getValidDate().isAfter(LocalDateTime.now())){ // 유효한 기간이 남았을 경우
-      this.id = affiliationLink.getId();
-      this.url = affiliationLink.getUrl();
-      this.price = affiliationLink.getPrice();
+  public AffiliateLinkResponseDto(AffiliateLink affiliateLink) {
+    if(affiliateLink.getValidDate().isAfter(LocalDateTime.now())){ // 유효한 기간이 남았을 경우
+      this.id = affiliateLink.getId();
+      this.url = affiliateLink.getUrl();
+      this.price = affiliateLink.getPrice();
     }
   }
 }

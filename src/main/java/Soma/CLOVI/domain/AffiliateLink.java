@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class AffiliationLink extends BaseTimeEntity {
+public class AffiliateLink extends BaseTimeEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +33,7 @@ public class AffiliationLink extends BaseTimeEntity {
   @Column(updatable = false)
   private LocalDateTime validDate = LocalDateTime.now().plusDays(30);
 
-  public AffiliationLink(String url, Long price) {
+  public AffiliateLink(String url, Long price) {
     this.url = url;
     this.price = price;
   }
