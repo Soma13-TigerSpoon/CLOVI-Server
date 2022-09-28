@@ -50,8 +50,7 @@ public class ItemQueryService {
         () -> new IllegalArgumentException("해당 비디오가 없습니다. id=" + timeItemRequestDto.getVideoId()));
 
     Long capturePoint = timeItemRequestDto.getStartTime();
-    TimeFrame timeFrame = timeFrameRepository.findByCapturePointBetween(capturePoint - 2,
-        capturePoint + 2).orElse(
+    TimeFrame timeFrame = timeFrameRepository.findByVideoAndCapturePoint(video,capturePoint).orElse(
         new TimeFrame(capturePoint, model, video)
     );
     //카테고리 조회

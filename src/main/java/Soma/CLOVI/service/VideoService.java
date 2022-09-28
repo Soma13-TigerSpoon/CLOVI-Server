@@ -20,16 +20,16 @@ public class VideoService {
 
 
     public VideoResponseDto search(String videoUrl){
-//        Optional<Video> video = videoRepository.findByVideoUrl(videoUrl);
-//        if(video.isPresent()){
-//            VideoResponseDto result = new VideoResponseDto(video.get());
-//            return result;
-//        }
-//        return null;
-        Video video = videoRepository.findByVideoUrl(videoUrl).orElseThrow(
-            ()->  new RuntimeException("")
-        );
-        return new VideoResponseDto(video);
+        Optional<Video> video = videoRepository.findByVideoUrl(videoUrl);
+        if(video.isPresent()){
+            VideoResponseDto result = new VideoResponseDto(video.get());
+            return result;
+        }
+        return null;
+//        Video video = videoRepository.findByVideoUrl(videoUrl).orElseThrow(
+//            ()->  new RuntimeException("")
+//        );
+//        return new VideoResponseDto(video);
     }
 
     public Long save(VideoRequestDto videoRequestDto, Channel channel){

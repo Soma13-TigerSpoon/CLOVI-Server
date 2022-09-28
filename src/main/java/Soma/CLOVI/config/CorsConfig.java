@@ -10,8 +10,10 @@ public class CorsConfig implements WebMvcConfigurer {
   @Override
   public void addCorsMappings(CorsRegistry registry) {
     registry.addMapping("/**")
-        .allowedOrigins("*")
-        .allowedMethods("GET","POST","PUT","DELETE")
+        .allowedOrigins("https://data.clovi.app")
+        .allowedOrigins("http://localhost:2000")
+        .allowedOrigins("http://localhost:2001")
+        .allowedMethods("GET","POST")
         .maxAge(3000);
   }
 
