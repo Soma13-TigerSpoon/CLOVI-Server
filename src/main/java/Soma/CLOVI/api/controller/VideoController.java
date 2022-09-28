@@ -24,7 +24,7 @@ public class VideoController {
   private final VideoService videoService;
 
   private final VideoQueryService videoQueryService;
-
+// 유효성 검사를 꼭 해줘야 함.
   @GetMapping("/api/v1/videos")
   public ResponseEntity getVideoV1(@RequestParam("videoUrl") String videoUrl) {
     VideoResponseDto result = videoService.search(videoUrl);

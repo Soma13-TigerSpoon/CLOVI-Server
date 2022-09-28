@@ -26,6 +26,10 @@ public class VideoService {
             return result;
         }
         return null;
+//        Video video = videoRepository.findByVideoUrl(videoUrl).orElseThrow(
+//            ()->  new RuntimeException("")
+//        );
+//        return new VideoResponseDto(video);
     }
 
     public Long save(VideoRequestDto videoRequestDto, Channel channel){
