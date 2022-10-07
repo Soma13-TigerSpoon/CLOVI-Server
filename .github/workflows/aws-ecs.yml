@@ -63,7 +63,9 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
-
+      ## gradle build
+    - name: Clean with Gradle
+      run: ./gradlew clean
       ## gradle build
     - name: Build with Gradle
       run: ./gradlew bootJar
