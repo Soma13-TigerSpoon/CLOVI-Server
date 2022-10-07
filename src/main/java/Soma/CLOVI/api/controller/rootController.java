@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class rootController {
   @GetMapping("/")
   public String running(){
-    return "server is running";
+    return "server is running !!!";
   }
 }
