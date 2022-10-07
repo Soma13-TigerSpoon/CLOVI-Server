@@ -24,7 +24,7 @@
 #    See the documentation for each action used below for the recommended IAM policies for this IAM user,
 #    and best practices on handling the access key credentials.
 
-name: Deploy to Amazon ECS
+name: Deploy to Amazon ECS CLOVI production api server
 
 on:
   push:
@@ -33,11 +33,11 @@ on:
 env:
   AWS_REGION: ap-northeast-2                   # set this to your preferred AWS region, e.g. us-west-1
   ECR_REPOSITORY: ${{ secrets.AWS_ECR_DEV_REPOSITORY }}           # set this to your Amazon ECR repository name
-  ECS_SERVICE: clovi-prod                 # set this to your Amazon ECS service name
-  ECS_CLUSTER: clovi-ecs-prod                 # set this to your Amazon ECS cluster name
+  ECS_SERVICE: clovi-dev                 # set this to your Amazon ECS service name
+  ECS_CLUSTER: clovi-ecs-dev                 # set this to your Amazon ECS cluster name
   ECS_TASK_DEFINITION: .aws/task-definition-dev.json # set this to the path to your Amazon ECS task definition
                                                # file, e.g. .aws/task-definition-prod.json
-  CONTAINER_NAME: clovi-prod-api-server           # set this to the name of the container in the
+  CONTAINER_NAME: clovi-dev-api-server           # set this to the name of the container in the
                                                # containerDefinitions section of your task definition
 
 permissions:
@@ -47,7 +47,7 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    environment: production
+    environment: dev
 
     steps:
     - name: Checkout
