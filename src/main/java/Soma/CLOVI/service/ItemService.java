@@ -3,7 +3,7 @@ package Soma.CLOVI.service;
 import Soma.CLOVI.domain.item.Item;
 import Soma.CLOVI.dto.response.ItemResponseDto;
 import Soma.CLOVI.repository.Item.ItemRepository;
-import Soma.CLOVI.repository.Item.ItemRepositoryImpl;
+import Soma.CLOVI.repository.Item.ItemRepositoryCustomImpl;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -14,15 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ItemService {
-
-
   private final ItemRepository itemRepository;
-
-  private final ItemRepositoryImpl itemRepositoryImpl;
-
+  private final ItemRepositoryCustomImpl itemRepositoryCustomImpl;
 
   public List<ItemResponseDto> getItems(List<Long> itemIdList) {
-    return itemRepositoryImpl.searchByIdList(itemIdList).stream().
+    return itemRepositoryCustomImpl.searchByIdList(itemIdList).stream().
         map(item -> new ItemResponseDto(item)).collect(Collectors.toList());
   }
 
