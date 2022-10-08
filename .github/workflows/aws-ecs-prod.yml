@@ -23,7 +23,7 @@
 # 4. Store an IAM user access key in GitHub Actions secrets named `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
 #    See the documentation for each action used below for the recommended IAM policies for this IAM user,
 #    and best practices on handling the access key credentials.
-
+# T3.micro의 가용 메모리는 956 이다 -> 안전하게 900으로 설정하자 아니면 프로비저닝 단계에서 넘어가지 않는다.
 name: Deploy to Amazon ECS CLOVI Production api server
 
 on:
