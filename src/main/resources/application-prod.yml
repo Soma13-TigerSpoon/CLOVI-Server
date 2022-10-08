@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: ${DB.url}
-    username: ${DB.username}
-    password: ${DB.password}
+    url: ${MYSQL_URL}
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -17,4 +17,4 @@ logging.level:
   org.hibernate.SQL: debug
   # org.hibernate.type: trace
 allow-cors:
-  list: ${cors}
+  list: ${CORS}
