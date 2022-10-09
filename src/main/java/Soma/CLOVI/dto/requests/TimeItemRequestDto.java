@@ -1,6 +1,6 @@
 package Soma.CLOVI.dto.requests;
 
-import static Soma.CLOVI.common.common.StringTimeToLong;
+import static Soma.CLOVI.common.Common.StringTimeToLong;
 import Soma.CLOVI.dto.requests.ShopItemRequestDto;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ public class TimeItemRequestDto {
   //shop-data
   private List<ShopItemRequestDto> shopItems = new ArrayList<>();
 
-  public Long getStartTime(){
+  public Long getStartTime() {
     return StringTimeToLong(this.startTime);
   }
 }
