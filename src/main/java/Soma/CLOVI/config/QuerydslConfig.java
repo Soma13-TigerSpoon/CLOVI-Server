@@ -1,6 +1,5 @@
 package Soma.CLOVI.config;
 
-
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import javax.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @RequiredArgsConstructor
-public class QuerydslConfiguration {
-
+public class QuerydslConfig {
   private final EntityManager em;
 
   @Bean
