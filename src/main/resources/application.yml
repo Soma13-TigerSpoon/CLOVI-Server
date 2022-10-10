@@ -6,7 +6,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate:
         #show_sql: true
@@ -25,4 +25,5 @@ logging.level:
 # cursor 를 사용하면 내가 원하는 부분에서 원하는 값을 가져올 수 있다. -> 다음 번에 등장할 녀석도 가져오기 쉽다.
 
 allow-cors:
-  list: http://localhost:2000, http://localhost:2001
+  list: http://localhost
+
