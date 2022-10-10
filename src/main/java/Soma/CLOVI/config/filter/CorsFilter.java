@@ -33,13 +33,15 @@ public class CorsFilter implements Filter {
     HttpServletRequest req = (HttpServletRequest) request;
     HttpServletResponse res = (HttpServletResponse) response;
     String originUrl = req.getHeader("origin");
-    System.out.println(req.getRemoteUser());
-    System.out.println(req.getRequestURL());
-    System.out.println(req.getRequestURI());
-    for(String url: allowCorsUrl){
-      if(originUrl.startsWith(url)){ // Origin url이 내가 허용하고자 하는 url들과 동일하다면 Header를 변경해 줍니다.
-        res.setHeader("Access-Control-Allow-Origin", originUrl);
-        break;
+    if(originUrl == null) {
+      res.setHeader("Access-Control-Allow-Origin", "*");
+    }
+    else{
+      for(String url: allowCorsUrl){
+        if(originUrl.startsWith(url)){ // Origin url이 내가 허용하고자 하는 url들과 동일하다면 Header를 변경해 줍니다.
+          res.setHeader("Access-Control-Allow-Origin", originUrl);
+          break;
+        }
       }
     }
     res.setHeader("Access-Control-Allow-Credentials", "true");
