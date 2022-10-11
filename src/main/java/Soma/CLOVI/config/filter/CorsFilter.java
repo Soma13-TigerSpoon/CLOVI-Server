@@ -10,6 +10,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.Ordered;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorsFilter implements Filter {
+  private Logger logger = LoggerFactory.getLogger(CorsFilter.class);
   @Value("${allow-cors.list}")
   private List<String> allowCorsUrl;
 
@@ -32,7 +35,15 @@ public class CorsFilter implements Filter {
       throws IOException, ServletException {
     HttpServletRequest req = (HttpServletRequest) request;
     HttpServletResponse res = (HttpServletResponse) response;
-    String originUrl = req.getHeader("origin");
+
+    String originUrl = req.getRequestURL().toString();
+    String host = req.getHeader("host");
+    String userAgent = req.getHeader("user-agent");
+    String ip = getClientIP(req);
+    System.out.println(ip);
+    System.out.println(originUrl);
+    System.out.println(host);
+    System.out.println(userAgent);
     if(originUrl == null) {
       res.setHeader("Access-Control-Allow-Origin", "*");
     }
@@ -56,6 +67,34 @@ public class CorsFilter implements Filter {
       chain.doFilter(request, response);
     }
 
+  }
+  public String getClientIP(HttpServletRequest request) {
+    String ip = request.getHeader("X-Forwarded-For");
+    logger.info("> X-FORWARDED-FOR : " + ip);
+
+    if (ip == null) {
+      ip = request.getHeader("Proxy-Client-IP");
+      logger.info("> Proxy-Client-IP : " + ip);
+    }
+    if (ip == null) {
+      ip = request.getHeader("WL-Proxy-Client-IP");
+      logger.info(">  WL-Proxy-Client-IP : " + ip);
+    }
+    if (ip == null) {
+      ip = request.getHeader("HTTP_CLIENT_IP");
+      logger.info("> HTTP_CLIENT_IP : " + ip);
+    }
+    if (ip == null) {
+      ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+      logger.info("> HTTP_X_FORWARDED_FOR : " + ip);
+    }
+    if (ip == null) {
+      ip = request.getRemoteAddr();
+      logger.info("> getRemoteAddr : "+ip);
+    }
+    logger.info("> Result : IP Address : "+ip);
+
+    return ip;
   }
 
   @Override
