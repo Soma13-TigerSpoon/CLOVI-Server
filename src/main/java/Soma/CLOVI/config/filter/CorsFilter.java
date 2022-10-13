@@ -37,13 +37,6 @@ public class CorsFilter implements Filter {
     HttpServletResponse res = (HttpServletResponse) response;
 
     String originUrl = req.getRequestURL().toString();
-    String host = req.getHeader("host");
-    String userAgent = req.getHeader("user-agent");
-    String ip = getClientIP(req);
-    System.out.println(ip);
-    System.out.println(originUrl);
-    System.out.println(host);
-    System.out.println(userAgent);
     if(originUrl == null) {
       res.setHeader("Access-Control-Allow-Origin", "*");
     }
@@ -68,34 +61,7 @@ public class CorsFilter implements Filter {
     }
 
   }
-  public String getClientIP(HttpServletRequest request) {
-    String ip = request.getHeader("X-Forwarded-For");
-    logger.info("> X-FORWARDED-FOR : " + ip);
 
-    if (ip == null) {
-      ip = request.getHeader("Proxy-Client-IP");
-      logger.info("> Proxy-Client-IP : " + ip);
-    }
-    if (ip == null) {
-      ip = request.getHeader("WL-Proxy-Client-IP");
-      logger.info(">  WL-Proxy-Client-IP : " + ip);
-    }
-    if (ip == null) {
-      ip = request.getHeader("HTTP_CLIENT_IP");
-      logger.info("> HTTP_CLIENT_IP : " + ip);
-    }
-    if (ip == null) {
-      ip = request.getHeader("HTTP_X_FORWARDED_FOR");
-      logger.info("> HTTP_X_FORWARDED_FOR : " + ip);
-    }
-    if (ip == null) {
-      ip = request.getRemoteAddr();
-      logger.info("> getRemoteAddr : "+ip);
-    }
-    logger.info("> Result : IP Address : "+ip);
-
-    return ip;
-  }
 
   @Override
   public void destroy() {
