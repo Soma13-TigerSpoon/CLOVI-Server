@@ -1,12 +1,14 @@
 package Soma.CLOVI.dto.response;
 
 import Soma.CLOVI.dto.requests.ClickRequestDto;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
 public class ClickResponseDto {
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime clickDateTime;
     private String ipAddress;
     private Long videoId;
