@@ -21,13 +21,13 @@ public class ClickResponseDto {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("");
+        final StringBuilder sb = new StringBuilder();
 
         sb.append(clickDateTime).append("\t");
         sb.append(ipAddress).append("\t");
         sb.append(videoId).append("\t");
         sb.append(itemId).append("\t");
-        sb.append(shopId).append("\n");
+        sb.append(shopId);
 
         return sb.toString();
     }

@@ -6,9 +6,10 @@ import Soma.CLOVI.api.response.ProcessStatus;
 import Soma.CLOVI.dto.requests.ClickRequestDto;
 import Soma.CLOVI.dto.response.ClickResponseDto;
 import Soma.CLOVI.service.LoggingService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,27 +22,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1")
 public class LoggingController {
     private final LoggingService loggingService;
+    private final Logger logger = LoggerFactory.getLogger("User Click Event!!");
 
     @PostMapping("/click")
-    public ResponseEntity saveClickInfo(@RequestBody ClickRequestDto clickRequestDto) {
+    public ResponseEntity recordClickInfo(@RequestBody ClickRequestDto clickRequestDto) {
         ClickResponseDto result = loggingService.logClickTracking(clickRequestDto);
 
-        /*
         ObjectMapper mapper = new ObjectMapper();
         try {
-            String log = mapper.writeValueAsString(result);
-            System.out.println("log: " + log);
+            String clickInfo = mapper.writeValueAsString(result);
+            logger.info(clickInfo);
         }
         catch(Exception e) {
             e.printStackTrace();
         }
-        */
 
-        String log = result.toString();
-        System.out.println("log: " + log);
+        // String clickInfo = result.toString();
+        // logger.info(clickInfo);
 
         return ResponseEntity.ok(
-                new BaseResponse(result, HttpStatus.OK.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET)
+                new BaseResponse(HttpStatus.OK.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET)
         );
     }
 }
