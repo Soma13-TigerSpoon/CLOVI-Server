@@ -29,6 +29,7 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.projectlombok:lombok:1.18.24'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	implementation 'org.springframework.boot:spring-boot-devtools'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -49,6 +50,11 @@ dependencies {
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 	//Guava
 	implementation 'com.google.guava:guava:31.1-jre'
+
+	// aws secrets manager
+	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:3.1.4'
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws-secrets-manager-config:2.2.6.RELEASE'
+
 }
 tasks.named('test') {
 	useJUnitPlatform()
