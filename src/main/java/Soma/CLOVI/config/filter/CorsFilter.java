@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -32,42 +31,48 @@ public class CorsFilter implements Filter {
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-      throws IOException, ServletException {
-    HttpServletRequest req = (HttpServletRequest) request;
-    HttpServletResponse res = (HttpServletResponse) response;
+          throws IOException, ServletException {
+    HttpServletRequest req = (HttpServletRequest)request;
+    HttpServletResponse res = (HttpServletResponse)response;
 
-    String originUrl = req.getRequestURL().toString();
-    String host = req.getHeader("host");
+    String requestMethod = req.getMethod();
+    String remoteUser = req.getRemoteUser();
     String userAgent = req.getHeader("user-agent");
-    String ip = getClientIP(req);
-    System.out.println(ip);
-    System.out.println(originUrl);
-    System.out.println(host);
-    System.out.println(userAgent);
+    String host = req.getHeader("host");
+    String originUri = req.getRequestURI();
+    String originUrl = req.getRequestURL().toString();
+
+    System.out.println("====================");
+    System.out.println("Request Method: " + requestMethod);
+    System.out.println("Remote User: " + remoteUser);
+    System.out.println("User Agent: " + userAgent);
+    System.out.println("Host: " + host);
+    System.out.println("Origin URI: " + originUri);
+    System.out.println("Origin URL: " + originUrl);
+    System.out.println("====================");
+
     if(originUrl == null) {
       res.setHeader("Access-Control-Allow-Origin", "*");
     }
-    else{
-      for(String url: allowCorsUrl){
-        if(originUrl.startsWith(url)){ // Origin url이 내가 허용하고자 하는 url들과 동일하다면 Header를 변경해 줍니다.
+    else {
+      for(String allowedUrl : allowCorsUrl) {
+        // Modify Header if [origin URL] exists in [allowed URL list]
+        if(originUrl.startsWith(allowedUrl)) {
           res.setHeader("Access-Control-Allow-Origin", originUrl);
           break;
         }
       }
     }
+
     res.setHeader("Access-Control-Allow-Credentials", "true");
     res.setHeader("Access-Control-Allow-Methods","*");
     res.setHeader("Access-Control-Max-Age", "3600");
-    res.setHeader("Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
 
-    if("OPTIONS".equalsIgnoreCase(req.getMethod())) {
-      res.setStatus(HttpServletResponse.SC_OK);
-    }else {
-      chain.doFilter(request, response);
-    }
-
+    if("OPTIONS".equalsIgnoreCase(req.getMethod())) res.setStatus(HttpServletResponse.SC_OK);
+    else chain.doFilter(request, response);
   }
+  
   public String getClientIP(HttpServletRequest request) {
     String ip = request.getHeader("X-Forwarded-For");
     logger.info("> X-FORWARDED-FOR : " + ip);

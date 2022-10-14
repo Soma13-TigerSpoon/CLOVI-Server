@@ -1,6 +1,9 @@
-package Soma.CLOVI.common;
+package Soma.CLOVI.utils;
 
-public class Common {
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+public class TimeFormatUtils {
   public static Long StringTimeToLong(String time) {
     String[] timeArray = time.split(":");
 
@@ -13,5 +16,9 @@ public class Common {
     }
 
     return (long)totalSecond;
+  }
+
+  public static String LocalDateTimeToString(LocalDateTime localDateTime) {
+    return localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
   }
 }
