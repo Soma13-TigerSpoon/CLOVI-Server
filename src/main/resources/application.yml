@@ -9,20 +9,16 @@ spring:
       ddl-auto: none
     properties:
       hibernate:
-        #show_sql: true
+        # show_sql: true
         format_sql: true
-        default_batch_fetch_size: 100 # 프로젝트 전체에 적용되는 거 (역할은 한번에 데이터를 가져오지 않게 함. -> 100개씩 짤라서 가져오게 된다.)
+        default_batch_fetch_size: 100
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
   mvc: # Swagger
     pathmatch:
       matching-strategy: ant_path_matcher
+
 logging.level:
   org.hibernate.SQL: debug
   # org.hibernate.type: trace
-
-# 1.0 에서는 DB connection 설정하는게 dbcp 기반으로 설정하는 거였는데 2.0에서는 hikari 라는 디폴트가 성능이 좋아서 이걸로 다 바 바뀜
-# DB 쿼리문에서 limit 를 사용하면 1~10번까지가 아니라 10개를 가져오게 된다.
-# cursor 를 사용하면 내가 원하는 부분에서 원하는 값을 가져올 수 있다. -> 다음 번에 등장할 녀석도 가져오기 쉽다.
-
 allow-cors:
-  list: http://localhost
+  list: http://localhost, chrome-extension

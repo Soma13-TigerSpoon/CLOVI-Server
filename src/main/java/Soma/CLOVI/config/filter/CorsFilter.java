@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorsFilter implements Filter {
   private Logger logger = LoggerFactory.getLogger(CorsFilter.class);
+
   @Value("${allow-cors.list}")
   private List<String> allowCorsUrl;
 
@@ -40,16 +41,16 @@ public class CorsFilter implements Filter {
     String userAgent = req.getHeader("user-agent");
     String host = req.getHeader("host");
     String originUri = req.getRequestURI();
-    String originUrl = req.getRequestURL().toString();
+    String originUrl = req.getHeader("Origin");
 
-    System.out.println("====================");
-    System.out.println("Request Method: " + requestMethod);
-    System.out.println("Remote User: " + remoteUser);
-    System.out.println("User Agent: " + userAgent);
-    System.out.println("Host: " + host);
-    System.out.println("Origin URI: " + originUri);
-    System.out.println("Origin URL: " + originUrl);
-    System.out.println("====================");
+    System.out.println("====================" +
+            "\nRequest Method: " + requestMethod +
+            "\nRemote User: " + remoteUser +
+            "\nUser Agent: " + userAgent +
+            "\nHost: " + host +
+            "\nOrigin URI: " + originUri +
+            "\nOrigin URL: " + originUrl +
+            "\n====================");
 
     if(originUrl == null) {
       res.setHeader("Access-Control-Allow-Origin", "*");
@@ -74,30 +75,23 @@ public class CorsFilter implements Filter {
   }
   
   public String getClientIP(HttpServletRequest request) {
-    String ip = request.getHeader("X-Forwarded-For");
-    logger.info("> X-FORWARDED-FOR : " + ip);
+    String[] httpHeaderList = {"X-Forwarded-For", "Proxy-Client-IP",
+            "WL-Proxy-Client-IP", "HTTP_CLIENT_IP", "HTTP_X_FORWARDED_FOR"};
+    String ip = null;
 
-    if (ip == null) {
-      ip = request.getHeader("Proxy-Client-IP");
-      logger.info("> Proxy-Client-IP : " + ip);
+    // check each HTTP header
+    for(String httpHeader : httpHeaderList) {
+      if(ip == null) {
+        ip = request.getHeader(httpHeader);
+        logger.info("> " + httpHeader + " : " + ip);
+      }
     }
-    if (ip == null) {
-      ip = request.getHeader("WL-Proxy-Client-IP");
-      logger.info(">  WL-Proxy-Client-IP : " + ip);
-    }
-    if (ip == null) {
-      ip = request.getHeader("HTTP_CLIENT_IP");
-      logger.info("> HTTP_CLIENT_IP : " + ip);
-    }
-    if (ip == null) {
-      ip = request.getHeader("HTTP_X_FORWARDED_FOR");
-      logger.info("> HTTP_X_FORWARDED_FOR : " + ip);
-    }
-    if (ip == null) {
+
+    if(ip == null) {
       ip = request.getRemoteAddr();
-      logger.info("> getRemoteAddr : "+ip);
+      logger.info("> getRemoteAddr : " + ip);
     }
-    logger.info("> Result : IP Address : "+ip);
+    logger.info("> [Result] IP Address : " + ip);
 
     return ip;
   }
