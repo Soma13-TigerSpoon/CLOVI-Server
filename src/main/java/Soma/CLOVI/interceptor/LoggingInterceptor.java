@@ -16,14 +16,20 @@ public class LoggingInterceptor implements HandlerInterceptor {
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
       throws Exception {
-    logger.info("url : {}", request.getRequestURI());
+    String uri = request.getRequestURI();
+    if(!"/".equals(uri)){
+      logger.info("url : {}", request.getRequestURI());
+    }
     return HandlerInterceptor.super.preHandle(request, response, handler);
   }
 
   @Override
   public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
       ModelAndView modelAndView) throws Exception {
-    logger.info("response status: {}", response.getStatus());
+    String uri = request.getRequestURI();
+    if(!"/".equals(uri)){
+      logger.info("response status: {}", response.getStatus());
+    }
     HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
   }
 
