@@ -30,7 +30,9 @@ public class ItemResponseDto {
     this.brand = item.getBrand();
     this.itemImgUrl = item.getImgUrl();
     for (ShopItem shopItem : item.getShopItems()) { // Select ShopItem
-      this.shops.add(new ShopItemResponseDto(shopItem));
+      if(shopItem.getShop().getId() != 100) { // 제휴링크가 아닌 경우에만 추가
+        this.shops.add(new ShopItemResponseDto(shopItem));
+      }
     }
     for (Item cur : item.getChildItems()){
       this.childItems.add(new ItemResponseDto(cur));

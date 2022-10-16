@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface ShopItemRepository extends JpaRepository<ShopItem,Long> {
     Optional<ShopItem> findByShopUrl(String shopUrl);
+    Optional<ShopItem> findByShopUrlAndPrice(String shopUrl, Long price);
 }

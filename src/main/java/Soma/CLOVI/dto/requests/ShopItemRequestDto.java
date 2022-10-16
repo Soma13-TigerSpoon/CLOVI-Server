@@ -13,4 +13,12 @@ public class ShopItemRequestDto {
   private String name;
 
   private Long price;
+
+  public ShopItemRequestDto(String shopUrl, Long price) {
+    this.shopUrl = shopUrl;
+    this.price = price;
+  }
+  // 빈 생성자 없으면 error 발생
+  public ShopItemRequestDto() {
+  }
 }

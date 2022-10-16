@@ -7,15 +7,14 @@ import lombok.Getter;
 @Getter
 public class AffiliateLinkResponseDto {
   private Long id;
-  private String url;
-  private Long price;
+
+  private ShopItemResponseDto shopitem;
 
 
   public AffiliateLinkResponseDto(AffiliateLink affiliateLink) {
     if(affiliateLink.getValidDate().isAfter(LocalDateTime.now())){ // 유효한 기간이 남았을 경우
       this.id = affiliateLink.getId();
-      this.url = affiliateLink.getUrl();
-      this.price = affiliateLink.getPrice();
+      this.shopitem = new ShopItemResponseDto(affiliateLink.getShopItem());
     }
   }
 }
