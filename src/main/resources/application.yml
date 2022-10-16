@@ -16,9 +16,13 @@ spring:
   mvc: # Swagger
     pathmatch:
       matching-strategy: ant_path_matcher
+  config:
+    activate:
+      on-profile: local
 
 logging.level:
   org.hibernate.SQL: debug
   # org.hibernate.type: trace
+
 allow-cors:
   list: http://localhost, chrome-extension
