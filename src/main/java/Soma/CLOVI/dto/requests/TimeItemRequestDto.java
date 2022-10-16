@@ -1,42 +1,47 @@
 package Soma.CLOVI.dto.requests;
 
-import static Soma.CLOVI.common.Common.StringTimeToLong;
-import Soma.CLOVI.dto.requests.ShopItemRequestDto;
+import Soma.CLOVI.utils.TimeFormatUtils;
+
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 public class TimeItemRequestDto {
-
-  //Video-data
+  // video data
+  @NotNull
   private Long videoId;
 
-  //model-data
+  // model data
+  @NotNull
   private Long modelId;
 
-  //time-data
+  // time data
+  @NotNull
   private String startTime;
 
-  //item-data
+  // item data
   private Long parentId;
-
+  @NotNull
   private String name;
   private String brand;
+  @NotNull
   private Long categoryId;
   private boolean isWide;
+  @NotNull
   private String itemImgUrl;
   private String color;
   private String size;
-  //affiliationLink-data
+
+  // affiliateLink data
   private String affLink;
   private Long affPrice;
 
-  //shop-data
+  // shopItem data
   private List<ShopItemRequestDto> shopItems = new ArrayList<>();
 
   public Long getStartTime() {
-    return StringTimeToLong(this.startTime);
+    return TimeFormatUtils.StringTimeToLong(this.startTime);
   }
 }

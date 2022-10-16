@@ -1,13 +1,17 @@
 package Soma.CLOVI.domain;
 
 import Soma.CLOVI.domain.Base.BaseTimeEntity;
+import Soma.CLOVI.domain.ManyToMany.ShopItem;
 import java.time.LocalDateTime;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,16 +30,15 @@ public class AffiliateLink extends BaseTimeEntity {
   @Column(name = "id", nullable = false)
   private Long id;
 
-  @Lob
-  private String url;
+  @OneToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST})
+  @JoinColumn(name = "shop_item_id")
+  private ShopItem shopItem;
 
-  private Long price;
+
   @Column(updatable = false)
   private LocalDateTime validDate = LocalDateTime.now().plusDays(30);
 
-  public AffiliateLink(String url, Long price) {
-    this.url = url;
-    this.price = price;
+  public AffiliateLink(ShopItem shopItem) {
+    this.shopItem = shopItem;
   }
-
 }

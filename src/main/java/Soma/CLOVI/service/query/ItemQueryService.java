@@ -1,5 +1,7 @@
 package Soma.CLOVI.service.query;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
+
 import Soma.CLOVI.api.response.MessageCode;
 import Soma.CLOVI.domain.AffiliateLink;
 import Soma.CLOVI.domain.ManyToMany.ShopItem;
@@ -24,12 +26,12 @@ import Soma.CLOVI.repository.Video.VideoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ResourceUtils;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ItemQueryService {
-
   private final ItemRepository itemRepository;
   private final VideoRepository videoRepository;
   private final ShopRepository shopRepository;
@@ -83,16 +85,19 @@ public class ItemQueryService {
       shopRepository.save(shop);
       item.addShopItem(shopItem);
     };
-
     AffiliateLink affiliateLink;
-    try{
-      affiliateLink = new AffiliateLink(timeItemRequestDto.getAffLink(),
-          timeItemRequestDto.getAffPrice());
+    //제휴링크가 있는지, URL 형식이 맞는지 확인
+    if(!isNullOrEmpty(timeItemRequestDto.getAffLink().trim()) && ResourceUtils.isUrl(timeItemRequestDto.getAffLink().trim())){
+      Shop shop = shopRepository.findById(100L).orElse(null);
+      ShopItem shopItem = shopItemRepository.findByShopUrlAndPrice(timeItemRequestDto.getAffLink(),timeItemRequestDto.getAffPrice()).orElse(
+          new ShopItem(new ShopItemRequestDto(timeItemRequestDto.getAffLink(),timeItemRequestDto.getAffPrice()), item, shop)
+      );
+      affiliateLink = new AffiliateLink(shopItem);
       affiliationLinkRepository.save(affiliateLink);
-    }catch (Exception e){
+    }
+    else{
       affiliateLink = null;
     }
-
     timeFrame.addItem(new TimeItemAffiliationLink(timeFrame, item, affiliateLink));
 
     videoRepository.save(video);

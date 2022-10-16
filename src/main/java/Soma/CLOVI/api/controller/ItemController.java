@@ -8,7 +8,9 @@ import Soma.CLOVI.dto.requests.TimeItemRequestDto;
 import Soma.CLOVI.service.ItemService;
 import Soma.CLOVI.service.query.ItemQueryService;
 import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +34,7 @@ public class ItemController {
   }
 
   @PostMapping("/api/v1/items")
-  public ResponseEntity saveItemV1(@RequestBody TimeItemRequestDto timeItemRequestDto) {
+  public ResponseEntity saveItemV1(@Valid @RequestBody TimeItemRequestDto timeItemRequestDto) {
     System.out.println(timeItemRequestDto);
     return new ResponseEntity<>(new BaseResponse(new IdResponseDto(itemQueryService.save(timeItemRequestDto)), HttpStatus.CREATED.value(),
         ProcessStatus.SUCCESS, MessageCode.SUCCESS_CREATE),HttpStatus.CREATED);
