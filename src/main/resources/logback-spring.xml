@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="10 seconds">
+
+    <!-- local -->
+    <springProfile name="local">
+        <!-- define variables -->
+        <property name="BASE_PATH" value="./logs"/>
+        <property name="INFO_FILE_NAME" value="info"/>
+        <property name="ERROR_FILE_NAME" value="error"/>
+        <property name="CLICK_FILE_NAME" value="click"/>
+        <property name="INFO_LOG_PATTERN" value="[%d{yyyy-MM-dd HH:mm:ss}:%-3relative][%thread] %-5level %logger{36} - %msg%n"/>
+        <property name="ERROR_LOG_PATTERN" value="%-5level %d{yy-MM-dd HH:mm:ss} [%thread] [%logger{0}-%M:%line] - %msg%n"/>
+        <property name="CLICK_LOG_PATTERN" value="%msg%n"/>
+
+        <!-- CONSOLE output settings -->
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <!-- filter -->
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <level>INFO</level>
+                <onMatch>ACCEPT</onMatch>
+                <onMismatch>DENY</onMismatch>
+            </filter>
+            <!-- pattern -->
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>${INFO_LOG_PATTERN}</pattern>
+            </layout>
+        </appender>
+
+        <!-- INFO FILE output settings -->
+        <appender name="INFO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <!-- (1) file name -->
+            <file>${BASE_PATH}/${INFO_FILE_NAME}.log</file>
+            <!-- (2) filter -->
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <level>INFO</level>
+                <onMatch>ACCEPT</onMatch>
+                <onMismatch>DENY</onMismatch>
+            </filter>
+            <!-- (3) pattern -->
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <pattern>${INFO_LOG_PATTERN}</pattern>
+            </encoder>
+            <!-- (4) rolling policy -->
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${BASE_PATH}/${INFO_FILE_NAME}.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+                <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                    <maxFileSize>100MB</maxFileSize>
+                </timeBasedFileNamingAndTriggeringPolicy>
+                <maxHistory>90</maxHistory>
+            </rollingPolicy>
+        </appender>
+
+        <!-- ERROR FILE output settings -->
+        <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <!-- (1) file name -->
+            <file>${BASE_PATH}/${ERROR_FILE_NAME}.log</file>
+            <!-- (2) filter -->
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <level>ERROR</level>
+                <onMatch>ACCEPT</onMatch>
+                <onMismatch>DENY</onMismatch>
+            </filter>
+            <!-- (3) pattern -->
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <pattern>${ERROR_LOG_PATTERN}</pattern>
+            </encoder>
+            <!-- (4) rolling policy -->
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${BASE_PATH}/${ERROR_FILE_NAME}.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+                <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                    <maxFileSize>100MB</maxFileSize>
+                </timeBasedFileNamingAndTriggeringPolicy>
+                <maxHistory>90</maxHistory>
+            </rollingPolicy>
+        </appender>
+
+        <!-- CLICK FILE output settings -->
+        <appender name="CLICK_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <!-- (1) file name -->
+            <file>${BASE_PATH}/${CLICK_FILE_NAME}.log</file>
+            <!-- (2) filter -->
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <level>INFO</level>
+                <onMatch>ACCEPT</onMatch>
+                <onMismatch>DENY</onMismatch>
+            </filter>
+            <!-- (3) pattern -->
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <pattern>${CLICK_LOG_PATTERN}</pattern>
+            </encoder>
+            <!-- (4) rolling policy -->
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${BASE_PATH}/${CLICK_FILE_NAME}.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+                <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                    <maxFileSize>100MB</maxFileSize>
+                </timeBasedFileNamingAndTriggeringPolicy>
+                <maxHistory>90</maxHistory>
+            </rollingPolicy>
+        </appender>
+
+        <!-- apply settings -->
+        <root>
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="INFO_FILE"/>
+            <appender-ref ref="ERROR_FILE"/>
+        </root>
+
+        <logger name="User Click Event!!" additivity="false">
+            <level value="INFO"/>
+            <appender-ref ref="CLICK_FILE"/>
+        </logger>
+
+    </springProfile>
+
+
+    <!-- dev -->
+    <springProfile name="dev">
+        <!-- define variables -->
+        <property resource="application-dev.yml"/>
+        <property name="BASE_PATH" value="./logs"/>
+        <property name="LOGSTASH_URL" value="${log.config.path}"/>
+        <property name="LOG_PATTERN" value="[%d{yyyy-MM-dd HH:mm:ss}:%-3relative][%thread] %-5level %logger{36} - %msg%n"/>
+
+        <!-- CONSOLE output settings -->
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <!-- pattern -->
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>${LOG_PATTERN}</pattern>
+            </layout>
+        </appender>
+
+        <!-- LOGSTASH output settings -->
+        <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+            <!-- (1) destination path -->
+            <destination>${LOGSTASH_URL}</destination>
+            <!-- (2) filter -->
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <level>INFO</level>
+                <onMatch>ACCEPT</onMatch>
+                <onMismatch>DENY</onMismatch>
+            </filter>
+            <!-- (3) pattern -->
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                <pattern>${LOG_PATTERN}</pattern>
+            </encoder>
+        </appender>
+
+        <!-- apply settings -->
+        <root>
+            <appender-ref ref="STDOUT"/>
+        </root>
+
+        <logger name="User Click Event!!" additivity="false">
+            <level value="INFO"/>
+        </logger>
+
+    </springProfile>
+
+</configuration>

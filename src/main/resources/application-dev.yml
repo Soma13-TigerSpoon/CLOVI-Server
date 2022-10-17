@@ -12,6 +12,13 @@ spring:
         show_sql: false
         format_sql: false
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+log:
+  config:
+    path: ${LOGSTASH_URL}
 
 logging.level:
   org.hibernate.SQL: debug
