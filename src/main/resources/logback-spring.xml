@@ -140,7 +140,51 @@
                 <onMismatch>DENY</onMismatch>
             </filter>
             <!-- (3) pattern -->
-            <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <pattern>${LOG_PATTERN}</pattern>
+            </encoder>
+        </appender>
+
+        <!-- apply settings -->
+        <root>
+            <appender-ref ref="STDOUT"/>
+        </root>
+
+        <logger name="User Click Event!!" additivity="false">
+            <level value="INFO"/>
+        </logger>
+
+    </springProfile>
+
+
+    <!-- prod -->
+    <springProfile name="prod">
+        <!-- define variables -->
+        <property resource="application-prod.yml"/>
+        <property name="BASE_PATH" value="./logs"/>
+        <property name="LOGSTASH_URL" value="${log.config.path}"/>
+        <property name="LOG_PATTERN" value="[%d{yyyy-MM-dd HH:mm:ss}:%-3relative][%thread] %-5level %logger{36} - %msg%n"/>
+
+        <!-- CONSOLE output settings -->
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <!-- pattern -->
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>${LOG_PATTERN}</pattern>
+            </layout>
+        </appender>
+
+        <!-- LOGSTASH output settings -->
+        <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+            <!-- (1) destination path -->
+            <destination>${LOGSTASH_URL}</destination>
+            <!-- (2) filter -->
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <level>INFO</level>
+                <onMatch>ACCEPT</onMatch>
+                <onMismatch>DENY</onMismatch>
+            </filter>
+            <!-- (3) pattern -->
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
                 <pattern>${LOG_PATTERN}</pattern>
             </encoder>
         </appender>

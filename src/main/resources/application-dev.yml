@@ -16,9 +16,7 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
 
-log:
-  config:
-    path: ${LOGSTASH_URL}
+log.config.path: ${LOGSTASH_URL}
 
 logging.level:
   org.hibernate.SQL: debug
