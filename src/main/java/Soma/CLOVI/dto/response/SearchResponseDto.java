@@ -11,7 +11,7 @@ public class SearchResponseDto {
     private Page<VideoResponseDto> videos;
 
     public SearchResponseDto(Page<Item> itemList, Page<Video> videoList) {
-        items = itemList.map(item -> new ItemResponseDto(item));
-        videos = videoList.map(video -> new VideoResponseDto(video));
+        items = itemList.map(ItemResponseDto::new);
+        videos = videoList.map(VideoResponseDto::new);
     }
 }
