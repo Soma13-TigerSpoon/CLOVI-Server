@@ -3,6 +3,7 @@ package Soma.CLOVI.dto.response;
 import Soma.CLOVI.domain.TimeFrame;
 import Soma.CLOVI.domain.youtube.Video;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import lombok.Getter;
 
@@ -25,6 +26,17 @@ public class VideoResponseDto {
       for(TimeFrame timeFrame : video.getTimeFrames()) {
         this.timeShopItemLists.add(new TimeShopItemResponseDto(timeFrame));
       }
+      timeShopItemLists.sort(new TimeOrderComparator());
     }
+  }
+}
+
+class TimeOrderComparator implements Comparator<TimeShopItemResponseDto> {
+  @Override
+  public int compare(TimeShopItemResponseDto A, TimeShopItemResponseDto B) {
+    Long orderA = A.getTimes().getStart();
+    Long orderB = B.getTimes().getStart();
+
+    return Long.compare(orderA, orderB);
   }
 }
