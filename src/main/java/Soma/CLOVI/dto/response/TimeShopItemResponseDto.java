@@ -34,6 +34,8 @@ class ItemOrderComparator implements Comparator<ItemAffiliateLinkResponseDto> {
     int orderA = A.getItem().getOrder();
     int orderB = B.getItem().getOrder();
 
+    // No need to check if null
+
     return Integer.compare(orderA, orderB);
   }
 }

@@ -37,6 +37,8 @@ class TimeOrderComparator implements Comparator<TimeShopItemResponseDto> {
     Long orderA = A.getTimes().getStart();
     Long orderB = B.getTimes().getStart();
 
+    if(orderA == null || orderB == null) return 0;
+
     return Long.compare(orderA, orderB);
   }
 }
