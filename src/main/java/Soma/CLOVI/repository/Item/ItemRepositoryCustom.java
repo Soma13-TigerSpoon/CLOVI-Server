@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface ItemRepositoryCustom {
     Page<Item> filterByConditions(SearchRequestDto searchRequestDto, Pageable pageable);
+    List<Item> filterByKeyword(String searchKeyword);
 
     List<Item> searchByIdList(List<Long> ItemIdList);
     Page<Item> SearchPageSimple(Long postId, Pageable pageable);
