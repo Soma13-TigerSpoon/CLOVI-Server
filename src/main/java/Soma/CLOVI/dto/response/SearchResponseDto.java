@@ -7,8 +7,8 @@ import org.springframework.data.domain.Page;
 
 @Getter
 public class SearchResponseDto {
-    private Page<ItemResponseDto> items;
-    private Page<VideoResponseDto> videos;
+    private final Page<ItemResponseDto> items;
+    private final Page<VideoResponseDto> videos;
 
     public SearchResponseDto(Page<Item> itemList, Page<Video> videoList) {
         items = itemList.map(ItemResponseDto::new);

@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface VideoRepositoryCustom {
     Page<Video> filterByConditions(SearchRequestDto searchRequestDto, Pageable pageable);
+    List<Video> filterByKeyword(String searchKeyword);
 
     List<Video> search(String videoUrl);
     Page<Video> SearchPageSimple(Long channelId, Long categoryId, Pageable pageable);

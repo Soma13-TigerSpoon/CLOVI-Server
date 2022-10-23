@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 import static Soma.CLOVI.domain.category.QCategory.category;
-import static Soma.CLOVI.domain.item.QItem.item;
 import static Soma.CLOVI.domain.youtube.QVideo.video;
+import static Soma.CLOVI.domain.item.QItem.item;
 import static Soma.CLOVI.domain.ManyToMany.QVideoItem.videoItem;
 
 @Repository
@@ -29,6 +29,7 @@ public class VideoRepositoryCustomImpl implements VideoRepositoryCustom {
 
     @Override
     public Page<Video> filterByConditions(SearchRequestDto searchRequestDto, Pageable pageable) {
+        String searchKeyword = searchRequestDto.getKeyword();
         String channelName = searchRequestDto.getChannel();
         long parentCategoryNo = searchRequestDto.getParentCategory();
         long childCategoryNo = searchRequestDto.getChildCategory();
@@ -39,6 +40,7 @@ public class VideoRepositoryCustomImpl implements VideoRepositoryCustom {
                 .innerJoin(videoItem.item, item)
                 .innerJoin(item.category, category)
                 .where(
+                        keywordContains(searchKeyword),
                         channelEq(channelName),
                         parentCategoryEq(parentCategoryNo),
                         childCategoryEq(childCategoryNo)
@@ -51,6 +53,23 @@ public class VideoRepositoryCustomImpl implements VideoRepositoryCustom {
         Page<Video> pagedResults = new PageImpl<>(queryResults, pageable, queryResults.size());
 
         return pagedResults;
+    }
+
+    @Override
+    public List<Video> filterByKeyword(String searchKeyword) {
+        List<Video> queryResults = queryFactory
+                .selectFrom(video)
+                .where(
+                        keywordContains(searchKeyword)
+                )
+                .fetch();
+
+        return queryResults;
+    }
+
+    private BooleanExpression keywordContains(String searchKeyword) {
+        if(searchKeyword == null) return null;
+        return video.title.contains(searchKeyword);
     }
 
     private BooleanExpression channelEq(String channelName) {
