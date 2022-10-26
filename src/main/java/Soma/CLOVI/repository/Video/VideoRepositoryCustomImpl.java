@@ -67,6 +67,21 @@ public class VideoRepositoryCustomImpl implements VideoRepositoryCustom {
         return queryResults;
     }
 
+    @Override
+    public List<Video> filterByItemId(Long itemId) {
+        List<Video> queryResults = queryFactory
+                .selectFrom(video)
+                .innerJoin(video.videoItems, videoItem)
+                .innerJoin(videoItem.item, item)
+                .where(
+                        itemEq(itemId)
+                )
+                .orderBy(video.id.asc())
+                .fetch();
+
+        return queryResults;
+    }
+
     private BooleanExpression keywordContains(String searchKeyword) {
         if(searchKeyword == null) return null;
         return video.title.contains(searchKeyword);
@@ -85,6 +100,11 @@ public class VideoRepositoryCustomImpl implements VideoRepositoryCustom {
     private BooleanExpression childCategoryEq(long childCategoryNo) {
         if(childCategoryNo == 0) return null;
         return category.id.eq(childCategoryNo);
+    }
+
+    private BooleanExpression itemEq(Long itemId) {
+        // if(itemId == null) return null;
+        return item.id.eq(itemId);
     }
 
     private OrderSpecifier[] makeSort(Sort sort) {
