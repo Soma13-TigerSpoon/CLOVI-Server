@@ -19,6 +19,9 @@ public class VideoItemService {
     public List<VideoItemResponseDto> getVideosByItemId(Long itemId) {
         List<Video> videoList = videoRepositoryCustomImpl.filterByItemId(itemId);
 
-        return videoList.stream().map(VideoItemResponseDto::new).collect(Collectors.toList());
+        return videoList
+                .stream()
+                .map((video) -> new VideoItemResponseDto(video, itemId))
+                .collect(Collectors.toList());
     }
 }
