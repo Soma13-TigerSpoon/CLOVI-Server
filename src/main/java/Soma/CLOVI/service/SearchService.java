@@ -27,15 +27,13 @@ public class SearchService {
         Page<Item> itemList = itemRepositoryCustomImpl.filterByConditions(searchRequestDto, pageable);
         Page<Video> videoList = videoRepositoryCustomImpl.filterByConditions(searchRequestDto, pageable);
 
-        SearchResponseDto result = new SearchResponseDto(itemList, videoList);
-        return result;
+        return new SearchResponseDto(itemList, videoList);
     }
 
     public KeywordResponseDto getItemsAndVideosByKeyword(String searchKeyword) {
         List<Item> itemList = itemRepositoryCustomImpl.filterByKeyword(searchKeyword);
         List<Video> videoList = videoRepositoryCustomImpl.filterByKeyword(searchKeyword);
 
-        KeywordResponseDto result = new KeywordResponseDto(itemList, videoList);
-        return result;
+        return new KeywordResponseDto(itemList, videoList);
     }
 }
