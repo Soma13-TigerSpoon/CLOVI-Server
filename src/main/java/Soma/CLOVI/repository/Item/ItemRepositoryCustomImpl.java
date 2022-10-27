@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import static Soma.CLOVI.domain.category.QCategory.category;
 import static Soma.CLOVI.domain.youtube.QVideo.video;
@@ -48,7 +49,7 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
                 .orderBy(makeSort(pageable.getSort()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .fetch();
+                .fetch().stream().distinct().collect(Collectors.toList());
 
         Page<Item> pagedResults = new PageImpl<>(queryResults, pageable, queryResults.size());
 

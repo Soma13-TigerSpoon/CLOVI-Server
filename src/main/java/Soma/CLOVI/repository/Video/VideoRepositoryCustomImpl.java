@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import static Soma.CLOVI.domain.category.QCategory.category;
 import static Soma.CLOVI.domain.youtube.QVideo.video;
@@ -48,7 +49,7 @@ public class VideoRepositoryCustomImpl implements VideoRepositoryCustom {
                 .orderBy(makeSort(pageable.getSort()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .fetch();
+                .fetch().stream().distinct().collect(Collectors.toList());
 
         Page<Video> pagedResults = new PageImpl<>(queryResults, pageable, queryResults.size());
 
@@ -77,7 +78,7 @@ public class VideoRepositoryCustomImpl implements VideoRepositoryCustom {
                         itemEq(itemId)
                 )
                 .orderBy(video.id.asc())
-                .fetch();
+                .fetch().stream().distinct().collect(Collectors.toList());
 
         return queryResults;
     }
