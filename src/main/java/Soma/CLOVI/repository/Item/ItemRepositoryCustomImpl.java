@@ -69,7 +69,11 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
 
     private BooleanExpression keywordContains(String searchKeyword) {
         if(searchKeyword == null) return null;
-        return item.name.contains(searchKeyword);
+
+        BooleanExpression conditionA = item.name.contains(searchKeyword);
+        BooleanExpression conditionB = item.brand.eq(searchKeyword);
+
+        return conditionA.or(conditionB);
     }
 
     private BooleanExpression channelEq(String channelName) {
