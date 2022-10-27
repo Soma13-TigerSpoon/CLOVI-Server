@@ -84,7 +84,11 @@ public class VideoRepositoryCustomImpl implements VideoRepositoryCustom {
 
     private BooleanExpression keywordContains(String searchKeyword) {
         if(searchKeyword == null) return null;
-        return video.title.contains(searchKeyword);
+
+        BooleanExpression conditionA = video.title.contains(searchKeyword);
+        BooleanExpression conditionB = item.brand.eq(searchKeyword);
+
+        return conditionA.or(conditionB);
     }
 
     private BooleanExpression channelEq(String channelName) {
