@@ -2,9 +2,9 @@ name: Deploy to Amazon EC2 CLOVI Dev api server
 
 on:
   push:
-    branches: [ "others/continuous-deployment-ec2" ]
+    branches: [ "dev" ]
   pull_request:
-    branches: [ "others/continuous-deployment-ec2" ]
+    branches: [ "dev" ]
 
 permissions:
   contents: read
