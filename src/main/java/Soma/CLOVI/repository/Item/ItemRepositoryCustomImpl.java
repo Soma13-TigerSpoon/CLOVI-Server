@@ -71,10 +71,18 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
     private BooleanExpression keywordContains(String searchKeyword) {
         if(searchKeyword == null) return null;
 
-        BooleanExpression conditionA = item.name.contains(searchKeyword);
-        BooleanExpression conditionB = item.brand.eq(searchKeyword);
+        BooleanExpression queryItem1 = item.name.containsIgnoreCase(searchKeyword);
+        BooleanExpression queryItem2 = item.brand.containsIgnoreCase(searchKeyword);
 
-        return conditionA.or(conditionB);
+        BooleanExpression queryVideo1 = video.title.containsIgnoreCase(searchKeyword);
+        BooleanExpression queryVideo2 = video.channel.name.containsIgnoreCase(searchKeyword);
+
+        BooleanExpression queryCategory1 = category.ParentCategory.name.equalsIgnoreCase(searchKeyword);
+        BooleanExpression queryCategory2 = category.name.equalsIgnoreCase(searchKeyword);
+
+        return (queryItem1).or(queryItem2)
+                .or(queryVideo1).or(queryVideo2)
+                .or(queryCategory1).or(queryCategory2);
     }
 
     private BooleanExpression channelEq(String channelName) {
