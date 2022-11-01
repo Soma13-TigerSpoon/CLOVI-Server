@@ -5,6 +5,7 @@ import Soma.CLOVI.domain.ManyToMany.VideoItem;
 import Soma.CLOVI.domain.TimeFrame;
 import Soma.CLOVI.domain.user.YoutubeCreator;
 import Soma.CLOVI.dto.requests.VideoRequestDto;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -43,6 +44,7 @@ public class Video extends BaseTimeEntity {
 
   private Long length;
 
+  private LocalDateTime uploadDate;
 
   @ManyToOne(fetch = FetchType.LAZY)
   private Channel channel;

@@ -2,6 +2,7 @@ package Soma.CLOVI.dto.response;
 
 import Soma.CLOVI.domain.TimeFrame;
 import Soma.CLOVI.domain.youtube.Video;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -14,6 +15,7 @@ public class VideoResponseDto {
   private String creator;
   private String profileImgUrl;
   private String videoUrl;
+  private String uploadDate;
   private List<TimeShopItemResponseDto> timeShopItemLists = new ArrayList<>();
 
   public VideoResponseDto(Video video) {
@@ -22,7 +24,7 @@ public class VideoResponseDto {
     this.creator = video.getChannel().getName(); // select channel -> name
     this.profileImgUrl = video.getChannel().getProfileImgUrl(); // select channel -> profile image url
     this.videoUrl = video.getVideoUrl(); // select video url
-
+    this.uploadDate = video.getUploadDate().format(DateTimeFormatter.ISO_LOCAL_DATE);
     List<TimeFrame> timeFrames = video.getTimeFrames(); // select timeFrames
     if(!timeFrames.isEmpty()) {
       for(TimeFrame timeFrame : video.getTimeFrames()) {

@@ -34,7 +34,6 @@ public class VideoRepositoryCustomImpl implements VideoRepositoryCustom {
         String channelName = searchRequestDto.getChannel();
         long parentCategoryNo = searchRequestDto.getParentCategory();
         long childCategoryNo = searchRequestDto.getChildCategory();
-
         List<Video> queryResults = queryFactory
                 .selectFrom(video)
                 .innerJoin(video.videoItems, videoItem)
@@ -115,6 +114,8 @@ public class VideoRepositoryCustomImpl implements VideoRepositoryCustom {
     private OrderSpecifier[] makeSort(Sort sort) {
         List<OrderSpecifier> orders = new ArrayList<>();
 
+        // 맨 처음 조건으로 영상 업로드 날짜 추가.
+        orders.add(video.uploadDate.desc());
         for(Sort.Order order : sort) {
             Order direction = order.isAscending() ? Order.ASC : Order.DESC;
             String property = order.getProperty();
@@ -122,7 +123,6 @@ public class VideoRepositoryCustomImpl implements VideoRepositoryCustom {
             PathBuilder conditions = new PathBuilder(Video.class, "video");
             orders.add(new OrderSpecifier(direction, conditions.get(property)));
         }
-
         return orders.stream().toArray(OrderSpecifier[]::new);
     }
 
