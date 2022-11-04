@@ -85,10 +85,18 @@ public class VideoRepositoryCustomImpl implements VideoRepositoryCustom {
     private BooleanExpression keywordContains(String searchKeyword) {
         if(searchKeyword == null) return null;
 
-        BooleanExpression conditionA = video.title.contains(searchKeyword);
-        BooleanExpression conditionB = item.brand.eq(searchKeyword);
+        BooleanExpression queryVideo1 = video.title.containsIgnoreCase(searchKeyword);
+        BooleanExpression queryVideo2 = video.channel.name.containsIgnoreCase(searchKeyword);
 
-        return conditionA.or(conditionB);
+        BooleanExpression queryItem1 = item.name.containsIgnoreCase(searchKeyword);
+        BooleanExpression queryItem2 = item.brand.containsIgnoreCase(searchKeyword);
+
+        BooleanExpression queryCategory1 = category.ParentCategory.name.equalsIgnoreCase(searchKeyword);
+        BooleanExpression queryCategory2 = category.name.equalsIgnoreCase(searchKeyword);
+
+        return (queryVideo1).or(queryVideo2)
+                .or(queryItem1).or(queryItem2)
+                .or(queryCategory1).or(queryCategory2);
     }
 
     private BooleanExpression channelEq(String channelName) {
