@@ -12,9 +12,27 @@ spring:
         show_sql: false
         format_sql: false
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
 logging.level:
   org.hibernate.SQL: debug
   # org.hibernate.type: trace
 allow-cors:
   list: ${CORS}
+
+management:
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, prometheus
+
+  metrics:
+    tags:
+      application: ${spring.application.name}
