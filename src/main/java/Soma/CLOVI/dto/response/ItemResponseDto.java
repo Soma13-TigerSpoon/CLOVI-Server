@@ -8,18 +8,16 @@ import lombok.Getter;
 
 @Getter
 public class ItemResponseDto {
-
-  List<ShopItemResponseDto> shops = new ArrayList<>();
-  List<ItemResponseDto> childItems = new ArrayList<>();
-
   private Long id;
   private String name;
   private int order;
   private String itemImgUrl;
   private String color;
   private String size;
-
   private String brand;
+
+  List<ShopItemResponseDto> shops = new ArrayList<>();
+  List<ItemResponseDto> childItems = new ArrayList<>();
 
   public ItemResponseDto(Item item) {
     this.id = item.getId();

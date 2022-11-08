@@ -43,8 +43,7 @@ public class Category extends BaseTimeEntity {
   @OneToMany(mappedBy = "ParentCategory", cascade = {CascadeType.PERSIST,CascadeType.MERGE})
   private List<Category> childCategories =  new ArrayList<>();
 
-  public boolean isParent(){
-    return this.depth.equals(0) ? true : false;
+  public boolean isParent() {
+    return this.depth.equals(0);
   }
-
 }

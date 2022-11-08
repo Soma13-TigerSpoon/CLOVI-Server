@@ -20,30 +20,38 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class VideoController {
-
   private final VideoService videoService;
-
   private final VideoQueryService videoQueryService;
-// 유효성 검사를 꼭 해줘야 함.
+
+  // Validation required
   @GetMapping("/api/v1/videos")
   public ResponseEntity getVideoV1(@RequestParam("videoUrl") String videoUrl) {
     VideoResponseDto result = videoService.search(videoUrl);
-    if (result == null) {
-      return ResponseEntity.badRequest().body(new BaseResponse(HttpStatus.BAD_REQUEST.value(), ProcessStatus.FAIL,
-          MessageCode.ERROR_REQ_PARAM_VIDEO_ID));
+
+    if(result == null) {
+      return ResponseEntity.badRequest().body(
+              new BaseResponse(HttpStatus.BAD_REQUEST.value(), ProcessStatus.FAIL, MessageCode.ERROR_REQ_PARAM_VIDEO_ID)
+      );
     }
-    return ResponseEntity.ok(new BaseResponse(result, HttpStatus.OK.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET));
+
+    return ResponseEntity.ok(
+            new BaseResponse(result, HttpStatus.OK.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET)
+    );
   }
 
   @PostMapping("api/v1/videos")
   public ResponseEntity saveVideoV1(@RequestBody VideoRequestDto videoRequestDto) {
-    System.out.println(videoRequestDto);
     Long result = videoQueryService.save(videoRequestDto);
-    if (result == null) {
-      return ResponseEntity.badRequest().body(new BaseResponse(HttpStatus.BAD_REQUEST.value(), ProcessStatus.FAIL,
-          MessageCode.ERROR_REQ_PARAM_VIDEO_ID));
+
+    if(result == null) {
+      return ResponseEntity.badRequest().body(
+              new BaseResponse(HttpStatus.BAD_REQUEST.value(), ProcessStatus.FAIL, MessageCode.ERROR_REQ_PARAM_VIDEO_ID)
+      );
     }
-    return new ResponseEntity<>(new BaseResponse(new IdResponseDto(result), HttpStatus.CREATED.value(), ProcessStatus.SUCCESS,
-        MessageCode.SUCCESS_CREATE), HttpStatus.CREATED);
+
+    return new ResponseEntity<>(
+            new BaseResponse(new IdResponseDto(result), HttpStatus.CREATED.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_CREATE),
+            HttpStatus.CREATED
+    );
   }
 }

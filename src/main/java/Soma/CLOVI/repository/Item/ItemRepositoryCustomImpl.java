@@ -16,11 +16,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import static Soma.CLOVI.domain.category.QCategory.category;
+import static Soma.CLOVI.domain.youtube.QVideo.video;
 import static Soma.CLOVI.domain.item.QItem.item;
 import static Soma.CLOVI.domain.ManyToMany.QVideoItem.videoItem;
-import static Soma.CLOVI.domain.youtube.QVideo.video;
 
 @Repository
 @RequiredArgsConstructor
@@ -29,6 +30,7 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
 
     @Override
     public Page<Item> filterByConditions(SearchRequestDto searchRequestDto, Pageable pageable) {
+        String searchKeyword = searchRequestDto.getKeyword();
         String channelName = searchRequestDto.getChannel();
         long parentCategoryNo = searchRequestDto.getParentCategory();
         long childCategoryNo = searchRequestDto.getChildCategory();
@@ -39,6 +41,7 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
                 .innerJoin(videoItem.video, video)
                 .innerJoin(item.category, category)
                 .where(
+                        keywordContains(searchKeyword),
                         channelEq(channelName),
                         parentCategoryEq(parentCategoryNo),
                         childCategoryEq(childCategoryNo)
@@ -46,11 +49,40 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
                 .orderBy(makeSort(pageable.getSort()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .fetch();
+                .fetch().stream().distinct().collect(Collectors.toList());
 
         Page<Item> pagedResults = new PageImpl<>(queryResults, pageable, queryResults.size());
 
         return pagedResults;
+    }
+
+    @Override
+    public List<Item> filterByKeyword(String searchKeyword) {
+        List<Item> queryResults = queryFactory
+                .selectFrom(item)
+                .where(
+                        keywordContains(searchKeyword)
+                )
+                .fetch();
+
+        return queryResults;
+    }
+
+    private BooleanExpression keywordContains(String searchKeyword) {
+        if(searchKeyword == null) return null;
+
+        BooleanExpression queryItem1 = item.name.containsIgnoreCase(searchKeyword);
+        BooleanExpression queryItem2 = item.brand.containsIgnoreCase(searchKeyword);
+
+        BooleanExpression queryVideo1 = video.title.containsIgnoreCase(searchKeyword);
+        BooleanExpression queryVideo2 = video.channel.name.containsIgnoreCase(searchKeyword);
+
+        BooleanExpression queryCategory1 = category.ParentCategory.name.equalsIgnoreCase(searchKeyword);
+        BooleanExpression queryCategory2 = category.name.equalsIgnoreCase(searchKeyword);
+
+        return (queryItem1).or(queryItem2)
+                .or(queryVideo1).or(queryVideo2)
+                .or(queryCategory1).or(queryCategory2);
     }
 
     private BooleanExpression channelEq(String channelName) {
