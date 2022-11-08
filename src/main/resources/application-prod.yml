@@ -35,4 +35,4 @@ management:
 
   metrics:
     tags:
-      application: ${spring.application.name}
+      application: "clovi-prod"
