@@ -87,7 +87,7 @@ public class ItemQueryService {
     };
     AffiliateLink affiliateLink;
     //제휴링크가 있는지, URL 형식이 맞는지 확인
-    if(!isNullOrEmpty(timeItemRequestDto.getAffLink().trim()) && ResourceUtils.isUrl(timeItemRequestDto.getAffLink().trim())){
+    if(!isNullOrEmpty(timeItemRequestDto.getAffLink()) && ResourceUtils.isUrl(timeItemRequestDto.getAffLink())){
       Shop shop = shopRepository.findById(100L).orElse(null);
       ShopItem shopItem = shopItemRepository.findByShopUrlAndPrice(timeItemRequestDto.getAffLink(),timeItemRequestDto.getAffPrice()).orElse(
           new ShopItem(new ShopItemRequestDto(timeItemRequestDto.getAffLink(),timeItemRequestDto.getAffPrice()), item, shop)
