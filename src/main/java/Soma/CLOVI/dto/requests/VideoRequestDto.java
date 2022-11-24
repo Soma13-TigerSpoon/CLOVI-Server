@@ -1,5 +1,6 @@
 package Soma.CLOVI.dto.requests;
 
+import java.time.LocalDateTime;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.Getter;
@@ -12,4 +13,5 @@ public class VideoRequestDto {
   private String videoUrlId;
   private String videoTitle;
   private Long videoLength;
+  private String uploadDate;
 }
