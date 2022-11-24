@@ -25,17 +25,19 @@ public class TimeItemRequestDto {
   private Long parentId;
   @NotNull
   private String name;
-  private String brand;
   @NotNull
+  private String brand;
   private Long categoryId;
   private boolean isWide;
-  @NotNull
+
   private String itemImgUrl;
+  @NotNull
   private String color;
   private String size;
 
   // affiliateLink data
   private String affLink;
+  private String affHostname;
   private Long affPrice;
 
   // shopItem data
