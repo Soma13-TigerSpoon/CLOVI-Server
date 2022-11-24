@@ -55,22 +55,20 @@ public class ItemQueryService {
     TimeFrame timeFrame = timeFrameRepository.findByVideoAndCapturePoint(video,capturePoint).orElse(
         new TimeFrame(capturePoint, model, video)
     );
-    //카테고리 조회
-    Category category = categoryRepository.findById(timeItemRequestDto.getCategoryId()).orElseThrow(
-        () -> new IllegalArgumentException(MessageCode.ERROR_REQ_PARAM_CATEGORY_ID.getMessage())
-    );
 
     //부모 아이템 조회 --> null 이 아닌 경우에
     Item parentItem = timeItemRequestDto.getParentId() < 0 ? null : itemRepository.findById(timeItemRequestDto.getParentId()).orElseThrow(
         () -> new IllegalArgumentException(MessageCode.ERROR_REQ_PARAM_ITEM_ID.getMessage())
     ) ;
 
-
-    // 상품은 이름과 색깔로 있는지 파악
-    Item item = itemRepository.findByNameAndColor(timeItemRequestDto.getName(),
-        timeItemRequestDto.getColor()).orElse(
-        new Item(timeItemRequestDto,category,parentItem)
+    // 상품은 이름과 색깔, 브랜드로 있는지 파악 후 없으면 카테고리를 조회 해서 새로운 아이템으로 저장
+    Item item = itemRepository.findByNameAndColorAndBrand(timeItemRequestDto.getName(),
+        timeItemRequestDto.getColor(), timeItemRequestDto.getBrand()).orElse(
+        new Item(timeItemRequestDto,categoryRepository.findById(timeItemRequestDto.getCategoryId()).orElseThrow(
+            () -> new IllegalArgumentException(MessageCode.ERROR_REQ_PARAM_CATEGORY_ID.getMessage())
+        ),parentItem)
     );
+
     itemRepository.save(item);
 
     for (ShopItemRequestDto shopItemRequestDto : timeItemRequestDto.getShopItems()) {
@@ -88,7 +86,11 @@ public class ItemQueryService {
     AffiliateLink affiliateLink;
     //제휴링크가 있는지, URL 형식이 맞는지 확인
     if(!isNullOrEmpty(timeItemRequestDto.getAffLink()) && ResourceUtils.isUrl(timeItemRequestDto.getAffLink())){
-      Shop shop = shopRepository.findById(100L).orElse(null);
+      String hostname = timeItemRequestDto.getAffHostname();
+      // host 이름으로 shop 찾고 없으면 새로 만들어서 추가
+      Shop shop = shopRepository.findByHostname(hostname).orElse(
+          new Shop(hostname)
+      );
       ShopItem shopItem = shopItemRepository.findByShopUrlAndPrice(timeItemRequestDto.getAffLink(),timeItemRequestDto.getAffPrice()).orElse(
           new ShopItem(new ShopItemRequestDto(timeItemRequestDto.getAffLink(),timeItemRequestDto.getAffPrice()), item, shop)
       );
@@ -97,6 +99,11 @@ public class ItemQueryService {
     }
     else{
       affiliateLink = null;
+    }
+    for(TimeItemAffiliationLink timeItemAffiliationLink : timeFrame.getItems()){
+      if( timeItemAffiliationLink.getItem().getId() == item.getId() ) {
+        return item.getId();
+      }
     }
     timeFrame.addItem(new TimeItemAffiliationLink(timeFrame, item, affiliateLink));
 
