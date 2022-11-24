@@ -6,6 +6,7 @@ import Soma.CLOVI.domain.TimeFrame;
 import Soma.CLOVI.domain.user.YoutubeCreator;
 import Soma.CLOVI.dto.requests.VideoRequestDto;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -73,6 +74,7 @@ public class Video extends BaseTimeEntity {
     this.length = videoRequestDto.getVideoLength();
     this.youtubeCreator = channel.getYoutubeCreator();
     this.channel = channel;
+    this.uploadDate = LocalDateTime.parse(videoRequestDto.getUploadDate(),DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
   }
 
   public void addTimeFrame(TimeFrame timeFrame) {
