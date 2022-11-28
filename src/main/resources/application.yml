@@ -16,6 +16,15 @@ spring:
   mvc: # Swagger
     pathmatch:
       matching-strategy: ant_path_matcher
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  batch:
+    job:
+      enabled: true
+    jdbc:
+      initialize-schema: always
 
 logging.level:
   org.hibernate.SQL: debug
