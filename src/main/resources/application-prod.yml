@@ -15,9 +15,20 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  batch:
+    job:
+      enabled: true
+    jdbc:
+      initialize-schema: always
+
 logging.level:
   org.hibernate.SQL: debug
   # org.hibernate.type: trace
+
 allow-cors:
   list: ${CORS}
 
@@ -27,12 +38,10 @@ management:
       enabled: true
     prometheus:
       enabled: true
-
   endpoints:
     web:
       exposure:
         include: health, info, metrics, prometheus
-
   metrics:
     tags:
       application: "clovi-prod"

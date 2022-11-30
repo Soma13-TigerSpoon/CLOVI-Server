@@ -15,7 +15,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
   mvc: # Swagger
     pathmatch:
-      matching-strategy: ant_path_matcher
+      matching-strategy: ANT_PATH_MATCHER
   servlet:
     multipart:
       max-file-size: 10MB
@@ -29,5 +29,6 @@ spring:
 logging.level:
   org.hibernate.SQL: debug
   # org.hibernate.type: trace
+
 allow-cors:
   list: http://localhost, chrome-extension
