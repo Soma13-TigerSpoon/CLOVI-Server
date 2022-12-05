@@ -5,6 +5,7 @@ import Soma.CLOVI.domain.item.Item;
 import Soma.CLOVI.domain.shop.Shop;
 import Soma.CLOVI.dto.requests.ShopItemRequestDto;
 import Soma.CLOVI.dto.response.SoldOutStatus;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -35,7 +36,7 @@ public class ShopItem extends BaseTimeEntity {
 
   private SoldOutStatus soldOutStatus;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   private Shop shop;
 
   @ManyToOne(fetch = FetchType.LAZY)
