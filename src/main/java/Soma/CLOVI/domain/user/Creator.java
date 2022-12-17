@@ -1,6 +1,6 @@
 package Soma.CLOVI.domain.user;
 
-import Soma.CLOVI.domain.Base.BaseTimeEntity;
+import Soma.CLOVI.domain.Base.BaseEntity;
 import Soma.CLOVI.domain.youtube.Channel;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class YoutubeCreator extends BaseTimeEntity {
+public class YoutubeCreator extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
