@@ -1,6 +1,6 @@
 package Soma.CLOVI.dto.response;
 
-import Soma.CLOVI.domain.ManyToMany.ShopItem;
+import Soma.CLOVI.domain.manytomany.ShopItem;
 import Soma.CLOVI.domain.item.Item;
 import java.util.ArrayList;
 import java.util.List;

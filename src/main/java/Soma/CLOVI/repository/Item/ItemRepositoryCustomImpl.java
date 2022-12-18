@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 import static Soma.CLOVI.domain.category.QCategory.category;
 import static Soma.CLOVI.domain.youtube.QVideo.video;
 import static Soma.CLOVI.domain.item.QItem.item;
-import static Soma.CLOVI.domain.ManyToMany.QVideoItem.videoItem;
+import static Soma.CLOVI.domain.manytomany.QVideoItem.videoItem;
 
 @Repository
 @RequiredArgsConstructor

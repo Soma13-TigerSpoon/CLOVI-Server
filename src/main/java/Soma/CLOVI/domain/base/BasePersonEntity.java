@@ -1,4 +1,4 @@
-package Soma.CLOVI.domain.Base;
+package Soma.CLOVI.domain.base;
 
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;

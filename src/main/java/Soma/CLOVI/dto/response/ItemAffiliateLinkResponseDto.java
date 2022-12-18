@@ -1,7 +1,7 @@
 package Soma.CLOVI.dto.response;
 
-import Soma.CLOVI.domain.AffiliateLink;
 import Soma.CLOVI.domain.item.Item;
+import Soma.CLOVI.domain.manytomany.ShopItem;
 import java.time.LocalDateTime;
 import lombok.Getter;
 
@@ -11,9 +11,10 @@ public class ItemAffiliateLinkResponseDto {
   private ShopItemResponseDto affiliationLink;
 
   public ItemAffiliateLinkResponseDto(Item item,
-      AffiliateLink affiliateLink) {
+      ShopItem shopItem) {
     this.item = new ItemResponseDto(item);
-    this.affiliationLink = (affiliateLink == null) || (isValid(affiliateLink.getValidDate())) ? null : new ShopItemResponseDto(affiliateLink.getShopItem());
+    this.affiliationLink = (shopItem == null) ? null : new ShopItemResponseDto(
+        shopItem);
   }
 
   private boolean isValid(LocalDateTime localDateTime){

@@ -3,11 +3,12 @@ package Soma.CLOVI.api.controller;
 import Soma.CLOVI.api.response.BaseResponse;
 import Soma.CLOVI.api.response.MessageCode;
 import Soma.CLOVI.api.response.ProcessStatus;
+import Soma.CLOVI.dto.requests.ItemRequestDto;
 import Soma.CLOVI.dto.response.IdResponseDto;
-import Soma.CLOVI.dto.requests.TimeItemRequestDto;
+import Soma.CLOVI.dto.requests.TimeShopItemRequestDto;
 import Soma.CLOVI.dto.response.ItemResponseDto;
 import Soma.CLOVI.service.ItemService;
-import Soma.CLOVI.service.query.ItemQueryService;
+import Soma.CLOVI.service.query.TimeFrameQueryService;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1")
 public class ItemController {
   private final ItemService itemService;
-  private final ItemQueryService itemQueryService;
+  private final TimeFrameQueryService timeFrameQueryService;
 
   @GetMapping("/item/{item_id}")
   public ResponseEntity getOneItem(@Validated @PathVariable(name = "item_id") Long itemId) {
@@ -48,9 +49,9 @@ public class ItemController {
   }
 
   @PostMapping("/items")
-  public ResponseEntity saveItem(@Valid @RequestBody TimeItemRequestDto timeItemRequestDto) {
-    // System.out.println(timeItemRequestDto);
-    Long savedId = itemQueryService.save(timeItemRequestDto);
+  public ResponseEntity saveItemV1(@Valid @RequestBody ItemRequestDto itemRequestDto) {
+    // System.out.println(timeShopItemRequestDto);
+    Long savedId = itemService.save(itemRequestDto);
 
     return new ResponseEntity<>(
             new BaseResponse(new IdResponseDto(savedId), HttpStatus.CREATED.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_CREATE),

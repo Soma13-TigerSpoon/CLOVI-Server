@@ -1,4 +1,4 @@
-package Soma.CLOVI.domain.Base;
+package Soma.CLOVI.domain.base;
 
 import java.time.LocalDateTime;
 import javax.persistence.Column;
@@ -20,4 +20,6 @@ public class BaseTimeEntity {
 
   @LastModifiedDate
   private LocalDateTime lastModifiedDate;
+
+  private Boolean isDeleted;
 }
