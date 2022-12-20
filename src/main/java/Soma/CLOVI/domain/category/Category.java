@@ -1,10 +1,9 @@
 package Soma.CLOVI.domain.category;
 
-import Soma.CLOVI.domain.Base.BaseTimeEntity;
+import Soma.CLOVI.domain.base.BaseEntity;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,18 +12,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Category extends BaseTimeEntity {
+public class Category extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,8 +37,4 @@ public class Category extends BaseTimeEntity {
 
   @OneToMany(mappedBy = "ParentCategory", cascade = {CascadeType.PERSIST,CascadeType.MERGE})
   private List<Category> childCategories =  new ArrayList<>();
-
-  public boolean isParent() {
-    return this.depth.equals(0);
-  }
 }

@@ -1,6 +1,6 @@
-package Soma.CLOVI.domain.ManyToMany;
+package Soma.CLOVI.domain.manytomany;
 
-import Soma.CLOVI.domain.Base.BaseTimeEntity;
+import Soma.CLOVI.domain.base.BaseEntity;
 import Soma.CLOVI.domain.item.Item;
 import Soma.CLOVI.domain.youtube.Video;
 import javax.persistence.Entity;
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class VideoItem extends BaseTimeEntity {
+public class VideoItem extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

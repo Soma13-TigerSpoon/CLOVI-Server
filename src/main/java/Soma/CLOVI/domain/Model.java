@@ -1,7 +1,6 @@
 package Soma.CLOVI.domain;
 
-import Soma.CLOVI.domain.Base.BaseTimeEntity;
-import javax.persistence.Column;
+import Soma.CLOVI.domain.base.BaseEntity;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -15,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Model extends BaseTimeEntity {
+public class Model extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
