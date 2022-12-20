@@ -1,44 +1,56 @@
 package Soma.CLOVI.domain.user;
 
-import Soma.CLOVI.domain.Base.BaseEntity;
-import Soma.CLOVI.domain.youtube.Channel;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.CascadeType;
+import Soma.CLOVI.domain.base.BaseEntity;
+import Soma.CLOVI.domain.Gender;
+import Soma.CLOVI.domain.Role;
+import java.time.LocalDateTime;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.Index;
+import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@Table(indexes = {
+    @Index(name = "i_user_id", columnList = "userId"),
+    @Index(name = "i_user_pw", columnList = "userPassword"),
+    @Index(name = "i_name", columnList = "name"),
+    @Index(name = "i_phone_num", columnList = "phoneNum")
+})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class YoutubeCreator extends BaseEntity {
+public class Creator extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private String creatorName;
+  private String userId;
+
+  private String userPassword;
+
+  private String name;
+
+  @Enumerated(EnumType.STRING)
+  private Gender gender;
+
+  private String email;
+
+  private String phoneNum;
+
   private String profileImgUrl;
 
-  @OneToMany(mappedBy = "youtubeCreator", cascade = CascadeType.ALL)
-  private List<Channel> channels = new ArrayList<>();
+  @Enumerated(EnumType.STRING)
+  private Role role;
 
-  public YoutubeCreator(String creatorName) {
-    this.creatorName = creatorName;
-  }
+  private LocalDateTime lastLoginDate;
 
-  public void addChannel(Channel channel) {
-    this.channels.add(channel);
-  }
+  private String status;
 
-
-    /*
-    @OneToMany(mappedBy = "creator")
-    private List<Channel> channel = new ArrayList<>();*/
 }

@@ -1,7 +1,7 @@
 package Soma.CLOVI.domain.youtube;
 
-import Soma.CLOVI.domain.Base.BaseTimeEntity;
-import Soma.CLOVI.domain.user.YoutubeCreator;
+import Soma.CLOVI.domain.base.BaseEntity;
+import Soma.CLOVI.domain.user.Creator;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Channel extends BaseTimeEntity {
+public class Channel extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,13 +34,13 @@ public class Channel extends BaseTimeEntity {
   private List<Video> videos = new ArrayList<>();
 
   @ManyToOne(fetch = FetchType.LAZY)
-  private YoutubeCreator youtubeCreator;
+  private Creator creator;
 
-  public Channel(String name, String url, String profileImgUrl, YoutubeCreator youtubeCreator) {
+  public Channel(String name, String url, String profileImgUrl, Creator creator) {
     this.name = name;
     this.channelUrl = url;
     this.profileImgUrl = profileImgUrl;
-    this.youtubeCreator = youtubeCreator;
+    this.creator = creator;
   }
 
   //지금까지 본 결과 channel url 이  "https://www.youtube.com" 뒤에 붙는 형식으로 두 가지가 있음.
