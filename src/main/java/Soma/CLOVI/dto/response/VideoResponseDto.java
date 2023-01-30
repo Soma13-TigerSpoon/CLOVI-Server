@@ -23,7 +23,7 @@ public class VideoResponseDto {
     this.title = video.getTitle(); // select video title
     this.creator = video.getChannel().getName(); // select channel -> name
     this.profileImgUrl = video.getChannel().getProfileImgUrl(); // select channel -> profile image url
-    this.videoUrl = video.getVideoUrl(); // select video url
+    this.videoUrl = video.getYoutubeVideoId(); // select video url
     this.uploadDate = video.getUploadDate().format(DateTimeFormatter.ISO_LOCAL_DATE);
     List<TimeFrame> timeFrames = video.getTimeFrames(); // select timeFrames
     if(!timeFrames.isEmpty()) {

@@ -10,7 +10,7 @@ public class VideoRequestDto {
 
   private String channelName;
   private String channelUrl;
-  private String videoUrlId;
+  private String youtubeVideoId;
   private String videoTitle;
   private Long videoLength;
   private String uploadDate;

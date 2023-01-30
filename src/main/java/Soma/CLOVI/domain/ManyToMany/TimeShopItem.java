@@ -1,6 +1,5 @@
 package Soma.CLOVI.domain.ManyToMany;
 
-import Soma.CLOVI.domain.AffiliateLink;
 import Soma.CLOVI.domain.Base.BaseTimeEntity;
 import Soma.CLOVI.domain.TimeFrame;
 import Soma.CLOVI.domain.item.Item;
@@ -14,12 +13,11 @@ import javax.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.BatchSize;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TimeItemAffiliationLink extends BaseTimeEntity {
+public class TimeShopItem extends BaseTimeEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,13 +29,12 @@ public class TimeItemAffiliationLink extends BaseTimeEntity {
   private Item item;
 
   @OneToOne(fetch = FetchType.LAZY)
-  //@BatchSize(size = 100) // 이걸 나두면
-  private AffiliateLink affiliateLink;
+  private ShopItem shopItem;
 
-  public TimeItemAffiliationLink(TimeFrame time, Item item, AffiliateLink affiliateLink) {
+  public TimeShopItem(TimeFrame time, Item item, ShopItem shopItem) {
     this.time = time;
     this.item = item;
-    this.affiliateLink = affiliateLink;
+    this.shopItem = shopItem;
   }
 
 }

@@ -2,7 +2,7 @@ package Soma.CLOVI.domain.item;
 
 import Soma.CLOVI.domain.Base.BaseTimeEntity;
 import Soma.CLOVI.domain.ManyToMany.ShopItem;
-import Soma.CLOVI.domain.ManyToMany.TimeItemAffiliationLink;
+import Soma.CLOVI.domain.ManyToMany.TimeShopItem;
 import Soma.CLOVI.domain.ManyToMany.VideoItem;
 import Soma.CLOVI.domain.category.Category;
 import Soma.CLOVI.dto.requests.TimeItemRequestDto;
@@ -41,17 +41,12 @@ public class Item extends BaseTimeEntity {
   private Long id;
 
   private String name;
-
-  private String description;
   private String color;
   private String size;
 
   private String brand;
   @Lob
   private String imgUrl;
-
-  @Enumerated(EnumType.STRING)
-  private FitStyle fitStyle;
 
   //=연관관계 매핑=//
 
@@ -68,15 +63,14 @@ public class Item extends BaseTimeEntity {
 
 
   @OneToMany(mappedBy = "item", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-  private List<TimeItemAffiliationLink> times = new ArrayList<>();
+  private List<TimeShopItem> times = new ArrayList<>();
 
   @OneToMany(mappedBy = "item", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   private List<VideoItem> videoItems = new ArrayList<>();
 
   @Builder
-  public Item(String name, String description, String color, String size, String imgUrl) {
+  public Item(String name, String color, String size, String imgUrl) {
     this.name = name;
-    this.description = description;
     this.color = color;
     this.size = size;
     this.imgUrl = imgUrl;
@@ -88,7 +82,6 @@ public class Item extends BaseTimeEntity {
     this.color = timeItemRequestDto.getColor();
     this.size = timeItemRequestDto.getSize();
     this.brand = timeItemRequestDto.getBrand();
-    this.fitStyle = timeItemRequestDto.isWide() ? FitStyle.와이드 : null;
     this.category = category;
     this.parent = parent;
   }

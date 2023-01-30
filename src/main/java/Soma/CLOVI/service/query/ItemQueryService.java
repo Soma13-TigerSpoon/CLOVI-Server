@@ -3,19 +3,16 @@ package Soma.CLOVI.service.query;
 import static com.google.common.base.Strings.isNullOrEmpty;
 
 import Soma.CLOVI.api.response.MessageCode;
-import Soma.CLOVI.domain.AffiliateLink;
 import Soma.CLOVI.domain.ManyToMany.ShopItem;
-import Soma.CLOVI.domain.ManyToMany.TimeItemAffiliationLink;
+import Soma.CLOVI.domain.ManyToMany.TimeShopItem;
 import Soma.CLOVI.domain.ManyToMany.VideoItem;
 import Soma.CLOVI.domain.Model;
 import Soma.CLOVI.domain.TimeFrame;
-import Soma.CLOVI.domain.category.Category;
 import Soma.CLOVI.domain.item.Item;
 import Soma.CLOVI.domain.shop.Shop;
 import Soma.CLOVI.domain.youtube.Video;
 import Soma.CLOVI.dto.requests.ShopItemRequestDto;
 import Soma.CLOVI.dto.requests.TimeItemRequestDto;
-import Soma.CLOVI.repository.AffiliationLinkRepository;
 import Soma.CLOVI.repository.Category.CategoryRepository;
 import Soma.CLOVI.repository.Item.ItemRepository;
 import Soma.CLOVI.repository.ModelRepository;
@@ -36,7 +33,6 @@ public class ItemQueryService {
   private final VideoRepository videoRepository;
   private final ShopRepository shopRepository;
 
-  private final AffiliationLinkRepository affiliationLinkRepository;
   private final ShopItemRepository shopItemRepository;
   private final TimeFrameRepository timeFrameRepository;
   private final ModelRepository modelRepository;
@@ -76,14 +72,14 @@ public class ItemQueryService {
       Shop shop = shopRepository.findByHostname(hostname).orElse(
           new Shop(hostname)
       );
-      ShopItem shopItem = shopItemRepository.findByShopUrl(shopItemRequestDto.getShopUrl()).orElse(
+      ShopItem shopItem = shopItemRepository.findByShopItemUrl(shopItemRequestDto.getShopItemUrl()).orElse(
           new ShopItem(shopItemRequestDto, item, shop)
       );
       shop.addShopItem(shopItem);
       shopRepository.save(shop);
       item.addShopItem(shopItem);
     };
-    AffiliateLink affiliateLink;
+    ShopItem shopItem;
     //제휴링크가 있는지, URL 형식이 맞는지 확인
     if(!isNullOrEmpty(timeItemRequestDto.getAffLink()) && ResourceUtils.isUrl(timeItemRequestDto.getAffLink())){
       String hostname = timeItemRequestDto.getAffHostname();
@@ -91,21 +87,20 @@ public class ItemQueryService {
       Shop shop = shopRepository.findByHostname(hostname).orElse(
           new Shop(hostname)
       );
-      ShopItem shopItem = shopItemRepository.findByShopUrlAndPrice(timeItemRequestDto.getAffLink(),timeItemRequestDto.getAffPrice()).orElse(
+      ShopItem affShopItem = shopItemRepository.findByShopItemUrlAndPrice(timeItemRequestDto.getAffLink(),timeItemRequestDto.getAffPrice()).orElse(
           new ShopItem(new ShopItemRequestDto(timeItemRequestDto.getAffLink(),timeItemRequestDto.getAffPrice()), item, shop)
       );
-      affiliateLink = new AffiliateLink(shopItem);
-      affiliationLinkRepository.save(affiliateLink);
+      shopItem = affShopItem;
     }
     else{
-      affiliateLink = null;
+      shopItem = null;
     }
-    for(TimeItemAffiliationLink timeItemAffiliationLink : timeFrame.getItems()){
-      if( timeItemAffiliationLink.getItem().getId() == item.getId() ) {
+    for(TimeShopItem timeShopItem : timeFrame.getItems()){
+      if( timeShopItem.getItem().getId() == item.getId() ) {
         return item.getId();
       }
     }
-    timeFrame.addItem(new TimeItemAffiliationLink(timeFrame, item, affiliateLink));
+    timeFrame.addItem(new TimeShopItem(timeFrame, item, shopItem));
 
     videoRepository.save(video);
     VideoItem videoItem = new VideoItem(video, item);

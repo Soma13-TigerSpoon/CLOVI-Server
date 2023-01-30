@@ -35,7 +35,7 @@ public class TimeItemRequestDto {
   private String color;
   private String size;
 
-  // affiliateLink data
+  // ShopItem data
   private String affLink;
   private String affHostname;
   private Long affPrice;

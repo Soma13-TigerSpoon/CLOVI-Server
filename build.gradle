@@ -50,10 +50,6 @@ dependencies {
 	//Guava
 	implementation 'com.google.guava:guava:31.1-jre'
 
-	// aws secrets manager
-	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:3.1.4'
-	implementation 'org.springframework.cloud:spring-cloud-starter-aws-secrets-manager-config:2.2.6.RELEASE'
-
 	// prometheus
 	implementation 'org.springframework.boot:spring-boot-starter-actuator:2.7.5'
 	implementation 'io.micrometer:micrometer-registry-prometheus:1.9.5'

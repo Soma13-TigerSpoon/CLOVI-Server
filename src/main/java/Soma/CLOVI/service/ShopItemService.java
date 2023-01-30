@@ -36,8 +36,8 @@ public class ShopItemService {
     return shopItem.getId();
   }
 
-  public boolean isExistUrl(String shopUrl){
-    Optional<ShopItem> shopItem = shopItemRepository.findByShopUrl(shopUrl);
+  public boolean isExistUrl(String shopItemUrl){
+    Optional<ShopItem> shopItem = shopItemRepository.findByShopItemUrl(shopItemUrl);
     if(shopItem.isPresent()){
       return true;
     }

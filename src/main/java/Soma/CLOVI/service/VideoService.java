@@ -20,7 +20,7 @@ public class VideoService {
 
 
     public VideoResponseDto search(String videoUrl){
-        Optional<Video> video = videoRepository.findByVideoUrl(videoUrl);
+        Optional<Video> video = videoRepository.findByYoutubeVideoId(videoUrl);
         if(video.isPresent()){
             VideoResponseDto result = new VideoResponseDto(video.get());
             return result;
@@ -33,7 +33,7 @@ public class VideoService {
     }
 
     public Long save(VideoRequestDto videoRequestDto, Channel channel){
-        Video video = videoRepository.findByVideoUrl(videoRequestDto.getVideoUrlId()).orElse(
+        Video video = videoRepository.findByYoutubeVideoId(videoRequestDto.getYoutubeVideoId()).orElse(
             new Video(videoRequestDto, channel)
         );
         videoRepository.save(video);

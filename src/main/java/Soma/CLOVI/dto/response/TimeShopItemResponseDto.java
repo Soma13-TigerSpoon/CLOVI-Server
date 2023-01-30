@@ -1,6 +1,6 @@
 package Soma.CLOVI.dto.response;
 
-import Soma.CLOVI.domain.ManyToMany.TimeItemAffiliationLink;
+import Soma.CLOVI.domain.ManyToMany.TimeShopItem;
 import Soma.CLOVI.domain.TimeFrame;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -11,15 +11,15 @@ import lombok.Getter;
 public class TimeShopItemResponseDto {
   private TimeResponseDto times;
   private ModelResponseDto model;
-  private List<ItemAffiliateLinkResponseDto> items = new ArrayList<>();
+  private List<ItemShopItemResponseDto> items = new ArrayList<>();
 
   public TimeShopItemResponseDto(TimeFrame timeFrame) {
     // select timeFrame
     this.times = new TimeResponseDto(timeFrame);
 
     // select item
-    for(TimeItemAffiliationLink item : timeFrame.getItems()) {
-      items.add(new ItemAffiliateLinkResponseDto(item.getItem(),item.getAffiliateLink()));
+    for(TimeShopItem item : timeFrame.getItems()) {
+      items.add(new ItemShopItemResponseDto(item.getItem(),item.getShopItem()));
     }
     items.sort(new ItemOrderComparator());
 
@@ -28,9 +28,9 @@ public class TimeShopItemResponseDto {
   }
 }
 
-class ItemOrderComparator implements Comparator<ItemAffiliateLinkResponseDto> {
+class ItemOrderComparator implements Comparator<ItemShopItemResponseDto> {
   @Override
-  public int compare(ItemAffiliateLinkResponseDto A, ItemAffiliateLinkResponseDto B) {
+  public int compare(ItemShopItemResponseDto A, ItemShopItemResponseDto B) {
     int orderA = A.getItem().getOrder();
     int orderB = B.getItem().getOrder();
 

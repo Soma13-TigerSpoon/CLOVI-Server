@@ -1,6 +1,6 @@
 package Soma.CLOVI.dto.response;
 
-import Soma.CLOVI.domain.ManyToMany.TimeItemAffiliationLink;
+import Soma.CLOVI.domain.ManyToMany.TimeShopItem;
 import Soma.CLOVI.domain.TimeFrame;
 import Soma.CLOVI.domain.youtube.Video;
 import lombok.Getter;
@@ -24,7 +24,7 @@ public class VideoItemResponseDto {
         this.title = video.getTitle();
         this.creator = video.getChannel().getName();
         this.profileImgUrl = video.getChannel().getProfileImgUrl();
-        this.videoUrl = video.getVideoUrl();
+        this.videoUrl = video.getYoutubeVideoId();
 
         List<TimeFrame> timeFrames = video.getTimeFrames();
         for(TimeFrame timeFrame : timeFrames) {
@@ -35,8 +35,8 @@ public class VideoItemResponseDto {
     }
 
     private boolean checkItemExists(TimeFrame timeFrame, Long itemId) {
-        List<TimeItemAffiliationLink> items = timeFrame.getItems();
-        for(TimeItemAffiliationLink item : items) {
+        List<TimeShopItem> items = timeFrame.getItems();
+        for(TimeShopItem item : items) {
             if(item.getItem().getId().equals(itemId)) {
                 return true;
             }

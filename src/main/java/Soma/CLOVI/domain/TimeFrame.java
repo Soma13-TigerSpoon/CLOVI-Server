@@ -1,7 +1,7 @@
 package Soma.CLOVI.domain;
 
 import Soma.CLOVI.domain.Base.BaseTimeEntity;
-import Soma.CLOVI.domain.ManyToMany.TimeItemAffiliationLink;
+import Soma.CLOVI.domain.ManyToMany.TimeShopItem;
 import Soma.CLOVI.domain.youtube.Video;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +39,7 @@ public class TimeFrame extends BaseTimeEntity {
 
 
   @OneToMany(mappedBy = "time", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-  private List<TimeItemAffiliationLink> items = new ArrayList<>();
+  private List<TimeShopItem> items = new ArrayList<>();
 
   @ManyToOne(fetch = FetchType.LAZY)
   private Model model;
@@ -52,8 +52,8 @@ public class TimeFrame extends BaseTimeEntity {
     this.video = video;
   }
 
-  public void addItem(TimeItemAffiliationLink timeItemAffiliationLink) {
-    this.items.add(timeItemAffiliationLink);
+  public void addItem(TimeShopItem timeShopItem) {
+    this.items.add(timeShopItem);
   }
 
 }

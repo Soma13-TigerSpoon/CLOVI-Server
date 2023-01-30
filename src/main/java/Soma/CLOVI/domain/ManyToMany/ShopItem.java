@@ -5,7 +5,9 @@ import Soma.CLOVI.domain.item.Item;
 import Soma.CLOVI.domain.shop.Shop;
 import Soma.CLOVI.dto.requests.ShopItemRequestDto;
 import Soma.CLOVI.dto.response.SoldOutStatus;
+import java.time.LocalDateTime;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -27,14 +29,10 @@ public class ShopItem extends BaseTimeEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   @Lob
-  private String shopUrl;
-  @Lob
-  private String itemImgUrl;
+  private String shopItemUrl;
   private Long price;
 
   private Long stock;
-
-  private SoldOutStatus soldOutStatus;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   private Shop shop;
@@ -44,20 +42,17 @@ public class ShopItem extends BaseTimeEntity {
 
 
   @Builder
-  public ShopItem(String itemUrl, String itemImgUrl, Long price, Long stock,
-      SoldOutStatus soldOutStatus, Shop shop, Item item) {
-    this.shopUrl = itemUrl;
-    this.itemImgUrl = itemImgUrl;
+  public ShopItem(String itemUrl,Long price, Long stock,
+      Shop shop, Item item) {
+    this.shopItemUrl = itemUrl;
     this.price = price;
     this.stock = stock;
-    this.soldOutStatus = soldOutStatus;
     this.shop = shop;
     this.item = item;
   }
 
   public ShopItem(ShopItemRequestDto shopItemRequestDto, Item item, Shop shop) {
-    this.shopUrl = shopItemRequestDto.getShopUrl();
-    this.itemImgUrl = shopItemRequestDto.getImgUrl();
+    this.shopItemUrl = shopItemRequestDto.getShopItemUrl();
     this.price = shopItemRequestDto.getPrice();
     this.item = item;
     this.shop = shop;

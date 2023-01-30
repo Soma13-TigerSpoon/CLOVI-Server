@@ -29,10 +29,6 @@ public class Shop extends BaseTimeEntity {
 
   private String name;
 
-  private String description;
-
-  private String url;
-
   private String logoUrl;
 
   private String hostname;
