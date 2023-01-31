@@ -91,6 +91,7 @@ public class ItemQueryService {
           new ShopItem(new ShopItemRequestDto(timeItemRequestDto.getAffLink(),timeItemRequestDto.getAffPrice()), item, shop)
       );
       shopItem = affShopItem;
+      shopItemRepository.save(shopItem);
     }
     else{
       shopItem = null;
