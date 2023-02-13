@@ -1,11 +1,17 @@
-package Soma.CLOVI.service;
+package Soma.CLOVI.service.item;
 
 import Soma.CLOVI.domain.ManyToMany.ShopItem;
 import Soma.CLOVI.domain.item.Item;
 import Soma.CLOVI.domain.shop.Shop;
+import Soma.CLOVI.dto.requests.ShopItemCreateRequest;
+import Soma.CLOVI.dto.requests.ShopItemDeleteRequest;
 import Soma.CLOVI.dto.requests.ShopItemRequestDto;
+import Soma.CLOVI.exception.ResourceNotFoundException;
 import Soma.CLOVI.repository.Item.ItemRepository;
 import Soma.CLOVI.repository.ShopItemRepository;
+import Soma.CLOVI.repository.ShopRepository;
+import Soma.CLOVI.service.ShopService;
+import Soma.CLOVI.service.item.ItemService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,25 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class ShopItemService {
 
-  private final ShopService shopService;
-  private final ItemService itemService;
+  private final ShopRepository shopRepository;
   private final ItemRepository itemRepository;
   private final ShopItemRepository shopItemRepository;
-  @Transactional
-  public Long save(ShopItemRequestDto shopItemRequestDto) {
-//    if(isExistUrl(shopItemRequestDto.getShopUrl())){
-//      throw new IllegalArgumentException("이미 존재하는 판매처 입니다.");
-//    }
-    System.out.println(shopItemRequestDto);
-
-    Item item = itemService.getById(shopItemRequestDto.getItemId());
-    Shop shop = shopService.getByHostname(shopItemRequestDto.getHostname());
-
-    ShopItem shopItem = new ShopItem(shopItemRequestDto,item,shop);
-    shopItemRepository.save(shopItem);
-
-    return shopItem.getId();
-  }
 
   public boolean isExistUrl(String shopItemUrl){
     Optional<ShopItem> shopItem = shopItemRepository.findByShopItemUrl(shopItemUrl);
@@ -42,5 +32,35 @@ public class ShopItemService {
       return true;
     }
     return false;
+  }
+  // 밑의 두 메서드도 마찬가지로 유저가 삭제하거나 생성할 권한이 있는지 체크해줘야함.
+  @Transactional
+  public Long create(ShopItemCreateRequest shopItemCreateRequest, Long userId){
+    String hostname = shopItemCreateRequest.getHostname();
+    Long itemId = shopItemCreateRequest.getItemId();
+
+    Item findItem = itemRepository.findByIdAndIsDeletedIsFalse(itemId).orElseThrow(() -> new ResourceNotFoundException("item", itemId));
+
+    Shop findShop = shopRepository.findByHostnameAndIsDeletedIsFalse(hostname).orElse(
+        new Shop(hostname)
+    );
+
+    ShopItem newShopItem = new ShopItem(shopItemCreateRequest,findItem,findShop);
+
+    ShopItem saved = shopItemRepository.save(newShopItem);
+
+    return saved.getId();
+  }
+
+  @Transactional
+  public void delete(ShopItemDeleteRequest shopItemDeleteRequest, Long userId){
+
+    Long shopItemId = shopItemDeleteRequest.getShopItemId();
+
+    ShopItem findShopItem = shopItemRepository.findByIdAndIsDeletedIsFalse(shopItemId).orElseThrow(() -> new ResourceNotFoundException("shopItem",shopItemId));
+
+    findShopItem.delete();
+
+    shopItemRepository.save(findShopItem);
   }
 }
