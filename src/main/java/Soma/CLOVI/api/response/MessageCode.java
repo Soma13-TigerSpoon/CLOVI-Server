@@ -13,7 +13,8 @@ public enum MessageCode {
   ERROR_REQ_PARAM_VIDEO_ID("존재하지 않는 영상 ID 입니다.", "EV001"),
   ERROR_REQ_PARAM_CATEGORY_ID("유효하지 않는 카테고리 ID 입니다.", "EC001"),
 
-  ERROR_REQ_PARAM_ITEM_ID("유효하지 않는 아이템 ID 입니다.", "EI001");
+  ERROR_REQ_PARAM_ITEM_ID("유효하지 않는 아이템 ID 입니다.", "EI001"), SUCCESS_UPDATE("수정 성공","SC004" ), SUCCESS_DELETE(
+      "삭제 성공","SC005" );
   private String message;
   private String code;
 

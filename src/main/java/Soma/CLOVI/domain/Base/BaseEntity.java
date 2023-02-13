@@ -18,16 +18,18 @@ public class BaseEntity {
 
   @CreatedBy
   @Column(updatable = false)
-  private String createBy;
+  protected Long createBy;
 
   @LastModifiedBy
-  private String lastModifiedBy;
+  protected Long lastModifiedBy;
   // 시간
   @CreatedDate
   @Column(updatable = false)
-  private LocalDateTime createDate;
+  private LocalDateTime createDate = LocalDateTime.now();
 
   @LastModifiedDate
-  private LocalDateTime lastModifiedDate;
+  protected LocalDateTime lastModifiedDate;
+
+  protected Boolean isDeleted = false;
 
 }
