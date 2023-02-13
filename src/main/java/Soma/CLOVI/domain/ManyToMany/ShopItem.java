@@ -3,6 +3,7 @@ package Soma.CLOVI.domain.ManyToMany;
 import Soma.CLOVI.domain.Base.BaseTimeEntity;
 import Soma.CLOVI.domain.item.Item;
 import Soma.CLOVI.domain.shop.Shop;
+import Soma.CLOVI.dto.requests.ShopItemCreateRequest;
 import Soma.CLOVI.dto.requests.ShopItemRequestDto;
 import Soma.CLOVI.dto.response.SoldOutStatus;
 import java.time.LocalDateTime;
@@ -59,4 +60,14 @@ public class ShopItem extends BaseTimeEntity {
   }
 
 
+  public ShopItem(ShopItemCreateRequest shopItemCreateRequest, Item findItem, Shop findShop) {
+    this.shopItemUrl = shopItemCreateRequest.getShopItemUrl();
+    this.price = shopItemCreateRequest.getPrice();
+    this.item = findItem;
+    this.shop = findShop;
+  }
+
+  public void delete(){
+    this.isDeleted = true;
+  }
 }

@@ -1,5 +1,7 @@
 package Soma.CLOVI.dto.requests;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import javax.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.Getter;
 
@@ -10,8 +12,8 @@ public class ShopItemRequestDto {
   private String hostname;
   private String shopItemUrl;
 
-  private String name;
-
+  @NotBlank(message = "상품값은 필수 항목입니다!")
+  @Schema(description = "가격", example = "36000")
   private Long price;
 
   public ShopItemRequestDto(String shopUrl, Long price) {
