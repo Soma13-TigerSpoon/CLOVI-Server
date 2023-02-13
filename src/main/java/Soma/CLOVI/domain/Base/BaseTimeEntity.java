@@ -20,4 +20,7 @@ public class BaseTimeEntity {
 
   @LastModifiedDate
   private LocalDateTime lastModifiedDate;
+
+  protected Boolean isDeleted = false;
+
 }

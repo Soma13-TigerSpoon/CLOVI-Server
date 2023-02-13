@@ -1,17 +1,17 @@
 package Soma.CLOVI.domain.item;
 
-import Soma.CLOVI.domain.Base.BaseTimeEntity;
+import Soma.CLOVI.domain.Base.BaseEntity;
 import Soma.CLOVI.domain.ManyToMany.ShopItem;
 import Soma.CLOVI.domain.ManyToMany.TimeShopItem;
 import Soma.CLOVI.domain.ManyToMany.VideoItem;
 import Soma.CLOVI.domain.category.Category;
+import Soma.CLOVI.dto.requests.ItemCreateRequest;
+import Soma.CLOVI.dto.requests.ItemUpdateRequest;
 import Soma.CLOVI.dto.requests.TimeItemRequestDto;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,7 +34,7 @@ import lombok.NoArgsConstructor;
 })
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Item extends BaseTimeEntity {
+public class Item extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -86,8 +86,30 @@ public class Item extends BaseTimeEntity {
     this.parent = parent;
   }
 
+  public Item(ItemCreateRequest itemCreateRequest, Category category, Long userId) {
+    this.createBy = userId;
+    this.lastModifiedBy = userId;
+    this.name = itemCreateRequest.getItemName();
+    this.brand = itemCreateRequest.getBrand();
+    this.size = itemCreateRequest.getSize();
+    this.color = itemCreateRequest.getColor();
+    this.category = category;
+  }
+
+
   public void addShopItem(ShopItem shopItem) {
     this.shopItems.add(shopItem);
   }
 
+  public void update(ItemUpdateRequest itemUpdateRequest, Category category, Long userId) {
+    this.lastModifiedBy = userId;
+    this.name = itemUpdateRequest.getItemName();
+    this.brand = itemUpdateRequest.getBrand();
+    this.size = itemUpdateRequest.getSize();
+    this.color = itemUpdateRequest.getColor();
+    this.category = category;
+  }
+  public void delete(){
+    this.isDeleted = true;
+  }
 }
