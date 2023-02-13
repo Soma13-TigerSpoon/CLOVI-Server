@@ -1,4 +1,4 @@
-name: Deploy to Amazon EC2 modong prod api server
+name: Deploy to Amazon EC2 clovi dev api server
 
 on:
   push:
