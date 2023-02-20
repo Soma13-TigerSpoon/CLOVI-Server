@@ -3,7 +3,6 @@ package Soma.CLOVI.domain.youtube;
 import Soma.CLOVI.domain.Base.BaseTimeEntity;
 import Soma.CLOVI.domain.ManyToMany.VideoItem;
 import Soma.CLOVI.domain.TimeFrame;
-import Soma.CLOVI.domain.user.YoutubeCreator;
 import Soma.CLOVI.dto.requests.VideoRequestDto;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -50,21 +49,17 @@ public class Video extends BaseTimeEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   private Channel channel;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  private YoutubeCreator youtubeCreator;
-
   @OneToMany(mappedBy = "video", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   private List<VideoItem> videoItems = new ArrayList<>();
 
   @OneToMany(mappedBy = "video", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   private List<TimeFrame> timeFrames = new ArrayList<>();
 
-  public Video(String title, String youtubeVideoId, Long length, YoutubeCreator youtubeCreator,
+  public Video(String title, String youtubeVideoId, Long length,
       Channel channel) {
     this.title = title;
     this.youtubeVideoId = youtubeVideoId;
     this.length = length;
-    this.youtubeCreator = youtubeCreator;
     this.channel = channel;
   }
 
@@ -72,7 +67,6 @@ public class Video extends BaseTimeEntity {
     this.title = videoRequestDto.getVideoTitle();
     this.youtubeVideoId = videoRequestDto.getYoutubeVideoId();
     this.length = videoRequestDto.getVideoLength();
-    this.youtubeCreator = channel.getYoutubeCreator();
     this.channel = channel;
     this.uploadDate = LocalDateTime.parse(videoRequestDto.getUploadDate(),DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
   }
