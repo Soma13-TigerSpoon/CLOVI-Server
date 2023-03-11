@@ -21,6 +21,10 @@ public class BaseTimeEntity {
   @LastModifiedDate
   private LocalDateTime lastModifiedDate;
 
-  protected Boolean isDeleted = false;
+  private Boolean deleted = false;
+
+  public void delete(){
+    this.deleted = true;
+  }
 
 }
