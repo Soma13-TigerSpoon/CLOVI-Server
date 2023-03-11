@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Schema(name = "아이템 수정 요청")
 @NoArgsConstructor
-public class ItemUpdateRequest {
+public class ItemInfoUpdateRequest {
 
   @NotNull(message = "아이템 id는 필수 항목입니다!")
   @Schema(description = "아이템 id", example = "1")
@@ -27,6 +27,12 @@ public class ItemUpdateRequest {
   @Schema(description = "상품 이미지 링크", example = "https://image.msscdn.net/images/goods_img/20221204/2970721/2970721_1_500.jpg")
   private String itemImgUrl;
 
+  @Schema(description = "상품 색", example = "black")
+  private String color;
+
   @Schema(description = "카테고리", example = "M")
   private Long categoryId;
+
+  @Schema(description = "사이즈", example = "M")
+  private String size;
 }

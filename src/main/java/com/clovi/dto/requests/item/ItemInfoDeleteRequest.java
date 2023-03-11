@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Schema(name = "아이템 삭제 요청")
 @NoArgsConstructor
-public class ItemDeleteRequest {
+public class ItemInfoDeleteRequest {
 
   @NotNull(message = "아이템 id는 필수 항목입니다!")
   @Schema(description = "아이템 id", example = "1")
