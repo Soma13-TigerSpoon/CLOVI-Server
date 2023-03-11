@@ -13,5 +13,5 @@ public interface ShopRepository extends JpaRepository<Shop,Long> {
     Optional<Shop> findByHostname(String hostname);
 
 
-    Optional<Shop> findByHostnameAndIsDeletedIsFalse(String hostname);
+    Optional<Shop> findByHostnameAndDeletedIsFalse(String hostname);
 }
