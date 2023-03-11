@@ -1,7 +1,7 @@
 package com.clovi.domain.ManyToMany;
 
 import com.clovi.domain.Base.BaseTimeEntity;
-import com.clovi.domain.item.Item;
+import com.clovi.domain.item.ItemInfo;
 import com.clovi.domain.shop.Shop;
 import com.clovi.dto.requests.ShopItemCreateRequest;
 import com.clovi.dto.requests.ShopItemRequestDto;
@@ -37,36 +37,33 @@ public class ShopItem extends BaseTimeEntity {
   @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   private Shop shop;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  private Item item;
+  @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  private ItemInfo itemInfo;
 
 
   @Builder
   public ShopItem(String itemUrl,Long price, Long stock,
-      Shop shop, Item item) {
+      Shop shop, ItemInfo itemInfo) {
     this.shopItemUrl = itemUrl;
     this.price = price;
     this.stock = stock;
     this.shop = shop;
-    this.item = item;
+    this.itemInfo = itemInfo;
   }
 
-  public ShopItem(ShopItemRequestDto shopItemRequestDto, Item item, Shop shop) {
+  public ShopItem(ShopItemRequestDto shopItemRequestDto, ItemInfo itemInfo, Shop shop) {
     this.shopItemUrl = shopItemRequestDto.getShopItemUrl();
     this.price = shopItemRequestDto.getPrice();
-    this.item = item;
+    this.itemInfo = itemInfo;
     this.shop = shop;
   }
 
 
-  public ShopItem(ShopItemCreateRequest shopItemCreateRequest, Item findItem, Shop findShop) {
+  public ShopItem(ShopItemCreateRequest shopItemCreateRequest, ItemInfo findItemInfo, Shop findShop) {
     this.shopItemUrl = shopItemCreateRequest.getShopItemUrl();
     this.price = shopItemCreateRequest.getPrice();
-    this.item = findItem;
+    this.itemInfo = findItemInfo;
     this.shop = findShop;
   }
 
-  public void delete(){
-    this.isDeleted = true;
-  }
 }

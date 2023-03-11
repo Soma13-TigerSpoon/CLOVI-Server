@@ -25,5 +25,5 @@ public class ItemSize extends BaseTimeEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   private Size size;
   @ManyToOne(fetch = FetchType.LAZY)
-  private Item item;
+  private ItemInfo itemInfo;
 }
