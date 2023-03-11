@@ -1,12 +1,12 @@
 package com.clovi.service.item;
 
 import com.clovi.domain.ManyToMany.ShopItem;
-import com.clovi.domain.item.Item;
+import com.clovi.domain.item.ItemInfo;
 import com.clovi.domain.shop.Shop;
 import com.clovi.dto.requests.ShopItemCreateRequest;
 import com.clovi.dto.requests.ShopItemDeleteRequest;
 import com.clovi.exception.ResourceNotFoundException;
-import com.clovi.repository.Item.ItemRepository;
+import com.clovi.repository.Item.ItemInfoRepository;
 import com.clovi.repository.ShopItemRepository;
 import com.clovi.repository.ShopRepository;
 
@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ShopItemService {
 
   private final ShopRepository shopRepository;
-  private final ItemRepository itemRepository;
+  private final ItemInfoRepository itemInfoRepository;
   private final ShopItemRepository shopItemRepository;
 
   public boolean isExistUrl(String shopItemUrl){
@@ -38,13 +38,13 @@ public class ShopItemService {
     String hostname = shopItemCreateRequest.getHostname();
     Long itemId = shopItemCreateRequest.getItemId();
 
-    Item findItem = itemRepository.findByIdAndIsDeletedIsFalse(itemId).orElseThrow(() -> new ResourceNotFoundException("item", itemId));
+    ItemInfo findItemInfo = itemInfoRepository.findByIdAndDeletedIsFalse(itemId).orElseThrow(() -> new ResourceNotFoundException("Item", itemId));
 
-    Shop findShop = shopRepository.findByHostnameAndIsDeletedIsFalse(hostname).orElse(
+    Shop findShop = shopRepository.findByHostnameAndDeletedIsFalse(hostname).orElse(
         new Shop(hostname)
     );
 
-    ShopItem newShopItem = new ShopItem(shopItemCreateRequest,findItem,findShop);
+    ShopItem newShopItem = new ShopItem(shopItemCreateRequest, findItemInfo,findShop);
 
     ShopItem saved = shopItemRepository.save(newShopItem);
 
@@ -56,7 +56,7 @@ public class ShopItemService {
 
     Long shopItemId = shopItemDeleteRequest.getShopItemId();
 
-    ShopItem findShopItem = shopItemRepository.findByIdAndIsDeletedIsFalse(shopItemId).orElseThrow(() -> new ResourceNotFoundException("shopItem",shopItemId));
+    ShopItem findShopItem = shopItemRepository.findByIdAndDeletedIsFalse(shopItemId).orElseThrow(() -> new ResourceNotFoundException("shopItem",shopItemId));
 
     findShopItem.delete();
 

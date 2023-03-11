@@ -26,7 +26,7 @@ public class MemberService {
   @Transactional
   public Long register(MemberCreateRequest memberCreateRequest) {
     //회원가입 키 있는지 검사
-    RegisterKey registerKey = registerKeyRepository.findBySecretKeyAndIsDeletedIsFalse(memberCreateRequest.getSecretKey()).orElseThrow(() -> new ResourceNotFoundException("회원가입 키","회원가입"));
+    RegisterKey registerKey = registerKeyRepository.findBySecretKeyAndDeletedIsFalse(memberCreateRequest.getSecretKey()).orElseThrow(() -> new ResourceNotFoundException("회원가입 키","회원가입"));
 
     // 회원 아이디 중복 검사
     if(isDuplicateMemberId(memberCreateRequest.getMemberId())){
