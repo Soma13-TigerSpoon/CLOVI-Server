@@ -1,11 +1,11 @@
 package com.clovi.dto.response;
 
 import com.clovi.domain.ManyToMany.ShopItem;
+import com.clovi.domain.item.ItemInfo;
 import com.clovi.domain.item.Item;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.clovi.domain.item.ItemDetail;
 import lombok.Getter;
 
 @Getter
@@ -24,41 +24,57 @@ public class ItemResponseDto {
 
   List<ShopItemResponseDto> shops = new ArrayList<>();
   List<ItemResponseDto> childItems = new ArrayList<>();
+  public ItemResponseDto(ItemInfo itemInfo) {
+    this.id = itemInfo.getId();
+    this.name = itemInfo.getName();
+    this.order = itemInfo.getCategory().getOrders();
+    this.brand = itemInfo.getBrand();
+    this.itemImgUrl = itemInfo.getImgUrl();
+    for (ShopItem shopItem : itemInfo.getShopItems()) { // Select ShopItem
+      if(shopItem.getShop().getId() != 100) { // 제휴링크가 아닌 경우에만 추가
+        this.shops.add(new ShopItemResponseDto(shopItem));
+      }
+    }
+  }
   public ItemResponseDto(Item item) {
-    this.id = item.getId();
-    this.name = item.getName();
-    this.order = item.getCategory().getOrders();
-    this.brand = item.getBrand();
-    this.itemImgUrl = item.getImgUrl();
-    for (ShopItem shopItem : item.getShopItems()) { // Select ShopItem
+    ItemInfo itemInfo = item.getItemInfo();
+    this.id = itemInfo.getId();
+    this.name = itemInfo.getName();
+    this.order = itemInfo.getCategory().getOrders();
+    this.color = item.getColor();
+    this.size = item.getSize();
+    this.brand = itemInfo.getBrand();
+    this.itemImgUrl = itemInfo.getImgUrl();
+    for (ShopItem shopItem : itemInfo.getShopItems()) { // Select ShopItem
       if(shopItem.getShop().getId() != 100) { // 제휴링크가 아닌 경우에만 추가
         this.shops.add(new ShopItemResponseDto(shopItem));
       }
     }
   }
-  public ItemResponseDto(Item item, ItemDetail itemDetail) {
-    this.id = item.getId();
-    this.name = item.getName();
-    this.order = item.getCategory().getOrders();
-    this.color = itemDetail.getColor();
-    this.size = itemDetail.getSize();
-    this.brand = item.getBrand();
-    this.itemImgUrl = item.getImgUrl();
-    for (ShopItem shopItem : item.getShopItems()) { // Select ShopItem
-      if(shopItem.getShop().getId() != 100) { // 제휴링크가 아닌 경우에만 추가
-        this.shops.add(new ShopItemResponseDto(shopItem));
-      }
-    }
-  }
-  public ItemResponseDto(Item item, List<String> colorList, List<String> sizeList) {
-    this.id = item.getId();
-    this.name = item.getName();
-    this.order = item.getCategory().getOrders();
-    this.brand = item.getBrand();
-    this.itemImgUrl = item.getImgUrl();
+  public ItemResponseDto(ItemInfo itemInfo, List<String> colorList, List<String> sizeList) {
+    this.id = itemInfo.getId();
+    this.name = itemInfo.getName();
+    this.order = itemInfo.getCategory().getOrders();
+    this.brand = itemInfo.getBrand();
+    this.itemImgUrl = itemInfo.getImgUrl();
     this.colorList = colorList;
     this.sizeList = sizeList;
-    for (ShopItem shopItem : item.getShopItems()) { // Select ShopItem
+    for (ShopItem shopItem : itemInfo.getShopItems()) { // Select ShopItem
+      if(shopItem.getShop().getId() != 100) { // 제휴링크가 아닌 경우에만 추가
+        this.shops.add(new ShopItemResponseDto(shopItem));
+      }
+    }
+  }
+
+  public ItemResponseDto(ItemInfo itemInfo, Item item) {
+    this.id = itemInfo.getId();
+    this.name = itemInfo.getName();
+    this.color = item.getColor();
+    this.size = item.getSize();
+    this.order = itemInfo.getCategory().getOrders();
+    this.brand = itemInfo.getBrand();
+    this.itemImgUrl = itemInfo.getImgUrl();
+    for (ShopItem shopItem : itemInfo.getShopItems()) { // Select ShopItem
       if(shopItem.getShop().getId() != 100) { // 제휴링크가 아닌 경우에만 추가
         this.shops.add(new ShopItemResponseDto(shopItem));
       }

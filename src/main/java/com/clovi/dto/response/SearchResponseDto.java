@@ -1,6 +1,7 @@
 package com.clovi.dto.response;
 
 import com.clovi.domain.item.Item;
+import com.clovi.domain.item.ItemInfo;
 import com.clovi.domain.youtube.Video;
 import lombok.Getter;
 import org.springframework.data.domain.Page;
