@@ -1,6 +1,7 @@
 package com.clovi.repository.Item;
 
 import com.clovi.domain.item.Item;
+import com.clovi.domain.item.ItemInfo;
 import com.clovi.dto.requests.SearchRequestDto;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import static com.clovi.domain.category.QCategory.category;
+import static com.clovi.domain.item.QItemInfo.itemInfo;
 import static com.clovi.domain.youtube.QVideo.video;
 import static com.clovi.domain.item.QItem.item;
 import static com.clovi.domain.ManyToMany.QVideoItem.videoItem;
@@ -37,9 +39,10 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
 
         List<Item> queryResults = queryFactory
                 .selectFrom(item)
-                .innerJoin(item.videoItems, videoItem)
-                .innerJoin(videoItem.video, video)
-                .innerJoin(item.category, category)
+                .innerJoin(item.itemInfo,itemInfo)
+                .innerJoin(itemInfo.category, category)
+                .innerJoin(item.videoItems,videoItem)
+                .innerJoin(videoItem.video,video)
                 .where(
                         keywordContains(searchKeyword),
                         channelEq(channelName),
@@ -71,8 +74,8 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
     private BooleanExpression keywordContains(String searchKeyword) {
         if(searchKeyword == null) return null;
 
-        BooleanExpression queryItem1 = item.name.containsIgnoreCase(searchKeyword);
-        BooleanExpression queryItem2 = item.brand.containsIgnoreCase(searchKeyword);
+        BooleanExpression queryItem1 = item.itemInfo.name.containsIgnoreCase(searchKeyword);
+        BooleanExpression queryItem2 = item.itemInfo.brand.containsIgnoreCase(searchKeyword);
 
         BooleanExpression queryVideo1 = video.title.containsIgnoreCase(searchKeyword);
         BooleanExpression queryVideo2 = video.channel.name.containsIgnoreCase(searchKeyword);
@@ -107,7 +110,7 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
             Order direction = order.isAscending() ? Order.ASC : Order.DESC;
             String property = order.getProperty();
 
-            PathBuilder conditions = new PathBuilder(Item.class, "item");
+            PathBuilder conditions = new PathBuilder(ItemInfo.class, "itemInfo");
             orders.add(new OrderSpecifier(direction, conditions.get(property)));
         }
 
@@ -115,22 +118,22 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
     }
 
     @Override
-    public List<Item> searchByIdList(List<Long> ItemIdList) {
-        List<Item> queryResults = queryFactory.selectFrom(item)
-                .where(item.id.in(ItemIdList))
-                .orderBy(item.category.orders.desc())
+    public List<ItemInfo> searchByIdList(List<Long> ItemIdList) {
+        List<ItemInfo> queryResults = queryFactory.selectFrom(itemInfo)
+                .where(itemInfo.id.in(ItemIdList))
+                .orderBy(itemInfo.category.orders.desc())
                 .fetch();
 
         return queryResults;
     }
 
     @Override
-    public Page<Item> SearchPageSimple(Long postId, Pageable pageable) {
+    public Page<ItemInfo> SearchPageSimple(Long postId, Pageable pageable) {
         return null;
     }
 
     @Override
-    public Page<Item> SearchPageComplex(Long postId, Pageable pageable) {
+    public Page<ItemInfo> SearchPageComplex(Long postId, Pageable pageable) {
         return null;
     }
 }

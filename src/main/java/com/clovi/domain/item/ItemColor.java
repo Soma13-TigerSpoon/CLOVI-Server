@@ -25,5 +25,5 @@ public class ItemColor extends BaseTimeEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   private Color color;
   @ManyToOne(fetch = FetchType.LAZY)
-  private Item item;
+  private ItemInfo itemInfo;
 }

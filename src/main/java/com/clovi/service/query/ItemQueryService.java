@@ -9,19 +9,16 @@ import com.clovi.domain.ManyToMany.VideoItem;
 import com.clovi.domain.Model;
 import com.clovi.domain.TimeFrame;
 import com.clovi.domain.item.Item;
-import com.clovi.domain.item.ItemDetail;
+import com.clovi.domain.item.ItemInfo;
 import com.clovi.domain.shop.Shop;
 import com.clovi.domain.youtube.Video;
-import com.clovi.dto.requests.item.detail.ItemDetailCreateRequest;
+import com.clovi.dto.requests.item.detail.ItemCreateRequest;
 import com.clovi.dto.requests.ShopItemRequestDto;
 import com.clovi.dto.requests.TimeItemRequestDto;
+import com.clovi.repository.*;
 import com.clovi.repository.Category.CategoryRepository;
-import com.clovi.repository.Item.ItemDetailRepository;
 import com.clovi.repository.Item.ItemRepository;
-import com.clovi.repository.ModelRepository;
-import com.clovi.repository.ShopItemRepository;
-import com.clovi.repository.ShopRepository;
-import com.clovi.repository.TimeFrameRepository;
+import com.clovi.repository.Item.ItemInfoRepository;
 import com.clovi.repository.Video.VideoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,8 +29,8 @@ import org.springframework.util.ResourceUtils;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ItemQueryService {
-  private final ItemRepository itemRepository;
-  private final ItemDetailRepository itemDetailRepository;
+  private final ItemInfoRepository itemInfoRepository;
+  private final ItemRepository ItemRepository;
   private final VideoRepository videoRepository;
   private final ShopRepository shopRepository;
 
@@ -57,18 +54,18 @@ public class ItemQueryService {
     );
 
     //부모 아이템 조회 --> null 이 아닌 경우에
-    Item parentItem = timeItemRequestDto.getParentId() < 0 ? null : itemRepository.findById(timeItemRequestDto.getParentId()).orElseThrow(
+    ItemInfo parentItemInfo = timeItemRequestDto.getParentId() < 0 ? null : itemInfoRepository.findById(timeItemRequestDto.getParentId()).orElseThrow(
         () -> new IllegalArgumentException(MessageCode.ERROR_REQ_PARAM_ITEM_ID.getMessage())
     ) ;
 
     // 상품은 이름과 색깔, 브랜드로 있는지 파악 후 없으면 카테고리를 조회 해서 새로운 아이템으로 저장
-    Item item = itemRepository.findByNameAndBrand(timeItemRequestDto.getName(),timeItemRequestDto.getBrand()).orElse(
-        new Item(timeItemRequestDto,categoryRepository.findById(timeItemRequestDto.getCategoryId()).orElseThrow(
+    ItemInfo itemInfo = itemInfoRepository.findByNameAndBrandAndColor(timeItemRequestDto.getName(),timeItemRequestDto.getBrand(),timeItemRequestDto.getColor()).orElse(
+        new ItemInfo(timeItemRequestDto,categoryRepository.findById(timeItemRequestDto.getCategoryId()).orElseThrow(
             () -> new IllegalArgumentException(MessageCode.ERROR_REQ_PARAM_CATEGORY_ID.getMessage())
-        ),parentItem)
+        ), parentItemInfo)
     );
 
-    itemRepository.save(item);
+    itemInfoRepository.save(itemInfo);
 
     for (ShopItemRequestDto shopItemRequestDto : timeItemRequestDto.getShopItems()) {
       String hostname = shopItemRequestDto.getHostname();
@@ -76,11 +73,11 @@ public class ItemQueryService {
           new Shop(hostname)
       );
       ShopItem shopItem = shopItemRepository.findByShopItemUrl(shopItemRequestDto.getShopItemUrl()).orElse(
-          new ShopItem(shopItemRequestDto, item, shop)
+          new ShopItem(shopItemRequestDto, itemInfo, shop)
       );
       shop.addShopItem(shopItem);
       shopRepository.save(shop);
-      item.addShopItem(shopItem);
+      itemInfo.addShopItem(shopItem);
     };
     ShopItem shopItem;
     //제휴링크가 있는지, URL 형식이 맞는지 확인
@@ -91,7 +88,7 @@ public class ItemQueryService {
           new Shop(hostname)
       );
       ShopItem affShopItem = shopItemRepository.findByShopItemUrlAndPrice(timeItemRequestDto.getAffLink(),timeItemRequestDto.getAffPrice()).orElse(
-          new ShopItem(new ShopItemRequestDto(timeItemRequestDto.getAffLink(),timeItemRequestDto.getAffPrice()), item, shop)
+          new ShopItem(new ShopItemRequestDto(timeItemRequestDto.getAffLink(),timeItemRequestDto.getAffPrice()), itemInfo, shop)
       );
       shopItem = affShopItem;
       shopItemRepository.save(shopItem);
@@ -100,20 +97,21 @@ public class ItemQueryService {
       shopItem = null;
     }
     for(TimeShopItem timeShopItem : timeFrame.getItems()){
-      if( timeShopItem.getItem().getId() == item.getId() ) {
-        return item.getId();
+      if( timeShopItem.getItem().getId() == itemInfo.getId() ) {
+        return itemInfo.getId();
       }
     }
-    ItemDetail itemDetail = new ItemDetail(new ItemDetailCreateRequest(item.getId(),timeItemRequestDto.getColor(),timeItemRequestDto.getSize()),item,1L);
-    ItemDetail saved = itemDetailRepository.save(itemDetail);
-    timeFrame.addItem(new TimeShopItem(timeFrame, item, shopItem,saved));
+    Item item = new Item(new ItemCreateRequest(itemInfo.getId(),timeItemRequestDto.getSize(),timeItemRequestDto.getColor()),itemInfo, 1L);
+    Item saved = ItemRepository.save(item);
+    timeFrame.addItem(new TimeShopItem(timeFrame, saved, shopItem));
 
     videoRepository.save(video);
     VideoItem videoItem = new VideoItem(video, item);
     video.addVideoItem(videoItem);
 
+
     video.addTimeFrame(timeFrame);
 
-    return item.getId();
+    return itemInfo.getId();
   }
 }

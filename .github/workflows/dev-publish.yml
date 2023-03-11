@@ -1,8 +1,6 @@
 name: Deploy to Amazon EC2 clovi dev api server
 
 on:
-  push:
-    branches: [ "dev" ]
   pull_request:
     branches: [ "dev" ]
 

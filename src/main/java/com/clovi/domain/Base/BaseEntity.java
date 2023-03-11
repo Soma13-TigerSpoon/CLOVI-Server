@@ -14,7 +14,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
 @Getter
-public class BaseEntity {
+public class BaseEntity extends BaseTimeEntity{
 
   @CreatedBy
   @Column(updatable = false)
@@ -22,14 +22,5 @@ public class BaseEntity {
 
   @LastModifiedBy
   protected Long lastModifiedBy;
-  // 시간
-  @CreatedDate
-  @Column(updatable = false)
-  private LocalDateTime createDate = LocalDateTime.now();
-
-  @LastModifiedDate
-  protected LocalDateTime lastModifiedDate;
-
-  protected Boolean isDeleted = false;
 
 }

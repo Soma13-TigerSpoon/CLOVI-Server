@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 import static com.clovi.domain.category.QCategory.category;
 import static com.clovi.domain.youtube.QVideo.video;
 import static com.clovi.domain.item.QItem.item;
+import static com.clovi.domain.item.QItemInfo.itemInfo;
 import static com.clovi.domain.ManyToMany.QVideoItem.videoItem;
 
 @Repository
@@ -38,7 +39,8 @@ public class VideoRepositoryCustomImpl implements VideoRepositoryCustom {
                 .selectFrom(video)
                 .innerJoin(video.videoItems, videoItem)
                 .innerJoin(videoItem.item, item)
-                .innerJoin(item.category, category)
+                .innerJoin(item.itemInfo,itemInfo)
+                .innerJoin(itemInfo.category, category)
                 .where(
                         keywordContains(searchKeyword),
                         channelEq(channelName),
@@ -73,8 +75,10 @@ public class VideoRepositoryCustomImpl implements VideoRepositoryCustom {
                 .selectFrom(video)
                 .innerJoin(video.videoItems, videoItem)
                 .innerJoin(videoItem.item, item)
+                .innerJoin(item.itemInfo,itemInfo)
+                .innerJoin(item.itemInfo.category,category)
                 .where(
-                        itemEq(itemId)
+                        itemInfoEq(itemId)
                 )
                 .orderBy(video.id.asc())
                 .fetch().stream().distinct().collect(Collectors.toList());
@@ -88,8 +92,8 @@ public class VideoRepositoryCustomImpl implements VideoRepositoryCustom {
         BooleanExpression queryVideo1 = video.title.containsIgnoreCase(searchKeyword);
         BooleanExpression queryVideo2 = video.channel.name.containsIgnoreCase(searchKeyword);
 
-        BooleanExpression queryItem1 = item.name.containsIgnoreCase(searchKeyword);
-        BooleanExpression queryItem2 = item.brand.containsIgnoreCase(searchKeyword);
+        BooleanExpression queryItem1 = item.itemInfo.name.containsIgnoreCase(searchKeyword);
+        BooleanExpression queryItem2 = item.itemInfo.brand.containsIgnoreCase(searchKeyword);
 
         BooleanExpression queryCategory1 = category.ParentCategory.name.equalsIgnoreCase(searchKeyword);
         BooleanExpression queryCategory2 = category.name.equalsIgnoreCase(searchKeyword);
@@ -114,9 +118,9 @@ public class VideoRepositoryCustomImpl implements VideoRepositoryCustom {
         return category.id.eq(childCategoryNo);
     }
 
-    private BooleanExpression itemEq(Long itemId) {
+    private BooleanExpression itemInfoEq(Long itemId) {
         // if(itemId == null) return null;
-        return item.id.eq(itemId);
+        return itemInfo.id.eq(itemId);
     }
 
     private OrderSpecifier[] makeSort(Sort sort) {

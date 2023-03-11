@@ -40,7 +40,4 @@ public class Member extends BaseTimeEntity {
     this.password = encodedPassword;
   }
 
-  public boolean deleted() {
-    return isDeleted;
-  }
 }

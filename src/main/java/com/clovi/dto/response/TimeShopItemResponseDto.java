@@ -17,9 +17,9 @@ public class TimeShopItemResponseDto {
     // select timeFrame
     this.times = new TimeResponseDto(timeFrame);
 
-    // select item
+    // select Item
     for(TimeShopItem item : timeFrame.getItems()) {
-      items.add(new ItemShopItemResponseDto(item.getItem(),item.getShopItem()));
+      items.add(new ItemShopItemResponseDto(item.getShopItem(),item.getItem()));
     }
     items.sort(new ItemOrderComparator());
 

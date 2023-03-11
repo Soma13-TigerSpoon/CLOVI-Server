@@ -41,7 +41,7 @@ public class PrincipalDetails implements UserDetails {
 
   @Override
   public boolean isAccountNonExpired() {
-    return member.deleted() == false;
+    return member.getDeleted() == false;
   }
 
   @Override
