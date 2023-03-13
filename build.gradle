@@ -13,7 +13,7 @@ plugins {
 	id 'java'
 }
 
-group = 'Soma'
+group = 'com.clovi'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
@@ -29,6 +29,8 @@ repositories {
 }
 
 dependencies {
+	//보안
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.projectlombok:lombok:1.18.24'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	implementation 'org.springframework.boot:spring-boot-devtools'
@@ -45,18 +47,21 @@ dependencies {
 	// querydsl 추가
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+
 	//Swagger 문서 쉽게 만들어주는 라이브러리
-	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.14'
+	implementation 'org.springdoc:springdoc-openapi-webflux-ui:1.6.14'
 	//Guava
 	implementation 'com.google.guava:guava:31.1-jre'
-
-	// aws secrets manager
-	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:3.1.4'
-	implementation 'org.springframework.cloud:spring-cloud-starter-aws-secrets-manager-config:2.2.6.RELEASE'
 
 	// prometheus
 	implementation 'org.springframework.boot:spring-boot-starter-actuator:2.7.5'
 	implementation 'io.micrometer:micrometer-registry-prometheus:1.9.5'
+
+	//JWT Token 사용을 위한 라이브러리 추가
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 }
 tasks.named('test') {
 	useJUnitPlatform()
