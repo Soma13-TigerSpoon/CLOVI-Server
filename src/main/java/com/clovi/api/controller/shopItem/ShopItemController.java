@@ -5,6 +5,7 @@ import com.clovi.api.response.MessageCode;
 import com.clovi.api.response.ProcessStatus;
 import com.clovi.dto.requests.ShopItemCreateRequest;
 import com.clovi.dto.requests.ShopItemDeleteRequest;
+import com.clovi.dto.requests.ShopItemUpdateRequest;
 import com.clovi.dto.response.IdResponseDto;
 import com.clovi.service.item.ShopItemService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,10 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,18 +22,25 @@ public class ShopItemController {
 
   private final ShopItemService shopItemService;
 
-  @PostMapping("/item")//아이템 생성 API
-  @Operation(summary = "아이템 생성", description = "아이템을 직접 입력해 저장한다.")
-  public ResponseEntity createItem(@Validated @RequestBody ShopItemCreateRequest shopItemCreateRequest, Long userId){
-    IdResponseDto savedId = new IdResponseDto(shopItemService.create(shopItemCreateRequest,userId));
+  @PostMapping("items/{item_info_id}/shops")//쇼핑몰 링크 생성 API
+  @Operation(summary = "쇼핑몰 링크 생성", description = "쇼핑몰 링크를 입력해 저장한다.")
+  public ResponseEntity createShopItem(@Validated @RequestBody ShopItemCreateRequest shopItemCreateRequest, Long userId, @PathVariable(name = "item_info_id") Long itemInfoId){
+    IdResponseDto savedId = new IdResponseDto(shopItemService.create(shopItemCreateRequest,userId, itemInfoId));
     return ResponseEntity.created(
-        URI.create("/api/v1/evaluation/" + savedId.getSavedId())).body(new BaseResponse(savedId, HttpStatus.CREATED.value(),ProcessStatus.SUCCESS,
+        URI.create("/api/v1/shops/" + savedId.getSavedId())).body(new BaseResponse(savedId, HttpStatus.CREATED.value(),ProcessStatus.SUCCESS,
         MessageCode.SUCCESS_CREATE));
   }
-  @DeleteMapping("/item")//아이템 삭제 API
-  @Operation(summary = "아이템 삭제", description = "아이템을 삭제한다.")
-  public ResponseEntity deleteItem(@Validated @RequestBody ShopItemDeleteRequest shopItemDeleteRequest, Long userId){
-    shopItemService.delete(shopItemDeleteRequest,userId);
+  @PutMapping("items/{item_info_id}/shops")//쇼핑몰 링크 생성 API
+  @Operation(summary = "쇼핑몰 링크 수정", description = "쇼핑몰 링크를 수정한다.")
+  public ResponseEntity updateShopItem(@Validated @RequestBody ShopItemUpdateRequest shopItemUpdateRequest, Long userId, @PathVariable(name = "item_info_id") Long itemInfoId){
+    IdResponseDto savedId = new IdResponseDto(shopItemService.update(shopItemUpdateRequest,userId, itemInfoId));
+    return ResponseEntity.ok(new BaseResponse(savedId,HttpStatus.OK.value(),ProcessStatus.SUCCESS, MessageCode.SUCCESS_UPDATE));
+  }
+
+  @DeleteMapping("/items/{item_info_id}/shops")//쇼핑몰 링크 삭제 API
+  @Operation(summary = "쇼핑몰 링크 삭제", description = "쇼핑몰 링크를 삭제한다.")
+  public ResponseEntity deleteShopItem(@Validated @RequestBody ShopItemDeleteRequest shopItemDeleteRequest, Long userId, @PathVariable(name = "item_info_id") Long itemInfoId){
+    shopItemService.delete(shopItemDeleteRequest,userId, itemInfoId);
     return ResponseEntity.ok(new BaseResponse(HttpStatus.OK.value(),ProcessStatus.SUCCESS, MessageCode.SUCCESS_DELETE));
   }
 

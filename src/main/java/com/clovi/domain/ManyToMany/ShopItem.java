@@ -1,6 +1,6 @@
 package com.clovi.domain.ManyToMany;
 
-import com.clovi.domain.Base.BaseTimeEntity;
+import com.clovi.domain.Base.BaseEntity;
 import com.clovi.domain.item.ItemInfo;
 import com.clovi.domain.shop.Shop;
 import com.clovi.dto.requests.ShopItemCreateRequest;
@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
+import com.clovi.dto.requests.ShopItemUpdateRequest;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ShopItem extends BaseTimeEntity {
+public class ShopItem extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,11 +60,18 @@ public class ShopItem extends BaseTimeEntity {
   }
 
 
-  public ShopItem(ShopItemCreateRequest shopItemCreateRequest, ItemInfo findItemInfo, Shop findShop) {
+  public ShopItem(ShopItemCreateRequest shopItemCreateRequest, ItemInfo findItemInfo, Shop findShop, Long userId) {
+    this.createBy = userId;
     this.shopItemUrl = shopItemCreateRequest.getShopItemUrl();
     this.price = shopItemCreateRequest.getPrice();
     this.itemInfo = findItemInfo;
     this.shop = findShop;
   }
 
+  public void update(ShopItemUpdateRequest shopItemUpdateRequest, Shop findShop, Long userId) {
+    this.lastModifiedBy = userId;
+    this.shopItemUrl = shopItemUpdateRequest.getShopItemUrl();
+    this.price = shopItemUpdateRequest.getPrice();
+    this.shop = findShop;
+  }
 }
