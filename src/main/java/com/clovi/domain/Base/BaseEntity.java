@@ -24,6 +24,6 @@ public class BaseEntity extends BaseTimeEntity{
   protected Long lastModifiedBy;
 
     public boolean isNotCreatedBy(Long userId) {
-      return userId.equals(createBy);
+      return userId.equals(createBy) == false;
     }
 }
