@@ -2,9 +2,10 @@ package com.clovi.service.item;
 
 import com.clovi.domain.item.Item;
 import com.clovi.domain.item.ItemInfo;
+import com.clovi.domain.user.Member;
 import com.clovi.dto.requests.item.detail.ItemCreateRequest;
-import com.clovi.dto.requests.item.detail.ItemDeleteRequest;
 import com.clovi.dto.requests.item.detail.ItemUpdateRequest;
+import com.clovi.dto.response.ItemResponseDto;
 import com.clovi.exception.ResourceNotFoundException;
 import com.clovi.exception.auth.NoPermissionDeleteException;
 import com.clovi.exception.auth.NoPermissionUpdateException;
@@ -22,9 +23,20 @@ public class ItemService {
 
   private final ItemRepository itemRepository;
 
+  public ItemResponseDto findItemById(Long itemId) {
+
+      Item item = itemRepository.findByIdAndDeletedIsFalse(itemId).orElseThrow(() -> new ResourceNotFoundException("item",itemId));
+
+      Long itemInfoId = item.getItemInfo().getId();
+      ItemInfo itemInfo = itemInfoRepository.findByIdAndDeletedIsFalse(itemInfoId).orElseThrow(() -> new ResourceNotFoundException("itemInfo",itemInfoId));
+
+      return new ItemResponseDto(itemInfo,item);
+
+  }
   @Transactional
-  public Long create(ItemCreateRequest itemCreateRequest, Long userId) {
+  public Long create(ItemCreateRequest itemCreateRequest, Member member) {
     Long itemId = itemCreateRequest.getItemId();
+    Long userId = member.getId();
     ItemInfo findItemInfo = itemInfoRepository.findByIdAndDeletedIsFalse(itemId).orElseThrow(() -> new ResourceNotFoundException("Item", itemId));
     Item newItem = new Item(itemCreateRequest, findItemInfo,userId);
     Item saved = itemRepository.save(newItem);
@@ -32,10 +44,10 @@ public class ItemService {
   }
 
   @Transactional
-  public Long update(ItemUpdateRequest itemUpdateRequest, Long userId) {
-   Long itemId = itemUpdateRequest.getItemId();
+  public Long update(ItemUpdateRequest itemUpdateRequest, Long itemId, Member member) {
+   Long userId = member.getId();
    Item findItem = itemRepository.findByIdAndDeletedIsFalse(itemId).orElseThrow(() -> new ResourceNotFoundException("item", itemId));
-   if(findItem.getCreateBy() != userId){
+   if(findItem.isNotCreatedBy(userId)){
      throw new NoPermissionUpdateException();
    }
    findItem.update(itemUpdateRequest,userId);
@@ -43,10 +55,10 @@ public class ItemService {
    return saved.getId();
   }
   @Transactional
-  public void delete(ItemDeleteRequest itemDeleteRequest, Long userId) {
-    Long itemId = itemDeleteRequest.getItemId();
+  public void delete(Long itemId, Member member) {
+    Long userId = member.getId();
     Item findItem = itemRepository.findByIdAndDeletedIsFalse(itemId).orElseThrow(() -> new ResourceNotFoundException("item", itemId));
-    if(findItem.getCreateBy() != userId){
+    if(findItem.isNotCreatedBy(userId)){
       throw new NoPermissionDeleteException();
     }
     findItem.delete();
