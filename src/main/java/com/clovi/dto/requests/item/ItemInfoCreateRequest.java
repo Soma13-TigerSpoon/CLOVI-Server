@@ -25,9 +25,6 @@ public class ItemInfoCreateRequest {
   @Schema(description = "상품 색", example = "black")
   private String color;
 
-  @Schema(description = "카테고리", example = "M")
+  @Schema(description = "카테고리", example = "203")
   private Long categoryId;
-
-  @Schema(description = "사이즈", example = "M")
-  private String size;
 }
