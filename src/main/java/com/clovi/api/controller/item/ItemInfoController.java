@@ -27,7 +27,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
-@Tag(name = "Item Info API")
+@Tag(name = "Information of item API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
