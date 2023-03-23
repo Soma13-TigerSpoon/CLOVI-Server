@@ -1,15 +1,16 @@
 package com.clovi.dto.requests;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 @Getter
-@Schema(name = "쇼핑몰 생성 요청")
+@Schema(name = "쇼핑몰 수정 요청")
 @NoArgsConstructor
-public class ShopItemCreateRequest {
+public class ShopItemUpdateRequest {
 
   @NotBlank(message = "호스트 이름은 필수 항목입니다!")
   @Schema(description = "host", example = "mss.kr")
