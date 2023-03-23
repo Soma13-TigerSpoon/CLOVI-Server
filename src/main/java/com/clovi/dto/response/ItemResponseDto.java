@@ -5,6 +5,7 @@ import com.clovi.domain.item.ItemInfo;
 import com.clovi.domain.item.Item;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.Getter;
 
@@ -21,7 +22,7 @@ public class ItemResponseDto {
   List<String> colorList = new ArrayList<>();
   List<String> sizeList = new ArrayList<>();
 
-
+  List<ColorAndSizeResponseDto> colorAndSizeList = new ArrayList<>();
   List<ShopItemResponseDto> shops = new ArrayList<>();
   List<ItemResponseDto> childItems = new ArrayList<>();
   public ItemResponseDto(ItemInfo itemInfo) {
@@ -79,5 +80,18 @@ public class ItemResponseDto {
         this.shops.add(new ShopItemResponseDto(shopItem));
       }
     }
+  }
+  public ItemResponseDto(ItemInfo itemInfo, List<Item> item) {
+    this.id = itemInfo.getId();
+    this.name = itemInfo.getName();
+    this.order = itemInfo.getCategory().getOrders();
+    this.brand = itemInfo.getBrand();
+    this.itemImgUrl = itemInfo.getImgUrl();
+    for (ShopItem shopItem : itemInfo.getShopItems()) { // Select ShopItem
+      if(shopItem.getShop().getId() != 100) { // 제휴링크가 아닌 경우에만 추가
+        this.shops.add(new ShopItemResponseDto(shopItem));
+      }
+    }
+    this.colorAndSizeList  = item.stream().map(ColorAndSizeResponseDto::new).collect(Collectors.toList());
   }
 }
