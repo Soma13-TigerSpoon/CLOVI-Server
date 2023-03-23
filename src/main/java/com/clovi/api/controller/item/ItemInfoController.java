@@ -3,6 +3,7 @@ package com.clovi.api.controller.item;
 import com.clovi.api.response.BaseResponse;
 import com.clovi.api.response.MessageCode;
 import com.clovi.api.response.ProcessStatus;
+import com.clovi.domain.user.Member;
 import com.clovi.dto.requests.item.ItemInfoCreateRequest;
 import com.clovi.dto.requests.item.ItemInfoDeleteRequest;
 import com.clovi.dto.requests.item.ItemInfoUpdateRequest;
@@ -11,7 +12,11 @@ import com.clovi.dto.requests.TimeItemRequestDto;
 import com.clovi.dto.response.ItemResponseDto;
 import com.clovi.service.item.ItemInfoService;
 import com.clovi.service.query.ItemQueryService;
+import com.clovi.support.auth.AuthMember;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.net.URI;
 import javax.validation.Valid;
@@ -22,17 +27,20 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
-@Tag(name = "아이템 정보 API")
+@Tag(name = "Item Info API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api")
 public class ItemInfoController {
   private final ItemInfoService itemInfoService;
   private final ItemQueryService itemQueryService;
 
-  @GetMapping("/item/{item_id}")
-  public ResponseEntity getOneItem(@Validated @PathVariable(name = "item_id") Long itemId) {
-    ItemResponseDto result = itemInfoService.getItemById(itemId);
+  @GetMapping("/v1/info/items/{item_info_id}")
+  @Operation(summary = "Find itemInfo", description = "Find information of item by ID", responses = {
+          @ApiResponse(responseCode = "200", description = "Success Find information of item", content = @Content(schema = @Schema(implementation = ItemResponseDto.class)))
+  })
+  public ResponseEntity getOneItem(@Validated @PathVariable(name = "item_info_id") Long itemInfoId) {
+    ItemResponseDto result = itemInfoService.getItemByIdV1(itemInfoId);
 
     if(result == null) {
       return ResponseEntity.badRequest().body(
@@ -45,8 +53,9 @@ public class ItemInfoController {
     );
   }
 
-  @PostMapping("/items")
-  public ResponseEntity saveItem(@Valid @RequestBody TimeItemRequestDto timeItemRequestDto) {
+  @PostMapping("/v0/info/items")// deprecated version
+  @Operation(summary = "Deprecated", description = "더 이상 안 써요 ")
+  public ResponseEntity saveItemInfo(@Valid @RequestBody TimeItemRequestDto timeItemRequestDto) {
     // System.out.println(timeItemRequestDto);
     Long savedId = itemQueryService.save(timeItemRequestDto);
 
@@ -55,24 +64,30 @@ public class ItemInfoController {
             HttpStatus.CREATED
     );
   }
-  @PostMapping("/item")//아이템 생성 API
-  @Operation(summary = "아이템 생성", description = "아이템을 직접 입력해 저장한다.")
-  public ResponseEntity createItem(@Validated @RequestBody ItemInfoCreateRequest itemInfoCreateRequest, Long userId){
-    IdResponseDto savedId = new IdResponseDto(itemInfoService.create(itemInfoCreateRequest,userId));
+  @PostMapping("/v1/info/items")
+  @Operation(summary = "Create itemInfo", description = "Create information of item and save", responses = {
+          @ApiResponse(responseCode = "201", description = "Success create", content = @Content(schema = @Schema(implementation = IdResponseDto.class)))
+  })
+  public ResponseEntity createItemInfo(@Validated @RequestBody ItemInfoCreateRequest itemInfoCreateRequest, @AuthMember Member member){
+    IdResponseDto savedId = new IdResponseDto(itemInfoService.create(itemInfoCreateRequest,member));
     return ResponseEntity.created(
-        URI.create("/api/v1/evaluation/" + savedId.getSavedId())).body(new BaseResponse(savedId, HttpStatus.CREATED.value(),ProcessStatus.SUCCESS,
+        URI.create("/api/v1/info/items" + savedId.getSavedId())).body(new BaseResponse(savedId, HttpStatus.CREATED.value(),ProcessStatus.SUCCESS,
         MessageCode.SUCCESS_CREATE));
   }
-  @PutMapping("/item")//아이템 수정 API
-  @Operation(summary = "아이템 수정", description = "아이템을 직접 입력해 수정한다.")
-  public ResponseEntity updateItem(@Validated @RequestBody ItemInfoUpdateRequest itemInfoUpdateRequest, Long userId){
-    IdResponseDto savedId = new IdResponseDto(itemInfoService.update(itemInfoUpdateRequest,userId));
+  @PutMapping("/v1/info/items/{item_info_id}")
+  @Operation(summary = "Update itemInfo", description = "Update information of item", responses = {
+          @ApiResponse(responseCode = "200", description = "Success update", content = @Content(schema = @Schema(implementation = IdResponseDto.class)))
+  })
+  public ResponseEntity updateItemInfo(@Validated @RequestBody ItemInfoUpdateRequest itemInfoUpdateRequest, @PathVariable(name = "item_info_id") Long itemInfoId,@AuthMember Member member){
+    IdResponseDto savedId = new IdResponseDto(itemInfoService.update(itemInfoUpdateRequest,itemInfoId,member));
     return ResponseEntity.ok(new BaseResponse(savedId,HttpStatus.OK.value(),ProcessStatus.SUCCESS, MessageCode.SUCCESS_UPDATE));
   }
-  @DeleteMapping("/item")//아이템 삭제 API
-  @Operation(summary = "아이템 삭제", description = "아이템을 삭제한다.")
-  public ResponseEntity deleteItem(@Validated @RequestBody ItemInfoDeleteRequest itemInfoDeleteRequest, Long userId){
-    itemInfoService.delete(itemInfoDeleteRequest,userId);
+  @DeleteMapping("/v1/info/items/{item_info_id}")
+  @Operation(summary = "Delete itemInfo", description = "Delete information of item", responses = {
+          @ApiResponse(responseCode = "200", description = "Success delete")
+  })
+  public ResponseEntity deleteItemInfo(@Validated @PathVariable(name = "item_info_id") Long itemInfoId, @AuthMember Member member){
+    itemInfoService.delete(itemInfoId,member);
     return ResponseEntity.ok(new BaseResponse(HttpStatus.OK.value(),ProcessStatus.SUCCESS, MessageCode.SUCCESS_DELETE));
   }
 

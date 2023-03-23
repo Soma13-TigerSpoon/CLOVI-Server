@@ -11,10 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ItemInfoUpdateRequest {
 
-  @NotNull(message = "아이템 id는 필수 항목입니다!")
-  @Schema(description = "아이템 id", example = "1")
-  private Long itemId;
-
   @NotBlank(message = "브랜드는 필수 항목입니다!")
   @Schema(description = "브랜드", example = "어누즈")
   private String brand;
@@ -30,9 +26,6 @@ public class ItemInfoUpdateRequest {
   @Schema(description = "상품 색", example = "black")
   private String color;
 
-  @Schema(description = "카테고리", example = "M")
+  @Schema(description = "카테고리", example = "203")
   private Long categoryId;
-
-  @Schema(description = "사이즈", example = "M")
-  private String size;
 }
