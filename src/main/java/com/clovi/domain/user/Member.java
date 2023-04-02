@@ -1,13 +1,10 @@
 package com.clovi.domain.user;
 
 import com.clovi.domain.Base.BaseTimeEntity;
+import com.clovi.domain.youtube.Channel;
 import com.clovi.dto.requests.member.MemberCreateRequest;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import javax.persistence.*;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -25,15 +22,19 @@ public class Member extends BaseTimeEntity {
 
   private String password;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  private Channel channel;
+
   @Enumerated(EnumType.STRING)
   private ProviderName providerName;
 
   @Enumerated(EnumType.STRING)
   private RoleName role;
-  public Member(MemberCreateRequest memberCreateRequest) {
+  public Member(MemberCreateRequest memberCreateRequest, Channel channel) {
     this.memberId = memberCreateRequest.getMemberId();
     this.providerName = ProviderName.CLOVI;
     this.role = RoleName.Y_CREATOR_USER;
+    this.channel = channel;
   }
 
   public void setEncodedPassword(String encodedPassword){
