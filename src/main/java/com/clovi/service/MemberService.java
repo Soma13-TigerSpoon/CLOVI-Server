@@ -2,11 +2,13 @@ package com.clovi.service;
 
 import com.clovi.domain.user.Member;
 import com.clovi.domain.user.RegisterKey;
+import com.clovi.domain.youtube.Channel;
 import com.clovi.dto.requests.member.MemberCreateRequest;
 import com.clovi.dto.response.MemberResponse;
 import com.clovi.exception.ResourceNotFoundException;
 import com.clovi.exception.member.DuplicateMemberIdException;
 import com.clovi.exception.member.MemberNotFoundException;
+import com.clovi.repository.ChannelRepository;
 import com.clovi.repository.MemberRepository;
 import com.clovi.repository.RegisterKeyRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class MemberService {
   private final PasswordEncoder passwordEncoder;
 
   private final RegisterKeyRepository registerKeyRepository;
+  private final ChannelRepository channelRepository;
   @Transactional
   public Long register(MemberCreateRequest memberCreateRequest) {
     //회원가입 키 있는지 검사
@@ -33,7 +36,9 @@ public class MemberService {
       throw new DuplicateMemberIdException();
     }
 
-    Member member = new Member(memberCreateRequest);
+    Channel channel = channelRepository.findById(registerKey.getChannelId()).orElseThrow(() -> new ResourceNotFoundException("channel",registerKey.getChannelId()));
+
+    Member member = new Member(memberCreateRequest,channel);
 
     member.setEncodedPassword(passwordEncoder.encode(memberCreateRequest.getPassword()));
 

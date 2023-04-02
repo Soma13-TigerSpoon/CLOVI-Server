@@ -19,7 +19,9 @@ public class RegisterKey extends BaseTimeEntity {
     private Long id;
 
     private String secretKey;
-    Long memberId;
+    private Long memberId;
+
+    private Long channelId;
     public void useBy(Long id) {
         this.delete();
         memberId = id;
