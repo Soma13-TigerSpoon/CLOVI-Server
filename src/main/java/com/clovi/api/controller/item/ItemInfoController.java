@@ -26,15 +26,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-
-@Tag(name = "Information of item API")
+@Tag(name = "[item_info] 상품 상세정보 관리 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class ItemInfoController {
   private final ItemInfoService itemInfoService;
-  private final ItemQueryService itemQueryService;
+  // private final ItemQueryService itemQueryService;
 
+  // 상품 상세정보 조회 API
   @GetMapping("/v1/info/items/{item_info_id}")
   @Operation(summary = "Find itemInfo", description = "Find information of item by ID", responses = {
           @ApiResponse(responseCode = "200", description = "Success Find information of item", content = @Content(schema = @Schema(implementation = ItemResponseDto.class)))
@@ -53,7 +53,8 @@ public class ItemInfoController {
     );
   }
 
-  @PostMapping("/v0/info/items")// deprecated version
+  /* Deprecated
+  @PostMapping("/v0/info/items")
   @Operation(summary = "Deprecated", description = "더 이상 안 써요 ")
   public ResponseEntity saveItemInfo(@Valid @RequestBody TimeItemRequestDto timeItemRequestDto) {
     // System.out.println(timeItemRequestDto);
@@ -64,6 +65,9 @@ public class ItemInfoController {
             HttpStatus.CREATED
     );
   }
+  */
+
+  // 상품 상세정보 생성 API
   @PostMapping("/v1/info/items")
   @Operation(summary = "Create itemInfo", description = "Create information of item and save", responses = {
           @ApiResponse(responseCode = "201", description = "Success create", content = @Content(schema = @Schema(implementation = IdResponseDto.class)))
@@ -74,6 +78,8 @@ public class ItemInfoController {
         URI.create("/api/v1/info/items" + savedId.getSavedId())).body(new BaseResponse(savedId, HttpStatus.CREATED.value(),ProcessStatus.SUCCESS,
         MessageCode.SUCCESS_CREATE));
   }
+
+  // 상품 상세정보 수정 API
   @PutMapping("/v1/info/items/{item_info_id}")
   @Operation(summary = "Update itemInfo", description = "Update information of item", responses = {
           @ApiResponse(responseCode = "200", description = "Success update", content = @Content(schema = @Schema(implementation = IdResponseDto.class)))
@@ -82,6 +88,8 @@ public class ItemInfoController {
     IdResponseDto savedId = new IdResponseDto(itemInfoService.update(itemInfoUpdateRequest,itemInfoId,member));
     return ResponseEntity.ok(new BaseResponse(savedId,HttpStatus.OK.value(),ProcessStatus.SUCCESS, MessageCode.SUCCESS_UPDATE));
   }
+
+  // 상품 상세정보 삭제 API
   @DeleteMapping("/v1/info/items/{item_info_id}")
   @Operation(summary = "Delete itemInfo", description = "Delete information of item", responses = {
           @ApiResponse(responseCode = "200", description = "Success delete")

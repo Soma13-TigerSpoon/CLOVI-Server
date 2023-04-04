@@ -8,23 +8,22 @@ import com.clovi.dto.requests.VideoRequestDto;
 import com.clovi.dto.response.VideoResponseDto;
 import com.clovi.service.VideoService;
 import com.clovi.service.query.VideoQueryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "[video] 유튜브 영상 관리 API")
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1")
 public class VideoController {
   private final VideoService videoService;
   private final VideoQueryService videoQueryService;
 
   // Validation required
-  @GetMapping("/api/v1/videos")
+  @GetMapping("/videos")
   public ResponseEntity getVideoV1(@RequestParam("videoUrl") String videoUrl) {
     VideoResponseDto result = videoService.search(videoUrl);
 
@@ -39,7 +38,7 @@ public class VideoController {
     );
   }
 
-  @PostMapping("api/v1/videos")
+  @PostMapping("/videos")
   public ResponseEntity saveVideoV1(@RequestBody VideoRequestDto videoRequestDto) {
     Long result = videoQueryService.save(videoRequestDto);
 
