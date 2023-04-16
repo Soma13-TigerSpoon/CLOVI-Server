@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import com.clovi.dto.requests.item.ItemColorCreateRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,8 +24,16 @@ public class ItemColor extends BaseTimeEntity {
   @Column(name = "id", nullable = false)
   private Long id;
 
+  private String imgUrl;
+
   @ManyToOne(fetch = FetchType.LAZY)
   private Color color;
   @ManyToOne(fetch = FetchType.LAZY)
   private ItemInfo itemInfo;
+
+  public ItemColor(ItemInfo itemInfo, Color color, String imgUrl) {
+    this.imgUrl = imgUrl;
+    this.color = color;
+    this.itemInfo = itemInfo;
+  }
 }
