@@ -1,3 +1,4 @@
+### Spring Boot ###
 HELP.md
 .gradle
 logs/
@@ -36,3 +37,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Custom ###
+git_command.sh
