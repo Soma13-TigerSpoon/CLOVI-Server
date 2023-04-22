@@ -32,7 +32,7 @@ public class ColorService {
         Color color = colorRepository.findByName(colorName).orElse(
                 colorRepository.save(new Color(colorName))
         );
-        ItemColor itemColor = new ItemColor(itemInfo,color,itemInfoCreateRequest.getImgUrl());
+        ItemColor itemColor = new ItemColor(itemInfo,color,itemInfoCreateRequest.getImgUrl(), member.getId());
         ItemColor saved = itemColorRepository.save(itemColor);
         return saved.getId();
     }

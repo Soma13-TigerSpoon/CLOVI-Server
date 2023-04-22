@@ -23,6 +23,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @Tag(name = "[color] 아이템 색 관리 API")
 @RestController
@@ -43,12 +44,13 @@ public class ColorController {
                 MessageCode.SUCCESS_CREATE));
     }
     @GetMapping("/info/items/{item_info_id}/colors")
-    @Operation(summary = "find colors by itemInfo", description = "Find information colors of item by itemInfoID", responses = {
+    @Operation(summary = "find colors by itemInfo", description = "Find information all colors of item by itemInfoID", responses = {
             @ApiResponse(responseCode = "200", description = "Success Find colors of items ", content = @Content(schema = @Schema(implementation = ColorAndImgResponseDto.class)))
     })
     public ResponseEntity getColorsByItemInfo(@Validated @PathVariable(name = "item_info_id") Long itemInfoId) {
+        List<ColorAndImgResponseDto> response = colorService.findAllColors(itemInfoId);
         return ResponseEntity.ok(
-                new BaseResponse(colorService.findAllColors(itemInfoId), HttpStatus.OK.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET_LIST)
+                new BaseResponse(response, HttpStatus.OK.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET_LIST)
         );
     }
 

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 
 @Getter
-@Schema(name = "아이템 컬러 연관정보 생성 요청")
+@Schema(name = "아이템 컬러 정보 생성 요청")
 @NoArgsConstructor
 public class ItemColorCreateRequest {
 
