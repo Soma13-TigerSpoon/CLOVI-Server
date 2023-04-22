@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.clovi.domain.Base.BaseEntity;
+import com.clovi.domain.Base.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Size extends BaseEntity {
+public class Size extends BaseTimeEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +23,7 @@ public class Size extends BaseEntity {
   private Long id;
   private String name;
 
-  public Size(String name,Long memberId) {
+  public Size(String name) {
     this.name = name;
-    this.createBy = memberId;
   }
 }

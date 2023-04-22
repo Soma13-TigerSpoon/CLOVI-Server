@@ -37,5 +37,6 @@ public class ItemColor extends BaseEntity {
     this.color = color;
     this.itemInfo = itemInfo;
     this.createBy = memberId;
+    this.lastModifiedBy = memberId;
   }
 }

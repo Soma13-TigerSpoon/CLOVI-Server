@@ -26,9 +26,9 @@ public class SizeService {
         ItemInfo itemInfo = itemInfoRepository.findByIdAndDeletedIsFalse(itemInfoId).orElseThrow(() -> new ResourceNotFoundException("ItemInfo",itemInfoId));
         String sizeName = itemSizeCreateRequest.getSize().trim();
         Size size = sizeRepository.findByName(sizeName).orElse(
-                sizeRepository.save(new Size(sizeName,member.getId()))
+                sizeRepository.save(new Size(sizeName))
         );
-        ItemSize itemSize = new ItemSize(size,itemInfo);
+        ItemSize itemSize = new ItemSize(size,itemInfo,member.getId());
         ItemSize saved = itemSizeRepository.save(itemSize);
         return saved.getId();
     }
