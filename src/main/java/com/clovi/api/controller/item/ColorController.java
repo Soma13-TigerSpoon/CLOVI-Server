@@ -37,7 +37,7 @@ public class ColorController {
     @Operation(summary = "save itemColor", description = "save color of item", responses = {
             @ApiResponse(responseCode = "201", description = "Success create", content = @Content(schema = @Schema(implementation = IdResponseDto.class)))
     })
-    public ResponseEntity createItemInfo(@Validated @RequestBody ItemColorCreateRequest itemColorCreateRequest, @AuthMember Member member, @PathVariable(name = "item_info_id") Long itemInfoId){
+    public ResponseEntity createItemColor(@Validated @RequestBody ItemColorCreateRequest itemColorCreateRequest, @AuthMember Member member, @PathVariable(name = "item_info_id") Long itemInfoId){
         IdResponseDto savedId = new IdResponseDto(colorService.create(itemColorCreateRequest,member,itemInfoId));
         return ResponseEntity.created(
                 URI.create("/api/v1/info/items" + savedId.getSavedId() + "/colors")).body(new BaseResponse(savedId, HttpStatus.CREATED.value(), ProcessStatus.SUCCESS,
@@ -47,7 +47,7 @@ public class ColorController {
     @Operation(summary = "find colors by itemInfo", description = "Find information all colors of item by itemInfoID", responses = {
             @ApiResponse(responseCode = "200", description = "Success Find colors of items ", content = @Content(schema = @Schema(implementation = ColorAndImgResponseDto.class)))
     })
-    public ResponseEntity getColorsByItemInfo(@Validated @PathVariable(name = "item_info_id") Long itemInfoId) {
+    public ResponseEntity getAllColorItemInfo(@Validated @PathVariable(name = "item_info_id") Long itemInfoId) {
         List<ColorAndImgResponseDto> response = colorService.findAllColors(itemInfoId);
         return ResponseEntity.ok(
                 new BaseResponse(response, HttpStatus.OK.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET_LIST)

@@ -32,21 +32,21 @@ import java.util.List;
 public class SizeController {
     private final SizeService sizeService;
     //저장
-    @PostMapping("/info/items/{item_info_id}/colors")
+    @PostMapping("/info/items/{item_info_id}/size")
     @Operation(summary = "save itemColor", description = "save color of item", responses = {
             @ApiResponse(responseCode = "201", description = "Success create", content = @Content(schema = @Schema(implementation = IdResponseDto.class)))
     })
-    public ResponseEntity createItemInfo(@Validated @RequestBody ItemSizeCreateRequest itemSizeCreateRequest, @AuthMember Member member, @PathVariable(name = "item_info_id") Long itemInfoId){
+    public ResponseEntity createItemSize(@Validated @RequestBody ItemSizeCreateRequest itemSizeCreateRequest, @AuthMember Member member, @PathVariable(name = "item_info_id") Long itemInfoId){
         IdResponseDto savedId = new IdResponseDto(sizeService.create(itemSizeCreateRequest,member,itemInfoId));
         return ResponseEntity.created(
                 URI.create("/api/v1/info/items" + savedId.getSavedId() + "/colors")).body(new BaseResponse(savedId, HttpStatus.CREATED.value(), ProcessStatus.SUCCESS,
                 MessageCode.SUCCESS_CREATE));
     }
-    @GetMapping("/info/items/{item_info_id}/colors")
+    @GetMapping("/info/items/{item_info_id}/size")
     @Operation(summary = "find colors by itemInfo", description = "Find information all colors of item by itemInfoID", responses = {
             @ApiResponse(responseCode = "200", description = "Success Find colors of items ", content = @Content(schema = @Schema(implementation = ColorAndImgResponseDto.class)))
     })
-    public ResponseEntity getColorsByItemInfo(@Validated @PathVariable(name = "item_info_id") Long itemInfoId) {
+    public ResponseEntity getAllSizeByItemInfo(@Validated @PathVariable(name = "item_info_id") Long itemInfoId) {
         List<String> response = sizeService.findAllColors(itemInfoId);
         return ResponseEntity.ok(
                 new BaseResponse(response, HttpStatus.OK.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET_LIST)
