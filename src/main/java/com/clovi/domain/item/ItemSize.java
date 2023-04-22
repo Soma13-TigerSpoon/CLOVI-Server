@@ -26,4 +26,13 @@ public class ItemSize extends BaseTimeEntity {
   private Size size;
   @ManyToOne(fetch = FetchType.LAZY)
   private ItemInfo itemInfo;
+
+  public ItemSize(Size size, ItemInfo itemInfo) {
+    this.size = size;
+    this.itemInfo = itemInfo;
+  }
+
+  public String getSizeName(){
+    return size.getName();
+  }
 }
