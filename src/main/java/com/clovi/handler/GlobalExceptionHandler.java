@@ -1,6 +1,6 @@
 package com.clovi.handler;
 
-import com.clovi.dto.response.ErrorResponse;
+import com.clovi.base.dto.response.ErrorResponse;
 import com.clovi.exception.BadRequestException;
 import com.clovi.exception.NotFoundException;
 import com.clovi.exception.auth.NoPermissionException;
@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -20,13 +21,32 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+  public ResponseEntity<ErrorResponse> handleArgumentMismatchException(MethodArgumentTypeMismatchException e, HttpServletRequest request){
+    log.error("MethodArgumentTypeMismatchException 발생!!! url:{}, trace:{}",request.getRequestURI(), e.getStackTrace());
+    final ErrorResponse response = ErrorResponse.builder()
+            .status(HttpStatus.BAD_REQUEST.value())
+            .message(e.getMessage()).build();
+    return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+  }
 
-  private static final String ERROR_LOGGING_MESSAGE = "예외 발생, 요청 url: ";
-
+  /**
+   * @valid  유효성체크에 통과하지 못하면  MethodArgumentNotValidException 이 발생한다.
+   */
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity<ErrorResponse> handleArgumentValidException(MethodArgumentNotValidException e, HttpServletRequest request){
+    log.error("MethodArgumentNotValidException 발생!!! url:{}, trace:{}",request.getRequestURI(), e.getStackTrace());
+    final ErrorResponse response = ErrorResponse.builder()
+            .status(HttpStatus.BAD_REQUEST.value())
+            .message(e.getMessage()).build();
+    return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+  }
   @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
   @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
   protected ResponseEntity<ErrorResponse> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e, HttpServletRequest request) {
-    log.error(ERROR_LOGGING_MESSAGE+ request.getRequestURI(), e);
+    log.error("METHOD_NOT_ALLOWED 발생!!! url:{}, trace:{}",request.getRequestURI(), e.getStackTrace());
     final ErrorResponse response = ErrorResponse.builder()
         .status(HttpStatus.METHOD_NOT_ALLOWED.value())
         .message(e.getMessage()).build();
@@ -37,8 +57,8 @@ public class GlobalExceptionHandler {
   //@Validated 검증 실패 시 Catch
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ExceptionHandler(InvalidParameterException.class)
-  protected ResponseEntity<ErrorResponse> handleInvalidParameterException(InvalidParameterException e) {
-    log.error(ERROR_LOGGING_MESSAGE, e);
+  protected ResponseEntity<ErrorResponse> handleInvalidParameterException(InvalidParameterException e, HttpServletRequest request) {
+    log.error("InvalidParameterException 발생!!! url:{}, trace:{}",request.getRequestURI(), e.getStackTrace());
     ErrorResponse response = ErrorResponse.builder()
         .status(HttpStatus.BAD_REQUEST.value())
         .message(e.toString()).build();
@@ -49,8 +69,8 @@ public class GlobalExceptionHandler {
   @ExceptionHandler({
       BadRequestException.class
   })
-  public ResponseEntity<ErrorResponse> handleBadRequestException(final BadRequestException e) {
-    log.error(ERROR_LOGGING_MESSAGE, e);
+  public ResponseEntity<ErrorResponse> handleBadRequestException(final BadRequestException e, HttpServletRequest request) {
+    log.error("BadRequestException 발생!!! url:{}, trace:{}",request.getRequestURI(), e.getStackTrace());
     ErrorResponse response = ErrorResponse.builder()
         .status(HttpStatus.BAD_REQUEST.value())
         .message(e.getClientMessage())
@@ -60,12 +80,10 @@ public class GlobalExceptionHandler {
 
   @ResponseStatus(HttpStatus.NOT_FOUND)
   @ExceptionHandler({
-      NotFoundException.class,
-      MethodArgumentTypeMismatchException.class
+      NotFoundException.class
   })
-  public ResponseEntity<ErrorResponse> handleNotFoundException(final NotFoundException e) {
-    log.error(ERROR_LOGGING_MESSAGE, e);
-
+  public ResponseEntity<ErrorResponse> handleNotFoundException(final NotFoundException e, HttpServletRequest request) {
+    log.error("NotFoundException 발생!!! url:{}, trace:{}",request.getRequestURI(), e.getStackTrace());
     ErrorResponse response = ErrorResponse.builder()
         .status(HttpStatus.NOT_FOUND.value())
         .message(e.getClientMessage())
@@ -77,9 +95,9 @@ public class GlobalExceptionHandler {
   @ExceptionHandler({
       UnAuthorizedException.class
   })
-  public ResponseEntity<ErrorResponse> handleInvalidAuthorization(final UnAuthorizedException e) {
+  public ResponseEntity<ErrorResponse> handleInvalidAuthorization(final UnAuthorizedException e, HttpServletRequest request) {
 
-    log.error(ERROR_LOGGING_MESSAGE, e);
+    log.error("UnAuthorizedException 발생!!! url:{}, trace:{}",request.getRequestURI(), e.getStackTrace());
 
     ErrorResponse response = ErrorResponse.builder()
         .status(HttpStatus.UNAUTHORIZED.value())
@@ -93,9 +111,9 @@ public class GlobalExceptionHandler {
   @ExceptionHandler({
       NoPermissionException.class
   })
-  public ResponseEntity<ErrorResponse> handleNoPermission(final NoPermissionException e) {
+  public ResponseEntity<ErrorResponse> handleNoPermission(final NoPermissionException e, HttpServletRequest request) {
 
-    log.error(ERROR_LOGGING_MESSAGE, e);
+    log.error("NoPermissionException 발생!!! url:{}, trace:{}",request.getRequestURI(), e.getStackTrace());
 
     ErrorResponse response = ErrorResponse.builder()
         .status(HttpStatus.FORBIDDEN.value())
