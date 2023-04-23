@@ -1,5 +1,6 @@
 package com.clovi.timeShopItem;
 
+import com.clovi.base.domain.BaseEntity;
 import com.clovi.base.domain.BaseTimeEntity;
 import com.clovi.timeframe.TimeFrame;
 import com.clovi.item.item.Item;
@@ -20,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TimeShopItem extends BaseTimeEntity {
+public class TimeShopItem extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,10 +33,12 @@ public class TimeShopItem extends BaseTimeEntity {
   @OneToOne(fetch = FetchType.LAZY)
   private ShopItem shopItem;
 
-  public TimeShopItem(TimeFrame time, Item item, ShopItem shopItem) {
+  public TimeShopItem(TimeFrame time, Item item, ShopItem shopItem, Long memberId) {
     this.time = time;
     this.item = item;
     this.shopItem = shopItem;
+    this.createBy = memberId;
+    this.lastModifiedBy = memberId;
   }
 
 }

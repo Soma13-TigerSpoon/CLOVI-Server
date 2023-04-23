@@ -106,7 +106,7 @@ public class ItemQueryService {
     }
     Item item = new Item(new ItemCreateRequest(itemInfo.getId(), timeShopItemRequestDto.getSize(), timeShopItemRequestDto.getColor(), itemInfo.getImgUrl()),itemInfo, 1L);
     Item saved = ItemRepository.save(item);
-    timeFrame.addItem(new TimeShopItem(timeFrame, saved, shopItem));
+    timeFrame.addItem(new TimeShopItem(timeFrame, saved, shopItem,1L));
 
     videoRepository.save(video);
     VideoItem videoItem = new VideoItem(video, item);
