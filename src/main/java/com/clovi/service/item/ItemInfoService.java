@@ -7,7 +7,6 @@ import com.clovi.domain.item.ItemColor;
 import com.clovi.domain.item.ItemSize;
 import com.clovi.domain.user.Member;
 import com.clovi.dto.requests.item.ItemInfoCreateRequest;
-import com.clovi.dto.requests.item.ItemInfoDeleteRequest;
 import com.clovi.dto.requests.item.ItemInfoUpdateRequest;
 import com.clovi.dto.response.ItemResponseDto;
 import com.clovi.exception.ResourceNotFoundException;
@@ -21,8 +20,8 @@ import com.clovi.repository.Item.ItemRepositoryCustomImpl;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.clovi.repository.ItemColorRepository;
-import com.clovi.repository.ItemSizeRepository;
+import com.clovi.repository.Item.ItemColorRepository;
+import com.clovi.repository.Item.ItemSizeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

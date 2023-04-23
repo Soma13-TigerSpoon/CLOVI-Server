@@ -1,4 +1,4 @@
-package com.clovi.repository;
+package com.clovi.repository.Item;
 
 import com.clovi.domain.item.ItemSize;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,5 +1,6 @@
 package com.clovi.domain.item;
 
+import com.clovi.domain.Base.BaseEntity;
 import com.clovi.domain.Base.BaseTimeEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ItemSize extends BaseTimeEntity {
+public class ItemSize extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,4 +27,16 @@ public class ItemSize extends BaseTimeEntity {
   private Size size;
   @ManyToOne(fetch = FetchType.LAZY)
   private ItemInfo itemInfo;
+
+  public ItemSize(Size size, ItemInfo itemInfo, Long memberId) {
+    this.size = size;
+    this.itemInfo = itemInfo;
+    this.createBy = memberId;
+    this.lastModifiedBy = memberId;
+  }
+
+
+  public String getSizeName(){
+    return size.getName();
+  }
 }
