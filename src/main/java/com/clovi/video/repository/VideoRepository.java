@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface VideoRepository extends JpaRepository<Video,Long> {
     Optional<Video> findByYoutubeVideoId(String youtubeVideoId);
+    Optional<Video> findByIdAndDeletedIsFalse(Long id);
 }

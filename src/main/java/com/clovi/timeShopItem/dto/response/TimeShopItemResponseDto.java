@@ -28,7 +28,9 @@ public class TimeShopItemResponseDto {
     items.sort(new ItemOrderComparator());
 
     // select model
-    this.model = new ModelResponseDto(timeFrame.getModel());
+    if(timeFrame.getModel() != null){
+      this.model = new ModelResponseDto(timeFrame.getModel());
+    }
   }
 }
 

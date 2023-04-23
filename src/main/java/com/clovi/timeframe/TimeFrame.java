@@ -1,8 +1,11 @@
 package com.clovi.timeframe;
 
+import com.clovi.base.domain.BaseEntity;
 import com.clovi.base.domain.BaseTimeEntity;
 import com.clovi.timeShopItem.TimeShopItem;
 import com.clovi.model.Model;
+import com.clovi.timeframe.dto.request.TimeFrameCreateRequest;
+import com.clovi.timeframe.dto.request.TimeFrameUpdateRequest;
 import com.clovi.video.Video;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +31,7 @@ import lombok.NoArgsConstructor;
 })
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TimeFrame extends BaseTimeEntity {
+public class TimeFrame extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,6 +55,17 @@ public class TimeFrame extends BaseTimeEntity {
     this.capturePoint = capturePoint;
     this.model = model;
     this.video = video;
+  }
+
+  public TimeFrame(TimeFrameCreateRequest timeFrameCreateRequest, Video video, Long id) {
+    this.capturePoint = timeFrameCreateRequest.getTime();
+    this.video = video;
+    this.createBy = id;
+    this.lastModifiedBy = id;
+  }
+  public void update(TimeFrameUpdateRequest timeFrameUpdateRequest,Long id){
+    this.capturePoint = timeFrameUpdateRequest.getTime();
+    this.lastModifiedBy = id;
   }
 
   public void addItem(TimeShopItem timeShopItem) {
