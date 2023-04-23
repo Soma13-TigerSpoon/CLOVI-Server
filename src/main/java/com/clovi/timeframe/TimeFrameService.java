@@ -1,5 +1,6 @@
 package com.clovi.timeframe;
 
+import com.clovi.exception.DuplicateResourceException;
 import com.clovi.exception.ResourceNotFoundException;
 import com.clovi.exception.auth.NoPermissionCreateException;
 import com.clovi.exception.auth.NoPermissionDeleteException;
@@ -48,6 +49,10 @@ public class TimeFrameService {
     @Transactional
     public Long create(TimeFrameCreateRequest timeFrameCreateRequest, Long videoId, Member member) {
         Video video = videoRepository.findByIdAndDeletedIsFalse(videoId).orElseThrow(() -> new ResourceNotFoundException("video",videoId));
+        Long capturePoint = timeFrameCreateRequest.getTime();
+        if(timeFrameRepository.existsByVideoIdAndCapturePointAndDeletedIsFalse(videoId,capturePoint)){
+            throw new DuplicateResourceException("timeFrame");
+        }
 //        channel 관련 권한 설정 논의
 //        if(member.getChannel().getId() != video.getChannel().getId()){
 //            throw new NoPermissionCreateException();

@@ -11,4 +11,6 @@ public interface TimeFrameRepository extends JpaRepository<TimeFrame,Long> {
     Optional<TimeFrame> findByVideoAndCapturePoint(Video video,Long capturePoint);
     List<TimeFrame> findAllByVideoIdAndDeletedIsFalse(Long videoId);
     Optional<TimeFrame> findByIdAndDeletedIsFalse(Long id);
+
+    boolean existsByVideoIdAndCapturePointAndDeletedIsFalse(Long videoId, Long capturePoint);
  }
