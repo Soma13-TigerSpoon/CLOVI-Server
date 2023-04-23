@@ -74,15 +74,4 @@ public class ItemController {
     return ResponseEntity.ok(new BaseResponse(HttpStatus.OK.value(),ProcessStatus.SUCCESS, MessageCode.SUCCESS_DELETE));
   }
 
-  @RestController
-  @RequiredArgsConstructor
-  public static class ShopController {
-      private final ShopService shopService;
-
-      @GetMapping("/api/v1/shops")
-      public ResponseEntity getShopsV1(){
-          return ResponseEntity.ok(new BaseResponse(shopService.getShops(), HttpStatus.OK.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET));
-      }
-
-  }
 }
