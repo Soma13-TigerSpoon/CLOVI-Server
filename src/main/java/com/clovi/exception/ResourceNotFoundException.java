@@ -9,8 +9,8 @@ public class ResourceNotFoundException extends NotFoundException {
     super(String.format("%s %s id: %d", domain, SERVER_MESSAGE, id), String.format("%s %s id: %d", domain, SERVER_MESSAGE, id), ERROR_CODE);
   }
 
-  public ResourceNotFoundException(String domain,final String urlId) {
-    super(String.format("%s %s url : %s", domain, SERVER_MESSAGE, urlId), String.format("%s %s url : %s", domain, SERVER_MESSAGE, urlId), ERROR_CODE);
+  public ResourceNotFoundException(String domain,final String code) {
+    super(String.format("%s %s code : %s", domain, SERVER_MESSAGE, code), String.format("%s %s url : %s", domain, SERVER_MESSAGE, code), ERROR_CODE);
   }
 
   public ResourceNotFoundException(String reason) {
