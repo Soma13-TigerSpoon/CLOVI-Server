@@ -26,7 +26,7 @@ public class Channel extends BaseTimeEntity {
 
   private String name;
 
-  private String channelUrl;
+  private String channelId;
   private String profileImgUrl;
 
   @OneToMany(mappedBy = "channel", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -35,9 +35,9 @@ public class Channel extends BaseTimeEntity {
   //지금까지 본 결과 channel url 이  "https://www.youtube.com" 뒤에 붙는 형식으로 두 가지가 있음.
   //1) c/채널이름
   //2) channel/고유 아이디
-  public Channel(String name, String channelUrl, String profileImgUrl) {
+  public Channel(String name, String channelId, String profileImgUrl) {
     this.name = name;
-    this.channelUrl = channelUrl;
+    this.channelId = channelId;
     this.profileImgUrl = profileImgUrl;
   }
 
