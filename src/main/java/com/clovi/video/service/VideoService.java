@@ -37,19 +37,10 @@ public class VideoService {
     }
 
     @Transactional
-    public Long save(@NotNull VideoRequestDto videoRequestDto, Channel channel) {
-        Video video = videoRepository.findByYoutubeVideoId(videoRequestDto.getYoutubeVideoId()).orElse(
-            new Video(videoRequestDto, channel)
-        );
-        videoRepository.save(video);
-        return video.getId();
-    }
-
-    @Transactional
     public Long save(@NotNull VideoRequestDto videoRequestDto) {
-        String channelUrl = videoRequestDto.getChannelUrl();
-        Channel channel = channelRepository.findByChannelUrl(channelUrl).orElseThrow(
-                () -> new ResourceNotFoundException("channelUrl", channelUrl)
+        String channelId = videoRequestDto.getChannelId();
+        Channel channel = channelRepository.findByChannelIdAndDeletedFalse(channelId).orElseThrow(
+                () -> new ResourceNotFoundException("channelId", channelId)
         );
 
         String videoId = videoRequestDto.getYoutubeVideoId();

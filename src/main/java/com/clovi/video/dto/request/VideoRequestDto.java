@@ -9,7 +9,7 @@ import lombok.Getter;
 public class VideoRequestDto {
 
   private String channelName;
-  private String channelUrl;
+  private String channelId;
   private String youtubeVideoId;
   private String videoTitle;
   private Long videoLength;

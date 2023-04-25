@@ -27,7 +27,6 @@ import java.net.URI;
 @RequestMapping("/api/v1")
 public class VideoController {
   private final VideoService videoService;
-  private final VideoQueryService videoQueryService;
 
   // Validation required
   @GetMapping("/videos")
@@ -45,23 +44,8 @@ public class VideoController {
     );
   }
 
+
   @PostMapping("/videos")
-  public ResponseEntity saveVideoV1(@RequestBody VideoRequestDto videoRequestDto) {
-    Long result = videoQueryService.save(videoRequestDto);
-
-    if(result == null) {
-      return ResponseEntity.badRequest().body(
-              new BaseResponse(HttpStatus.BAD_REQUEST.value(), ProcessStatus.FAIL, MessageCode.ERROR_REQ_PARAM_VIDEO_ID)
-      );
-    }
-
-    return new ResponseEntity<>(
-            new BaseResponse(new SavedId(result), HttpStatus.CREATED.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_CREATE),
-            HttpStatus.CREATED
-    );
-  }
-
-  @PostMapping("/video")
   @Operation(summary = "Create video", description = "Create video and save", responses = {
           @ApiResponse(responseCode = "201", description = "Success create", content = @Content(schema = @Schema(implementation = SavedId.class)))
   })
