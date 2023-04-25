@@ -4,9 +4,8 @@ import com.clovi.base.dto.response.BaseResponse;
 import com.clovi.base.dto.response.MessageCode;
 import com.clovi.base.dto.response.ProcessStatus;
 import com.clovi.base.dto.response.SavedId;
-import com.clovi.video.dto.request.VideoRequestDto;
+import com.clovi.video.dto.request.VideoRequest;
 import com.clovi.video.dto.response.VideoResponseDto;
-import com.clovi.video.service.VideoQueryService;
 import com.clovi.video.service.VideoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -49,9 +48,9 @@ public class VideoController {
   @Operation(summary = "Create video", description = "Create video and save", responses = {
           @ApiResponse(responseCode = "201", description = "Success create", content = @Content(schema = @Schema(implementation = SavedId.class)))
   })
-  public ResponseEntity saveVideo(@Validated @RequestBody VideoRequestDto videoRequestDto) {
-    SavedId savedId = new SavedId(videoService.save(videoRequestDto));
-    String newUrl = "/api/v1/video/".concat(savedId.getId().toString());
+  public ResponseEntity saveVideo(@Validated @RequestBody VideoRequest videoRequest) {
+    SavedId savedId = new SavedId(videoService.save(videoRequest));
+    String newUrl = "/api/v1/videos/".concat(savedId.getId().toString());
 
     return ResponseEntity.created(URI.create(newUrl)).body (
             new BaseResponse(savedId, HttpStatus.CREATED.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_CREATE)

@@ -4,7 +4,7 @@ import com.clovi.base.domain.BaseTimeEntity;
 import com.clovi.videoitem.VideoItem;
 import com.clovi.channel.Channel;
 import com.clovi.timeframe.TimeFrame;
-import com.clovi.video.dto.request.VideoRequestDto;
+import com.clovi.video.dto.request.VideoRequest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -65,12 +65,12 @@ public class Video extends BaseTimeEntity {
     this.channel = channel;
   }
 
-  public Video(VideoRequestDto videoRequestDto, Channel channel) {
-    this.title = videoRequestDto.getVideoTitle();
-    this.youtubeVideoId = videoRequestDto.getYoutubeVideoId();
-    this.length = videoRequestDto.getVideoLength();
+  public Video(VideoRequest videoRequest, Channel channel) {
+    this.title = videoRequest.getVideoTitle();
+    this.youtubeVideoId = videoRequest.getYoutubeVideoId();
+    this.length = videoRequest.getVideoLength();
     this.channel = channel;
-    this.uploadDate = LocalDateTime.parse(videoRequestDto.getUploadDate(),DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    this.uploadDate = LocalDateTime.parse(videoRequest.getUploadDate(),DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
   }
 
   public void addTimeFrame(TimeFrame timeFrame) {

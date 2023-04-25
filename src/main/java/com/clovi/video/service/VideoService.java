@@ -2,7 +2,7 @@ package com.clovi.video.service;
 
 import com.clovi.channel.Channel;
 import com.clovi.video.Video;
-import com.clovi.video.dto.request.VideoRequestDto;
+import com.clovi.video.dto.request.VideoRequest;
 import com.clovi.video.dto.response.VideoResponseDto;
 import com.clovi.exception.ResourceNotFoundException;
 import com.clovi.exception.video.DuplicateVideoIdException;
@@ -37,17 +37,17 @@ public class VideoService {
     }
 
     @Transactional
-    public Long save(@NotNull VideoRequestDto videoRequestDto) {
-        String channelId = videoRequestDto.getChannelId();
+    public Long save(@NotNull VideoRequest videoRequest) {
+        String channelId = videoRequest.getChannelId();
         Channel channel = channelRepository.findByChannelIdAndDeletedFalse(channelId).orElseThrow(
                 () -> new ResourceNotFoundException("channelId", channelId)
         );
 
-        String videoId = videoRequestDto.getYoutubeVideoId();
+        String videoId = videoRequest.getYoutubeVideoId();
         Optional<Video> video = videoRepository.findByYoutubeVideoId(videoId);
         if(video.isPresent()) throw new DuplicateVideoIdException();
 
-        Video newVideo = new Video(videoRequestDto, channel);
+        Video newVideo = new Video(videoRequest, channel);
         Video savedVideo = videoRepository.save(newVideo);
         return savedVideo.getId();
     }
