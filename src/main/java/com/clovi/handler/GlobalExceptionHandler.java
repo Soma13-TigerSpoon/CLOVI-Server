@@ -1,10 +1,10 @@
 package com.clovi.handler;
 
-import com.clovi.base.dto.response.ErrorResponse;
+import com.clovi.app.base.dto.response.ErrorResponse;
 import com.clovi.exception.BadRequestException;
 import com.clovi.exception.NotFoundException;
 import com.clovi.exception.auth.NoPermissionException;
-import com.clovi.exception.auth.UnAuthorizedException;
+import com.clovi.exception.auth.UnauthorizedException;
 import java.security.InvalidParameterException;
 import javax.servlet.http.HttpServletRequest;
 
@@ -93,11 +93,11 @@ public class GlobalExceptionHandler {
   }
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
   @ExceptionHandler({
-      UnAuthorizedException.class
+      UnauthorizedException.class
   })
-  public ResponseEntity<ErrorResponse> handleInvalidAuthorization(final UnAuthorizedException e, HttpServletRequest request) {
+  public ResponseEntity<ErrorResponse> handleInvalidAuthorization(final UnauthorizedException e, HttpServletRequest request) {
 
-    log.error("UnAuthorizedException 발생!!! url:{}, trace:{}",request.getRequestURI(), e.getStackTrace());
+    log.error("UnauthorizedException 발생!!! url:{}, trace:{}",request.getRequestURI(), e.getStackTrace());
 
     ErrorResponse response = ErrorResponse.builder()
         .status(HttpStatus.UNAUTHORIZED.value())

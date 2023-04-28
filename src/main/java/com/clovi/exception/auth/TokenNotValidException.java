@@ -1,6 +1,6 @@
 package com.clovi.exception.auth;
 
-public class TokenNotValidException extends UnAuthorizedException {
+public class TokenNotValidException extends UnauthorizedException {
 
   private static final String SERVER_MESSAGE = "유효하지 않은 토큰입니다.";
   private static final String ERROR_CODE = "TOKEN_IS_NOT_VALID";
