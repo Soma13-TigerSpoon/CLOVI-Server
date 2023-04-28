@@ -1,8 +1,8 @@
 package com.clovi.exception;
 
-public class ResourceNotFoundException extends NotFoundException {
+public class ResourceNotFoundException extends BadRequestException {
 
-  private static final String ERROR_CODE = "NOT_FOUND";
+  private static final String ERROR_CODE = "BAD_REQUEST";
   private static final String SERVER_MESSAGE = "존재하지 않는 객체 조회";
 
   public ResourceNotFoundException(String domain, final Long id) {

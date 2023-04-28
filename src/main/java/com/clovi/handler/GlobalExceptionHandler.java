@@ -2,7 +2,6 @@ package com.clovi.handler;
 
 import com.clovi.base.dto.response.ErrorResponse;
 import com.clovi.exception.BadRequestException;
-import com.clovi.exception.NotFoundException;
 import com.clovi.exception.auth.NoPermissionException;
 import com.clovi.exception.auth.UnAuthorizedException;
 import java.security.InvalidParameterException;
@@ -23,8 +22,8 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 public class GlobalExceptionHandler {
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-  public ResponseEntity<ErrorResponse> handleArgumentMismatchException(MethodArgumentTypeMismatchException e, HttpServletRequest request){
-    log.error("MethodArgumentTypeMismatchException 발생!!! url:{}, trace:{}",request.getRequestURI(), e.getStackTrace());
+  public ResponseEntity<ErrorResponse> handleArgumentMismatchException(MethodArgumentTypeMismatchException e){
+    log.error("MethodArgumentTypeMismatchException 발생!!! trace:{}", e.getStackTrace());
     final ErrorResponse response = ErrorResponse.builder()
             .status(HttpStatus.BAD_REQUEST.value())
             .message(e.getMessage()).build();
@@ -36,13 +35,14 @@ public class GlobalExceptionHandler {
    */
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<ErrorResponse> handleArgumentValidException(MethodArgumentNotValidException e, HttpServletRequest request){
-    log.error("MethodArgumentNotValidException 발생!!! url:{}, trace:{}",request.getRequestURI(), e.getStackTrace());
+  public ResponseEntity<ErrorResponse> handleArgumentValidException(MethodArgumentNotValidException e){
+    log.error("MethodArgumentNotValidException 발생!!! trace:{}",e.getStackTrace());
     final ErrorResponse response = ErrorResponse.builder()
             .status(HttpStatus.BAD_REQUEST.value())
             .message(e.getMessage()).build();
     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
   }
+
   @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
   @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
   protected ResponseEntity<ErrorResponse> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e, HttpServletRequest request) {
@@ -78,19 +78,7 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
   }
 
-  @ResponseStatus(HttpStatus.NOT_FOUND)
-  @ExceptionHandler({
-      NotFoundException.class
-  })
-  public ResponseEntity<ErrorResponse> handleNotFoundException(final NotFoundException e, HttpServletRequest request) {
-    log.error("NotFoundException 발생!!! url:{}, trace:{}",request.getRequestURI(), e.getStackTrace());
-    ErrorResponse response = ErrorResponse.builder()
-        .status(HttpStatus.NOT_FOUND.value())
-        .message(e.getClientMessage())
-        .code(e.getErrorCode()).build();
 
-    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-  }
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
   @ExceptionHandler({
       UnAuthorizedException.class

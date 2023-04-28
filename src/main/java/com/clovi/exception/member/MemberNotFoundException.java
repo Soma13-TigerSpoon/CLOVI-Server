@@ -1,9 +1,9 @@
 package com.clovi.exception.member;
 
-import com.clovi.exception.NotFoundException;
+import com.clovi.exception.BadRequestException;
 
-public class MemberNotFoundException extends NotFoundException {
-  private static final String ERROR_CODE = "MEMBER_NOT_FOUND";
+public class MemberNotFoundException extends BadRequestException {
+  private static final String ERROR_CODE = "BAD_REQUEST";
   private static final String SERVER_MESSAGE = "존재하지 않는 멤버 조회";
   private static final String CLIENT_MESSAGE = "사용자를 찾지 못했습니다.";
 
