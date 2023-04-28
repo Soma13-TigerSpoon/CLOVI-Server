@@ -1,8 +1,9 @@
-package com.clovi.item.shop;
+package com.clovi.app.shop.controller;
 
-import com.clovi.base.dto.response.BaseResponse;
-import com.clovi.base.dto.response.MessageCode;
-import com.clovi.base.dto.response.ProcessStatus;
+import com.clovi.app.base.dto.response.BaseResponse;
+import com.clovi.app.base.dto.response.MessageCode;
+import com.clovi.app.base.dto.response.ProcessStatus;
+import com.clovi.app.shop.service.ShopService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
