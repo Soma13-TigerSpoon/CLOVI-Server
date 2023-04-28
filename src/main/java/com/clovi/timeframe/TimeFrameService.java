@@ -2,12 +2,9 @@ package com.clovi.timeframe;
 
 import com.clovi.exception.DuplicateResourceException;
 import com.clovi.exception.ResourceNotFoundException;
-import com.clovi.exception.auth.NoPermissionCreateException;
 import com.clovi.exception.auth.NoPermissionDeleteException;
 import com.clovi.exception.auth.NoPermissionUpdateException;
 import com.clovi.member.Member;
-import com.clovi.model.Model;
-import com.clovi.model.ModelRepository;
 import com.clovi.timeShopItem.dto.response.TimeShopItemResponseDto;
 import com.clovi.timeframe.dto.request.TimeFrameCreateRequest;
 import com.clovi.timeframe.dto.request.TimeFrameUpdateRequest;
@@ -31,10 +28,11 @@ public class TimeFrameService {
     private final TimeFrameRepository timeFrameRepository;
     private final VideoRepository videoRepository;
 
-    public List<TimeFrameResponseDto> getTimeFrameListByVideoId(Long video_id) {
-        List<TimeFrame> timeFrames = timeFrameRepository.findAllByVideoIdAndDeletedIsFalse(video_id);
+    public List<TimeFrameResponseDto> getTimeFrameListByYoutubeVideoId(String youtubeVideoId) {
+        Video video = videoRepository.findByYoutubeVideoIdAndDeletedIsFalse(youtubeVideoId).orElseThrow(() -> new ResourceNotFoundException("video",youtubeVideoId));
+        List<TimeFrame> timeFrames = timeFrameRepository.findAllByVideoIdAndDeletedIsFalse(video.getId());
         List<TimeFrameResponseDto> result = timeFrames.stream().map(TimeFrameResponseDto::new).collect(Collectors.toList());
-        if(result.isEmpty() == false) {
+        if(!result.isEmpty()) {
             result.sort(Comparator.comparing(TimeFrameResponseDto::getStart));
         }
         return result;
@@ -47,10 +45,10 @@ public class TimeFrameService {
     }
 
     @Transactional
-    public Long create(TimeFrameCreateRequest timeFrameCreateRequest, Long videoId, Member member) {
-        Video video = videoRepository.findByIdAndDeletedIsFalse(videoId).orElseThrow(() -> new ResourceNotFoundException("video",videoId));
+    public Long create(TimeFrameCreateRequest timeFrameCreateRequest, String youtubeVideoId, Member member) {
+        Video video = videoRepository.findByYoutubeVideoIdAndDeletedIsFalse(youtubeVideoId).orElseThrow(() -> new ResourceNotFoundException("video",youtubeVideoId));
         Long capturePoint = timeFrameCreateRequest.getTime();
-        if(timeFrameRepository.existsByVideoIdAndCapturePointAndDeletedIsFalse(videoId,capturePoint)){
+        if(timeFrameRepository.existsByVideoIdAndCapturePointAndDeletedIsFalse(video.getId(),capturePoint)){
             throw new DuplicateResourceException("timeFrame");
         }
 //        channel 관련 권한 설정 논의
@@ -78,7 +76,7 @@ public class TimeFrameService {
     @Transactional
     public void delete(Long timeFrameId, Member member) {
         TimeFrame timeFrame = timeFrameRepository.findByIdAndDeletedIsFalse(timeFrameId).orElseThrow(() -> new ResourceNotFoundException("timeFrame",timeFrameId));
-        if(timeFrame.isNotCreatedBy(member.getId())){
+        if(timeFrame.isNotCreatedBy(member.getId())){//삭제 권한은 생성한 사람만 가지고 있음
             throw new NoPermissionDeleteException();
         }
         timeFrame.delete();

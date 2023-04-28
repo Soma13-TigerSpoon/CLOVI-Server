@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotBlank;
 import java.net.URI;
 
 
@@ -31,11 +32,12 @@ public class TimeShopItemController {
     @Operation(summary = "Create timeShopItem Relationship", description = "Create timeShopItem and save", responses = {
             @ApiResponse(responseCode = "201", description = "Success create", content = @Content(schema = @Schema(implementation = SavedId.class)))
     })
-    public ResponseEntity createTimeShopItem(@PathVariable(name = "video_id") Long videoId, @AuthMember Member member, @PathVariable(name = "time_frame_id") Long timeFrameId
+    public ResponseEntity createTimeShopItem(@NotBlank @PathVariable(name = "video_id") Long videoId, @AuthMember Member member, @NotBlank @PathVariable(name = "time_frame_id") Long timeFrameId
             , @PathVariable(name = "item_id") Long itemId, @PathVariable(name = "shop_item_id") Long shopItemId){
         SavedId savedId = new SavedId(timeShopItemService.create(member,timeFrameId,itemId,shopItemId));
+        String[] list = {"/api/v1/videos", String.valueOf(videoId), "timeframes", String.valueOf(timeFrameId)};
         return ResponseEntity.created(
-                URI.create("/api/v1/videos/" + String.valueOf(videoId) + "/timeframes/" + String.valueOf(timeFrameId))).body(new BaseResponse(savedId, HttpStatus.CREATED.value(),
+                URI.create(String.join("/", list))).body(new BaseResponse(savedId, HttpStatus.CREATED.value(),
                 ProcessStatus.SUCCESS,
                 MessageCode.SUCCESS_CREATE));
     }
