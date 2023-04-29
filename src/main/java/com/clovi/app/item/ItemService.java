@@ -1,4 +1,4 @@
-package com.clovi.app.item.service;
+package com.clovi.app.item;
 
 import com.clovi.app.exception.ResourceNotFoundException;
 import com.clovi.app.exception.auth.NoPermissionDeleteException;

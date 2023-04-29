@@ -1,6 +1,7 @@
 
 package com.clovi.app.member;
 
+import com.clovi.app.auth.helper.AuthMember;
 import com.clovi.app.base.dto.response.BaseResponse;
 import com.clovi.app.base.dto.response.MessageCode;
 import com.clovi.app.base.dto.response.SavedId;

@@ -9,7 +9,7 @@ import com.clovi.app.shopItem.dto.request.ShopItemUpdateRequest;
 import com.clovi.app.shopItem.dto.response.ShopItemResponse;
 import com.clovi.app.member.Member;
 import com.clovi.app.member.dto.response.MemberResponse;
-import com.clovi.app.auth.support.AuthMember;
+import com.clovi.app.auth.helper.AuthMember;
 import io.swagger.v3.oas.annotations.Operation;
 import java.net.URI;
 

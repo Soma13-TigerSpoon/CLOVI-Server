@@ -4,7 +4,7 @@ import com.clovi.app.base.dto.response.BaseResponse;
 import com.clovi.app.base.dto.response.MessageCode;
 import com.clovi.app.base.dto.response.ProcessStatus;
 import com.clovi.app.base.dto.response.SavedId;
-import com.clovi.app.auth.support.AuthMember;
+import com.clovi.app.auth.helper.AuthMember;
 import com.clovi.app.member.Member;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

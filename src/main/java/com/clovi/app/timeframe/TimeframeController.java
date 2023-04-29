@@ -8,7 +8,7 @@ import com.clovi.app.timeShopItem.dto.response.TimeShopItemResponse;
 import com.clovi.app.timeframe.dto.request.TimeframeCreateRequest;
 import com.clovi.app.timeframe.dto.request.TimeframeUpdateRequest;
 import com.clovi.app.timeframe.dto.response.TimeframeResponse;
-import com.clovi.app.auth.support.AuthMember;
+import com.clovi.app.auth.helper.AuthMember;
 import com.clovi.app.member.Member;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

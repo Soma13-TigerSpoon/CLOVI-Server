@@ -8,7 +8,7 @@ import com.clovi.app.base.dto.response.MessageCode;
 import com.clovi.app.base.dto.response.ProcessStatus;
 import com.clovi.app.member.Member;
 import com.clovi.app.base.dto.response.SavedId;
-import com.clovi.app.auth.support.AuthMember;
+import com.clovi.app.auth.helper.AuthMember;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -48,20 +48,6 @@ public class ItemInfoController {
             new BaseResponse(result, HttpStatus.OK.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET)
     );
   }
-
-  /* Deprecated
-  @PostMapping("/v0/itemInfo/items")
-  @Operation(summary = "Deprecated", description = "더 이상 안 써요 ")
-  public ResponseEntity saveItemInfo(@Valid @RequestBody TimeShopItemRequest timeItemRequestDto) {
-    // System.out.println(timeItemRequestDto);
-    Long savedId = itemQueryService.save(timeItemRequestDto);
-
-    return new ResponseEntity<>(
-            new BaseResponse(new SavedId(savedId), HttpStatus.CREATED.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_CREATE),
-            HttpStatus.CREATED
-    );
-  }
-  */
 
   // 상품 상세정보 생성 API
   @PostMapping("/v1/info/items")

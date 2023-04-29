@@ -3,7 +3,6 @@ package com.clovi.app.itemInfo;
 import com.clovi.app.category.Category;
 import com.clovi.app.itemInfo.dto.request.ItemInfoCreateRequest;
 import com.clovi.app.itemInfo.dto.request.ItemInfoUpdateRequest;
-import com.clovi.app.timeShopItem.dto.request.TimeShopItemRequestDto;
 import com.clovi.app.base.domain.BaseEntity;
 import com.clovi.app.shopItem.ShopItem;
 
@@ -56,16 +55,6 @@ public class ItemInfo extends BaseEntity {
     this.name = name;
     this.imgUrl = imgUrl;
   }
-
-  public ItemInfo(TimeShopItemRequest timeShopItemRequest, Category category, ItemInfo parent) {
-    this.name = timeShopItemRequest.getName();
-    this.imgUrl = timeShopItemRequest.getItemImgUrl();
-    this.brand = timeShopItemRequest.getBrand();
-    this.category = category;
-    this.parent = parent;
-    this.color = timeShopItemRequest.getColor();
-  }
-
   public ItemInfo(ItemInfoCreateRequest itemInfoCreateRequest, Category category, Long userId) {
     this.createBy = userId;
     this.lastModifiedBy = userId;
