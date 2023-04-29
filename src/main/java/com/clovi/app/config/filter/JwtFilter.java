@@ -1,7 +1,7 @@
 package com.clovi.app.config.filter;
 
 import com.clovi.app.config.JwtTokenProvider;
-import com.clovi.app.auth.helper.MemberDetailService;
+import com.clovi.app.auth.service.MemberDetailService;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

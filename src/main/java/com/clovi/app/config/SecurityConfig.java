@@ -1,7 +1,7 @@
 package com.clovi.app.config;
 
 import com.clovi.app.config.filter.JwtFilter;
-import com.clovi.app.auth.helper.MemberDetailService;
+import com.clovi.app.auth.service.MemberDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
