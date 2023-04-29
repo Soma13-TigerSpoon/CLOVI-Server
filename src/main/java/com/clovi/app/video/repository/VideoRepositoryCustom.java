@@ -1,7 +1,7 @@
 package com.clovi.app.video.repository;
 
-import com.clovi.app.video.domain.Video;
 import com.clovi.app.search.dto.request.SearchRequest;
+import com.clovi.app.video.Video;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

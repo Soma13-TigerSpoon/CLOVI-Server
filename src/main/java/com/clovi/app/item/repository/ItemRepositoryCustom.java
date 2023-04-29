@@ -1,8 +1,8 @@
 package com.clovi.app.item.repository;
 
-import com.clovi.app.item.domain.Item;
+import com.clovi.app.item.Item;
+import com.clovi.app.itemInfo.ItemInfo;
 import com.clovi.app.search.dto.request.SearchRequest;
-import com.clovi.app.itemInfo.domain.ItemInfo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -1,6 +1,6 @@
 package com.clovi.app.model.dto.response;
 
-import com.clovi.app.model.domain.Model;
+import com.clovi.app.model.Model;
 import lombok.Getter;
 
 

@@ -1,5 +1,4 @@
 package com.clovi.app.auth.helper;
-
 import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 

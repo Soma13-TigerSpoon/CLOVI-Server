@@ -1,6 +1,6 @@
 package com.clovi.app.member.dto.response;
 
-import com.clovi.app.member.domain.Member;
+import com.clovi.app.member.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 

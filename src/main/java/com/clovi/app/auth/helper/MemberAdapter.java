@@ -1,7 +1,7 @@
 package com.clovi.app.auth.helper;
 
-import com.clovi.app.auth.service.PrincipalDetails;
-import com.clovi.app.member.domain.Member;
+import com.clovi.app.member.Member;
+import com.clovi.app.auth.helper.PrincipalDetails;
 import lombok.Getter;
 
 import java.util.Map;

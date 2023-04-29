@@ -1,13 +1,12 @@
 package com.clovi.app.category.repository;
 
-import com.clovi.app.category.domain.Category;
+import com.clovi.app.category.Category;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import static com.clovi.app.category.QCategory.category;
 import java.util.List;
-
-import static com.clovi.app.category.domain.QCategory.category;
 
 @Repository
 @RequiredArgsConstructor

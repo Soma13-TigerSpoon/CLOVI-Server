@@ -1,6 +1,6 @@
 package com.clovi.app.color.dto.response;
 
-import com.clovi.app.item.domain.Item;
+import com.clovi.app.item.Item;
 import lombok.Getter;
 
 @Getter

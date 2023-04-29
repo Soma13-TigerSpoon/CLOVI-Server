@@ -1,9 +1,9 @@
 package com.clovi.app.search.dto.response;
 
-import com.clovi.app.item.domain.Item;
-import com.clovi.app.video.domain.Video;
-import com.clovi.app.video.dto.response.VideoResponse;
+import com.clovi.app.item.Item;
 import com.clovi.app.item.dto.response.ItemResponse;
+import com.clovi.app.video.Video;
+import com.clovi.app.video.dto.response.VideoResponse;
 import lombok.Getter;
 import org.springframework.data.domain.Page;
 

@@ -1,7 +1,6 @@
 package com.clovi.app.auth.repository;
 
 import com.clovi.app.auth.domain.RefreshToken;
-
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

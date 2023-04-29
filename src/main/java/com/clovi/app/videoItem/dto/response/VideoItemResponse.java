@@ -1,8 +1,8 @@
 package com.clovi.app.videoItem.dto.response;
 
-import com.clovi.app.timeframe.domain.Timeframe;
+import com.clovi.app.timeframe.Timeframe;
 import com.clovi.app.timeframe.dto.response.TimeframeModelResponse;
-import com.clovi.app.video.domain.Video;
+import com.clovi.app.video.Video;
 import lombok.Getter;
 
 import java.util.List;

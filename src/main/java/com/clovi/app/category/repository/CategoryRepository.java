@@ -1,6 +1,6 @@
 package com.clovi.app.category.repository;
 
-import com.clovi.app.category.domain.Category;
+import com.clovi.app.category.Category;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,7 +1,7 @@
 package com.clovi.app.search.dto.response;
 
-import com.clovi.app.item.domain.Item;
-import com.clovi.app.video.domain.Video;
+import com.clovi.app.item.Item;
+import com.clovi.app.video.Video;
 import lombok.Getter;
 
 import java.util.List;

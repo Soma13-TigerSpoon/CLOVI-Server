@@ -1,6 +1,6 @@
 package com.clovi.app.shopItem.dto.response;
 
-import com.clovi.app.shopItem.domain.ShopItem;
+import com.clovi.app.shopItem.ShopItem;
 import lombok.Getter;
 
 

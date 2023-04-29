@@ -1,9 +1,8 @@
 package com.clovi.app.item.dto.response;
 
-import com.clovi.app.item.domain.Item;
-import com.clovi.app.shopItem.domain.ShopItem;
-import com.clovi.app.itemInfo.domain.ItemInfo;
-
+import com.clovi.app.shopItem.ShopItem;
+import com.clovi.app.itemInfo.ItemInfo;
+import com.clovi.app.item.Item;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

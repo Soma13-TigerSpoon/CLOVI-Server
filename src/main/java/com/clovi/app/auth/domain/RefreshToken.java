@@ -1,6 +1,7 @@
 package com.clovi.app.auth.domain;
 
 import com.clovi.app.base.domain.BaseTimeEntity;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

@@ -2,9 +2,9 @@ package com.clovi.app.timeShopItem.dto.response;
 
 import com.clovi.app.item.dto.response.ItemShopItemResponse;
 import com.clovi.app.model.dto.response.ModelResponse;
-import com.clovi.app.timeShopItem.domain.TimeShopItem;
-import com.clovi.app.timeframe.domain.Timeframe;
+import com.clovi.app.timeframe.Timeframe;
 import com.clovi.app.timeframe.dto.response.TimeframeResponse;
+import com.clovi.app.timeShopItem.TimeShopItem;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -29,7 +29,9 @@ public class TimeShopItemResponse {
     items.sort(new ItemOrderComparator());
 
     // select model
-    this.model = new ModelResponse(timeFrame.getModel());
+    if(timeFrame.getModel() != null){
+      this.model = new ModelResponse(timeFrame.getModel());
+    }
   }
 }
 

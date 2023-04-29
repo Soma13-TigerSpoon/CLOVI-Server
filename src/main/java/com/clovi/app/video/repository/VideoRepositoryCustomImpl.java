@@ -1,7 +1,9 @@
 package com.clovi.app.video.repository;
 
-import com.clovi.app.video.domain.Video;
 import com.clovi.app.search.dto.request.SearchRequest;
+import com.clovi.app.video.QVideo;
+import com.clovi.app.videoItem.QVideoItem;
+import com.clovi.app.video.Video;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -18,11 +20,9 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-import static com.clovi.app.category.domain.QCategory.category;
-import static com.clovi.app.itemInfo.domain.QItemInfo.itemInfo;
-import static com.clovi.app.item.domain.QItem.item;
-import static com.clovi.app.video.domain.QVideo.video;
-import static com.clovi.app.videoItem.domain.QVideoItem.videoItem;
+import static com.clovi.app.category.QCategory.category;
+import static com.clovi.app.item.QItem.item;
+import static com.clovi.app.itemInfo.QItemInfo.itemInfo;
 
 
 @Repository
@@ -37,10 +37,10 @@ public class VideoRepositoryCustomImpl implements VideoRepositoryCustom {
         long parentCategoryNo = searchRequest.getParentCategory();
         long childCategoryNo = searchRequest.getChildCategory();
         List<Video> queryResults = queryFactory
-                .selectFrom(video)
-                .innerJoin(video.videoItems, videoItem)
-                .innerJoin(videoItem.item, item)
-                .innerJoin(item.itemInfo,itemInfo)
+                .selectFrom(QVideo.video)
+                .innerJoin(QVideo.video.videoItems, QVideoItem.videoItem)
+                .innerJoin(QVideoItem.videoItem.item, item)
+                .innerJoin(item.itemInfo, itemInfo)
                 .innerJoin(itemInfo.category, category)
                 .where(
                         keywordContains(searchKeyword),
@@ -61,7 +61,7 @@ public class VideoRepositoryCustomImpl implements VideoRepositoryCustom {
     @Override
     public List<Video> filterByKeyword(String searchKeyword) {
         List<Video> queryResults = queryFactory
-                .selectFrom(video)
+                .selectFrom(QVideo.video)
                 .where(
                         keywordContains(searchKeyword)
                 )
@@ -73,15 +73,15 @@ public class VideoRepositoryCustomImpl implements VideoRepositoryCustom {
     @Override
     public List<Video> filterByItemId(Long itemId) {
         List<Video> queryResults = queryFactory
-                .selectFrom(video)
-                .innerJoin(video.videoItems, videoItem)
-                .innerJoin(videoItem.item, item)
-                .innerJoin(item.itemInfo,itemInfo)
-                .innerJoin(item.itemInfo.category,category)
+                .selectFrom(QVideo.video)
+                .innerJoin(QVideo.video.videoItems, QVideoItem.videoItem)
+                .innerJoin(QVideoItem.videoItem.item, item)
+                .innerJoin(item.itemInfo, itemInfo)
+                .innerJoin(item.itemInfo.category, category)
                 .where(
                         itemInfoEq(itemId)
                 )
-                .orderBy(video.id.asc())
+                .orderBy(QVideo.video.id.asc())
                 .fetch().stream().distinct().collect(Collectors.toList());
 
         return queryResults;
@@ -90,8 +90,8 @@ public class VideoRepositoryCustomImpl implements VideoRepositoryCustom {
     private BooleanExpression keywordContains(String searchKeyword) {
         if(searchKeyword == null) return null;
 
-        BooleanExpression queryVideo1 = video.title.containsIgnoreCase(searchKeyword);
-        BooleanExpression queryVideo2 = video.channel.name.containsIgnoreCase(searchKeyword);
+        BooleanExpression queryVideo1 = QVideo.video.title.containsIgnoreCase(searchKeyword);
+        BooleanExpression queryVideo2 = QVideo.video.channel.name.containsIgnoreCase(searchKeyword);
 
         BooleanExpression queryItem1 = item.itemInfo.name.containsIgnoreCase(searchKeyword);
         BooleanExpression queryItem2 = item.itemInfo.brand.containsIgnoreCase(searchKeyword);
@@ -106,7 +106,7 @@ public class VideoRepositoryCustomImpl implements VideoRepositoryCustom {
 
     private BooleanExpression channelEq(String channelName) {
         if(channelName == null) return null;
-        return video.channel.name.eq(channelName);
+        return QVideo.video.channel.name.eq(channelName);
     }
 
     private BooleanExpression parentCategoryEq(long parentCategoryNo) {
@@ -128,7 +128,7 @@ public class VideoRepositoryCustomImpl implements VideoRepositoryCustom {
         List<OrderSpecifier> orders = new ArrayList<>();
 
         // 맨 처음 조건으로 영상 업로드 날짜 추가.
-        orders.add(video.uploadDate.desc());
+        orders.add(QVideo.video.uploadDate.desc());
         for(Sort.Order order : sort) {
             Order direction = order.isAscending() ? Order.ASC : Order.DESC;
             String property = order.getProperty();

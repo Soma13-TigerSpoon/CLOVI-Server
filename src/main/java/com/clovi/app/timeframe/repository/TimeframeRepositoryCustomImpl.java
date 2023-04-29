@@ -1,6 +1,6 @@
 package com.clovi.app.timeframe.repository;
 
-import com.clovi.app.timeframe.domain.Timeframe;
+import com.clovi.app.timeframe.Timeframe;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -9,11 +9,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.clovi.app.itemInfo.domain.QItemInfo.itemInfo;
-import static com.clovi.app.item.domain.QItem.item;
-import static com.clovi.app.timeShopItem.domain.QTimeShopItem.timeShopItem;
-import static com.clovi.app.timeframe.domain.QTimeframe.timeframe;
-import static com.clovi.app.video.domain.QVideo.video;
+import static com.clovi.app.item.QItem.item;
+import static com.clovi.app.itemInfo.QItemInfo.itemInfo;
+import static com.clovi.app.timeShopItem.QTimeShopItem.timeShopItem;
+import static com.clovi.app.timeframe.QTimeframe.timeframe;
+import static com.clovi.app.video.QVideo.video;
 
 @Repository
 @RequiredArgsConstructor

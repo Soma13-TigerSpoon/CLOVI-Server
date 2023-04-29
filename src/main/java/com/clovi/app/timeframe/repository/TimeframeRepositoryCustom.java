@@ -1,6 +1,6 @@
 package com.clovi.app.timeframe.repository;
 
-import com.clovi.app.timeframe.domain.Timeframe;
+import com.clovi.app.timeframe.Timeframe;
 
 import java.util.List;
 

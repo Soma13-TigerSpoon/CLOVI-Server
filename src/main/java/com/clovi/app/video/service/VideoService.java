@@ -1,13 +1,13 @@
 package com.clovi.app.video.service;
 
-import com.clovi.app.channel.domain.Channel;
-import com.clovi.app.video.domain.Video;
+import com.clovi.app.channel.Channel;
+import com.clovi.app.channel.ChannelRepository;
+import com.clovi.app.exception.ResourceNotFoundException;
 import com.clovi.app.video.dto.request.VideoRequest;
 import com.clovi.app.video.dto.response.VideoResponse;
-import com.clovi.exception.ResourceNotFoundException;
-import com.clovi.exception.video.DuplicateVideoIdException;
-import com.clovi.app.channel.repository.ChannelRepository;
 import com.clovi.app.video.repository.VideoRepository;
+import com.clovi.app.video.Video;
+import com.clovi.app.exception.video.DuplicateVideoIdException;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -37,19 +37,10 @@ public class VideoService {
     }
 
     @Transactional
-    public Long save(@NotNull VideoRequest videoRequest, Channel channel) {
-        Video video = videoRepository.findByYoutubeVideoId(videoRequest.getYoutubeVideoId()).orElse(
-            new Video(videoRequest, channel)
-        );
-        videoRepository.save(video);
-        return video.getId();
-    }
-
-    @Transactional
     public Long save(@NotNull VideoRequest videoRequest) {
-        String channelUrl = videoRequest.getChannelUrl();
-        Channel channel = channelRepository.findByChannelUrl(channelUrl).orElseThrow(
-                () -> new ResourceNotFoundException("channelUrl", channelUrl)
+        String channelId = videoRequest.getChannelId();
+        Channel channel = channelRepository.findByChannelIdAndDeletedFalse(channelId).orElseThrow(
+                () -> new ResourceNotFoundException("channelId", channelId)
         );
 
         String videoId = videoRequest.getYoutubeVideoId();

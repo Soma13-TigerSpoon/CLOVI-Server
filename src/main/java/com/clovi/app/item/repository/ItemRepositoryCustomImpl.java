@@ -1,8 +1,8 @@
 package com.clovi.app.item.repository;
 
-import com.clovi.app.item.domain.Item;
+import com.clovi.app.item.Item;
+import com.clovi.app.itemInfo.ItemInfo;
 import com.clovi.app.search.dto.request.SearchRequest;
-import com.clovi.app.itemInfo.domain.ItemInfo;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -19,11 +19,11 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-import static com.clovi.app.category.domain.QCategory.category;
-import static com.clovi.app.itemInfo.domain.QItemInfo.itemInfo;
-import static com.clovi.app.item.domain.QItem.item;
-import static com.clovi.app.video.domain.QVideo.video;
-import static com.clovi.app.videoItem.domain.QVideoItem.videoItem;
+import static com.clovi.app.category.QCategory.category;
+import static com.clovi.app.item.QItem.item;
+import static com.clovi.app.itemInfo.QItemInfo.itemInfo;
+import static com.clovi.app.video.QVideo.video;
+import static com.clovi.app.videoItem.QVideoItem.videoItem;
 
 @Repository
 @RequiredArgsConstructor

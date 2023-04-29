@@ -1,5 +1,6 @@
 package com.clovi.app.color.domain;
 
+import com.clovi.app.itemInfo.ItemInfo;
 import com.clovi.app.base.domain.BaseEntity;
 
 import javax.persistence.Column;
@@ -10,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import com.clovi.app.itemInfo.domain.ItemInfo;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

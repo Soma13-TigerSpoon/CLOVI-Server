@@ -1,7 +1,6 @@
 package com.clovi.app.category.dto.response;
 
-import com.clovi.app.category.domain.Category;
-
+import com.clovi.app.category.Category;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;

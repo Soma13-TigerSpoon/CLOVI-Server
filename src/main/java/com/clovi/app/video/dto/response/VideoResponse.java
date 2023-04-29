@@ -1,14 +1,13 @@
 package com.clovi.app.video.dto.response;
 
-import com.clovi.app.timeframe.domain.Timeframe;
-import com.clovi.app.video.domain.Video;
-
+import com.clovi.app.timeShopItem.dto.response.TimeShopItemResponse;
+import com.clovi.app.timeframe.Timeframe;
+import com.clovi.app.video.Video;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import com.clovi.app.timeShopItem.dto.response.TimeShopItemResponse;
 import lombok.Getter;
 
 @Getter
