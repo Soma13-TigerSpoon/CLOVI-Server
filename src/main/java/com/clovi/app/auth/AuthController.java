@@ -4,7 +4,7 @@ package com.clovi.app.auth;
 import com.clovi.app.auth.dto.request.LoginRequest;
 import com.clovi.app.auth.dto.request.TokenRequest;
 import com.clovi.app.auth.dto.response.TokenResponse;
-import com.clovi.app.auth.service.AuthService;
+import com.clovi.app.auth.helper.AuthService;
 import com.clovi.app.base.dto.response.BaseResponse;
 import com.clovi.app.base.dto.response.MessageCode;
 import io.swagger.v3.oas.annotations.Operation;

@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class TimeShopItemRequestDto {
+public class TimeShopItemRequest {
   // video data
   @NotNull
   private Long videoId;
@@ -22,7 +22,7 @@ public class TimeShopItemRequestDto {
   @NotNull
   private String startTime;
 
-  // item data
+  // domain data
   private Long parentId;
   @NotNull
   private String name;

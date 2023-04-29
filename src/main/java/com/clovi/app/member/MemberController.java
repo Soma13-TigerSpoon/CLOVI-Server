@@ -1,3 +1,4 @@
+
 package com.clovi.app.member;
 
 import com.clovi.app.base.dto.response.BaseResponse;
@@ -5,7 +6,6 @@ import com.clovi.app.base.dto.response.MessageCode;
 import com.clovi.app.base.dto.response.SavedId;
 import com.clovi.app.member.dto.request.MemberCreateRequest;
 import com.clovi.app.member.dto.response.MemberResponse;
-import com.clovi.app.auth.support.AuthMember;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

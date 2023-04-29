@@ -1,7 +1,7 @@
 package com.clovi.app.videoItem.dto.response;
 
 import com.clovi.app.timeframe.Timeframe;
-import com.clovi.app.timeframe.dto.response.TimeModelResponse;
+import com.clovi.app.timeframe.dto.response.TimeframeModelResponse;
 import com.clovi.app.video.Video;
 import lombok.Getter;
 
@@ -15,7 +15,7 @@ public class VideoItemResponse {
     private final String creator;
     private final String profileImgUrl;
     private final String videoUrl;
-    private final List<TimeModelResponse> timeModelList = new ArrayList<>();
+    private final List<TimeframeModelResponse> timeModelList = new ArrayList<>();
 
     public VideoItemResponse(Video video, List<Timeframe> times) {
         this.videoId = video.getId();
@@ -24,7 +24,7 @@ public class VideoItemResponse {
         this.profileImgUrl = video.getChannel().getProfileImgUrl();
         this.videoUrl = video.getYoutubeVideoId();
         for(Timeframe timeFrame : times){
-            this.timeModelList.add(new TimeModelResponse(timeFrame));
+            this.timeModelList.add(new TimeframeModelResponse(timeFrame));
         }
     }
 

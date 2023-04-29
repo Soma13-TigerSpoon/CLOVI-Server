@@ -57,13 +57,13 @@ public class ItemInfo extends BaseEntity {
     this.imgUrl = imgUrl;
   }
 
-  public ItemInfo(TimeShopItemRequestDto timeShopItemRequestDto, Category category, ItemInfo parent) {
-    this.name = timeShopItemRequestDto.getName();
-    this.imgUrl = timeShopItemRequestDto.getItemImgUrl();
-    this.brand = timeShopItemRequestDto.getBrand();
+  public ItemInfo(TimeShopItemRequest timeShopItemRequest, Category category, ItemInfo parent) {
+    this.name = timeShopItemRequest.getName();
+    this.imgUrl = timeShopItemRequest.getItemImgUrl();
+    this.brand = timeShopItemRequest.getBrand();
     this.category = category;
     this.parent = parent;
-    this.color = timeShopItemRequestDto.getColor();
+    this.color = timeShopItemRequest.getColor();
   }
 
   public ItemInfo(ItemInfoCreateRequest itemInfoCreateRequest, Category category, Long userId) {

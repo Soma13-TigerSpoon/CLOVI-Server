@@ -5,11 +5,11 @@ import com.clovi.app.model.dto.response.ModelResponse;
 import lombok.Getter;
 
 @Getter
-public class TimeModelResponse {
+public class TimeframeModelResponse {
     private final TimeframeResponse time;
     private final ModelResponse model;
 
-    public TimeModelResponse(Timeframe timeFrame) {
+    public TimeframeModelResponse(Timeframe timeFrame) {
         this.time = new TimeframeResponse(timeFrame);
         this.model = new ModelResponse(timeFrame.getModel());
     }

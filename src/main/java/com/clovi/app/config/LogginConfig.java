@@ -8,7 +8,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Component
 @RequiredArgsConstructor
-public class LogginConfig implements WebMvcConfigurer {
+
+public class LoggingConfig implements WebMvcConfigurer {
   private final LoggingInterceptor loggingInterceptor;
 
   @Override

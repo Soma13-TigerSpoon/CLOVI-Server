@@ -1,4 +1,4 @@
-package com.clovi.app.auth.service;
+package com.clovi.app.auth.helper;
 
 import com.clovi.app.exception.ResourceNotFoundException;
 import com.clovi.app.member.Member;

@@ -50,9 +50,9 @@ public class ItemInfoController {
   }
 
   /* Deprecated
-  @PostMapping("/v0/info/items")
+  @PostMapping("/v0/itemInfo/items")
   @Operation(summary = "Deprecated", description = "더 이상 안 써요 ")
-  public ResponseEntity saveItemInfo(@Valid @RequestBody TimeShopItemRequestDto timeItemRequestDto) {
+  public ResponseEntity saveItemInfo(@Valid @RequestBody TimeShopItemRequest timeItemRequestDto) {
     // System.out.println(timeItemRequestDto);
     Long savedId = itemQueryService.save(timeItemRequestDto);
 
