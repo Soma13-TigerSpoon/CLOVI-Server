@@ -37,11 +37,13 @@ public class AuthService {
     validatePassword(findMember,loginRequest.getPassword());
 
     // RefreshToken 있는지 확인 후 토큰 두개 반환
-    RefreshToken newToken = new RefreshToken(issueRefreshToken(findMember),findMember.getId());
+    RefreshToken savedToken = refreshTokenRepository.findByMemberId(findMember.getId())
+        .orElse(new RefreshToken(issueRefreshToken(findMember),findMember.getId()));
+    // 토큰 재발행
+    savedToken.update(issueRefreshToken(findMember));
+    refreshTokenRepository.save(savedToken);
 
-    refreshTokenRepository.save(newToken);
-
-    return new TokenResponse(findMember.getId(), issueAccessToken(findMember),newToken.getRefreshToken());
+    return new TokenResponse(findMember.getId(), issueAccessToken(findMember),savedToken.getRefreshToken());
   }
 
   @Transactional
