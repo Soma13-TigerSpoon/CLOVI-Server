@@ -7,7 +7,7 @@ import com.clovi.app.size.repository.ItemSizeRepository;
 import com.clovi.app.size.repository.SizeRepository;
 import com.clovi.app.member.Member;
 import com.clovi.app.itemInfo.ItemInfo;
-import com.clovi.app.exception.ResourceNotFoundException;
+import com.clovi.exception.ResourceNotFoundException;
 import com.clovi.app.itemInfo.ItemInfoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

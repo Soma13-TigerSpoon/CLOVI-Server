@@ -1,7 +1,7 @@
 package com.clovi.app.timeShopItem;
 
-import com.clovi.app.exception.DuplicateResourceException;
-import com.clovi.app.exception.ResourceNotFoundException;
+import com.clovi.exception.DuplicateResourceException;
+import com.clovi.exception.ResourceNotFoundException;
 import com.clovi.app.item.Item;
 import com.clovi.app.item.repository.ItemRepository;
 import com.clovi.app.shopItem.ShopItem;

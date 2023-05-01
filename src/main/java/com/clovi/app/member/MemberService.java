@@ -2,9 +2,9 @@ package com.clovi.app.member;
 
 import com.clovi.app.channel.Channel;
 import com.clovi.app.channel.ChannelRepository;
-import com.clovi.app.exception.ResourceNotFoundException;
-import com.clovi.app.exception.member.DuplicateMemberIdException;
-import com.clovi.app.exception.member.MemberNotFoundException;
+import com.clovi.exception.ResourceNotFoundException;
+import com.clovi.exception.member.DuplicateMemberIdException;
+import com.clovi.exception.member.MemberNotFoundException;
 import com.clovi.app.member.dto.request.MemberCreateRequest;
 import com.clovi.app.member.dto.response.MemberResponse;
 import com.clovi.app.auth.domain.RegisterKey;

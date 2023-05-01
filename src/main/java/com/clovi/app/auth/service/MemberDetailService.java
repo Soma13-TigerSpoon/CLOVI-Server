@@ -1,7 +1,7 @@
 package com.clovi.app.auth.service;
 
 import com.clovi.app.auth.helper.PrincipalDetails;
-import com.clovi.app.exception.ResourceNotFoundException;
+import com.clovi.exception.ResourceNotFoundException;
 import com.clovi.app.member.Member;
 import com.clovi.app.member.MemberRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,9 +1,9 @@
 package com.clovi.app.timeframe;
 
-import com.clovi.app.exception.DuplicateResourceException;
-import com.clovi.app.exception.ResourceNotFoundException;
-import com.clovi.app.exception.auth.NoPermissionDeleteException;
-import com.clovi.app.exception.auth.NoPermissionUpdateException;
+import com.clovi.exception.DuplicateResourceException;
+import com.clovi.exception.ResourceNotFoundException;
+import com.clovi.exception.auth.NoPermissionDeleteException;
+import com.clovi.exception.auth.NoPermissionUpdateException;
 import com.clovi.app.member.Member;
 import com.clovi.app.timeShopItem.dto.response.TimeShopItemResponse;
 import com.clovi.app.timeframe.dto.request.TimeframeCreateRequest;
