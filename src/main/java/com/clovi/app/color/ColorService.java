@@ -1,6 +1,6 @@
 package com.clovi.app.color;
 
-import com.clovi.app.exception.ResourceNotFoundException;
+import com.clovi.exception.ResourceNotFoundException;
 import com.clovi.app.color.domain.Color;
 import com.clovi.app.color.domain.ItemColor;
 import com.clovi.app.color.dto.request.ItemColorCreateRequest;

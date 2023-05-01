@@ -1,8 +1,8 @@
 package com.clovi.app.shopItem;
 
-import com.clovi.app.exception.ResourceNotFoundException;
-import com.clovi.app.exception.auth.NoPermissionDeleteException;
-import com.clovi.app.exception.auth.NoPermissionUpdateException;
+import com.clovi.exception.ResourceNotFoundException;
+import com.clovi.exception.auth.NoPermissionDeleteException;
+import com.clovi.exception.auth.NoPermissionUpdateException;
 import com.clovi.app.itemInfo.ItemInfo;
 import com.clovi.app.itemInfo.ItemInfoRepository;
 import com.clovi.app.shop.Shop;

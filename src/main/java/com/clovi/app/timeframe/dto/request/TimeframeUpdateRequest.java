@@ -1,6 +1,6 @@
 package com.clovi.app.timeframe.dto.request;
 
-import com.clovi.app.utils.TimeFormatUtils;
+import com.clovi.utils.TimeFormatUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

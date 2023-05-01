@@ -1,13 +1,12 @@
 package com.clovi.app.item;
 
-import com.clovi.app.exception.ResourceNotFoundException;
-import com.clovi.app.exception.auth.NoPermissionDeleteException;
-import com.clovi.app.exception.auth.NoPermissionUpdateException;
+import com.clovi.exception.ResourceNotFoundException;
+import com.clovi.exception.auth.NoPermissionDeleteException;
+import com.clovi.exception.auth.NoPermissionUpdateException;
 import com.clovi.app.item.dto.request.ItemCreateRequest;
 import com.clovi.app.item.dto.request.ItemUpdateRequest;
 import com.clovi.app.item.dto.response.ItemResponse;
 import com.clovi.app.itemInfo.ItemInfo;
-import com.clovi.app.item.Item;
 import com.clovi.app.member.Member;
 import com.clovi.app.item.repository.ItemRepository;
 import com.clovi.app.itemInfo.ItemInfoRepository;

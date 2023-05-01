@@ -2,9 +2,9 @@ package com.clovi.app.itemInfo;
 
 import com.clovi.app.category.Category;
 import com.clovi.app.category.repository.CategoryRepository;
-import com.clovi.app.exception.ResourceNotFoundException;
-import com.clovi.app.exception.auth.NoPermissionDeleteException;
-import com.clovi.app.exception.auth.NoPermissionUpdateException;
+import com.clovi.exception.ResourceNotFoundException;
+import com.clovi.exception.auth.NoPermissionDeleteException;
+import com.clovi.exception.auth.NoPermissionUpdateException;
 import com.clovi.app.itemInfo.dto.request.ItemInfoCreateRequest;
 import com.clovi.app.itemInfo.dto.request.ItemInfoUpdateRequest;
 import com.clovi.app.item.Item;

@@ -2,12 +2,12 @@ package com.clovi.app.video.service;
 
 import com.clovi.app.channel.Channel;
 import com.clovi.app.channel.ChannelRepository;
-import com.clovi.app.exception.ResourceNotFoundException;
+import com.clovi.exception.ResourceNotFoundException;
 import com.clovi.app.video.dto.request.VideoRequest;
 import com.clovi.app.video.dto.response.VideoResponse;
 import com.clovi.app.video.repository.VideoRepository;
 import com.clovi.app.video.Video;
-import com.clovi.app.exception.video.DuplicateVideoIdException;
+import com.clovi.exception.video.DuplicateVideoIdException;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
