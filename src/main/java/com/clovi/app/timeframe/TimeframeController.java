@@ -36,7 +36,7 @@ public class TimeframeController {
     @Operation(summary = "Find all timeframe", description = "Find all timeframes by video ID.", responses = {
             @ApiResponse(responseCode = "200", description = "Success find timeframe list", content = @Content(schema = @Schema(implementation = TimeframeResponse.class)))
     })
-    public ResponseEntity findAllTimeFramesByVideoId(@PathVariable(name = "video_id") String videoId){
+    public ResponseEntity findAllTimeframesByVideoId(@PathVariable(name = "video_id") String videoId) {
         List<TimeframeResponse> response = timeFrameService.getTimeframeListByVideoId(videoId);
         return ResponseEntity.ok(new BaseResponse(response, HttpStatus.OK.value(), MessageCode.SUCCESS_GET_LIST));
     }
