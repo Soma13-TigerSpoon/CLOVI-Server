@@ -40,8 +40,8 @@ public class VideoResponse {
 class TimeOrderComparator implements Comparator<TimeShopItemResponse> {
   @Override
   public int compare(TimeShopItemResponse A, TimeShopItemResponse B) {
-    Long orderA = A.getTimes().getStart();
-    Long orderB = B.getTimes().getStart();
+    Long orderA = A.getTime().getStart();
+    Long orderB = B.getTime().getStart();
 
     if(orderA == null || orderB == null) return 0;
 

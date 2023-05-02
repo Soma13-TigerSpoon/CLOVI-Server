@@ -19,11 +19,11 @@ public class TimeShopItemResponse {
   private List<ItemShopItemResponse> items;
 
   public TimeShopItemResponse(Timeframe timeframe) {
-    // select times
+    // select time
     this.time = new TimeframeResponse(timeframe);
 
     // select model
-    if(timeframe.getModel() != null){
+    if(timeframe.getModel() != null) {
       this.model = new ModelResponse(timeframe.getModel());
     }
 
