@@ -28,7 +28,7 @@ public class TimeframeService {
     private final TimeframeRepository timeFrameRepository;
     private final VideoRepository videoRepository;
 
-    /* Function not used
+    /* Function deprecated
     public List<TimeframeResponse> getTimeFrameListByYoutubeVideoId(String youtubeVideoId) {
         Video video = videoRepository.findByYoutubeVideoIdAndDeletedIsFalse(youtubeVideoId).orElseThrow(() -> new ResourceNotFoundException("video",youtubeVideoId));
         List<Timeframe> timeframes = timeFrameRepository.findAllByVideoIdAndDeletedIsFalse(video.getId());
@@ -55,10 +55,23 @@ public class TimeframeService {
                 .collect(Collectors.toList());
     }
 
+    /* Function deprecated
     public TimeShopItemResponse getItemListByTimeFrameId(Long timeFrameId) {
         Timeframe timeFrame = timeFrameRepository.findByIdAndDeletedIsFalse(timeFrameId).orElseThrow(() -> new ResourceNotFoundException("timeFrame",timeFrameId));
         TimeShopItemResponse result = new TimeShopItemResponse(timeFrame);
         return result;
+    }
+    */
+
+    public TimeShopItemResponse getItemListByVideoIdAndTimeframeId(String videoId, Long timeFrameId) {
+        if(videoRepository.findByIdAndDeletedIsFalse(Long.parseLong(videoId)).isEmpty()) {
+            throw new ResourceNotFoundException("video", videoId);
+        }
+
+        Timeframe timeframe = timeFrameRepository.findByIdAndVideoIdAndDeletedIsFalse(timeFrameId, Long.parseLong(videoId))
+                .orElseThrow(() -> new ResourceNotFoundException("timeframe", timeFrameId));
+
+        return new TimeShopItemResponse(timeframe);
     }
 
     @Transactional

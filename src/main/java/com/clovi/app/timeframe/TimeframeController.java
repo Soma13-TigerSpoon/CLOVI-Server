@@ -33,8 +33,8 @@ public class TimeframeController {
 
     // 영상에 대한 모든 시간 조회
     @GetMapping("/videos/{video_id}/timeframes")
-    @Operation(summary = "Find all timeframe", description = "Find all timeframes by video ID.", responses = {
-            @ApiResponse(responseCode = "200", description = "Success find timeframe list", content = @Content(schema = @Schema(implementation = TimeframeResponse.class)))
+    @Operation(summary = "Find all timeframes", description = "Find all timeframes by video ID.", responses = {
+            @ApiResponse(responseCode = "200", description = "Success find timeframe list!", content = @Content(schema = @Schema(implementation = TimeframeResponse.class)))
     })
     public ResponseEntity findAllTimeframesByVideoId(@PathVariable(name = "video_id") String videoId) {
         List<TimeframeResponse> response = timeFrameService.getTimeframeListByVideoId(videoId);
@@ -42,12 +42,12 @@ public class TimeframeController {
     }
 
     // 시간으로 해당 시간에 있는 아이템 리스트 조회 API
-    @GetMapping("/videos/{youtube_video_id}/timeframes/{time_frame_id}")
-    @Operation(summary = "Find timeFrame", description = "Find timeFrame by ID.", responses = {
-            @ApiResponse(responseCode = "200", description = "Success Find timeFrame", content = @Content(schema = @Schema(implementation = TimeShopItemResponse.class)))
+    @GetMapping("/videos/{video_id}/timeframes/{timeframe_id}")
+    @Operation(summary = "Find a specific timeframe", description = "Find a timeframe by video ID and timeframe ID.", responses = {
+            @ApiResponse(responseCode = "200", description = "Success find timeShopItem list!", content = @Content(schema = @Schema(implementation = TimeShopItemResponse.class)))
     })
-    public ResponseEntity findItemsByTimeFrameId(@PathVariable(name = "youtube_video_id") String youtubeVideoId, @PathVariable(name = "time_frame_id") Long timeFrameId){
-        TimeShopItemResponse response = timeFrameService.getItemListByTimeFrameId(timeFrameId);
+    public ResponseEntity findItemsByVideoIdAndTimeframeId(@PathVariable(name = "video_id") String videoId, @PathVariable(name = "timeframe_id") Long timeframeId) {
+        TimeShopItemResponse response = timeFrameService.getItemListByVideoIdAndTimeframeId(videoId, timeframeId);
         return ResponseEntity.ok(new BaseResponse(response, HttpStatus.OK.value(), MessageCode.SUCCESS_GET));
     }
 
