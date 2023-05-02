@@ -32,12 +32,12 @@ public class TimeframeController {
     private final TimeframeService timeFrameService;
 
     // 영상에 대한 모든 시간 조회
-    @GetMapping("/videos/{youtube_video_id}/timeframes")
-    @Operation(summary = "Find all timeFrame", description = "Find all timeFrame by video ID.", responses = {
-            @ApiResponse(responseCode = "200", description = "Success Find timeFrame List", content = @Content(schema = @Schema(implementation = TimeframeResponse.class)))
+    @GetMapping("/videos/{video_id}/timeframes")
+    @Operation(summary = "Find all timeframe", description = "Find all timeframes by video ID.", responses = {
+            @ApiResponse(responseCode = "200", description = "Success find timeframe list", content = @Content(schema = @Schema(implementation = TimeframeResponse.class)))
     })
-    public ResponseEntity findAllTimeFramesByVideoId(@PathVariable(name = "youtube_video_id") String youtubeVideoId){
-        List<TimeframeResponse> response = timeFrameService.getTimeFrameListByYoutubeVideoId(youtubeVideoId);
+    public ResponseEntity findAllTimeFramesByVideoId(@PathVariable(name = "video_id") String videoId){
+        List<TimeframeResponse> response = timeFrameService.getTimeframeListByVideoId(videoId);
         return ResponseEntity.ok(new BaseResponse(response, HttpStatus.OK.value(), MessageCode.SUCCESS_GET_LIST));
     }
 

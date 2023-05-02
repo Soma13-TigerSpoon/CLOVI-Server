@@ -28,6 +28,7 @@ public class TimeframeService {
     private final TimeframeRepository timeFrameRepository;
     private final VideoRepository videoRepository;
 
+    /* Function not used
     public List<TimeframeResponse> getTimeFrameListByYoutubeVideoId(String youtubeVideoId) {
         Video video = videoRepository.findByYoutubeVideoIdAndDeletedIsFalse(youtubeVideoId).orElseThrow(() -> new ResourceNotFoundException("video",youtubeVideoId));
         List<Timeframe> timeframes = timeFrameRepository.findAllByVideoIdAndDeletedIsFalse(video.getId());
@@ -36,6 +37,22 @@ public class TimeframeService {
             result.sort(Comparator.comparing(TimeframeResponse::getStart));
         }
         return result;
+    }
+    */
+
+    public List<TimeframeResponse> getTimeframeListByVideoId(String videoId) {
+        Video video = videoRepository.findByIdAndDeletedIsFalse(Long.parseLong(videoId))
+                .orElseThrow(() -> new ResourceNotFoundException("video", videoId));
+
+        List<Timeframe> timeframes = timeFrameRepository.findAllByVideoIdAndDeletedIsFalse(video.getId());
+
+        Comparator<TimeframeResponse> compareCapturePoint = Comparator.comparing(TimeframeResponse::getStart);
+
+        return timeframes
+                .stream()
+                .map(TimeframeResponse::new)
+                .sorted(compareCapturePoint)
+                .collect(Collectors.toList());
     }
 
     public TimeShopItemResponse getItemListByTimeFrameId(Long timeFrameId) {
