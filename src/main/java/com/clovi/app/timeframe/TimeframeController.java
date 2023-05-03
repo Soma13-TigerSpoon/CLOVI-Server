@@ -52,17 +52,22 @@ public class TimeframeController {
     }
 
     // 시간 생성 API
-    @PostMapping("/videos/{youtube_video_id}/timeframes")
-    @Operation(summary = "Create timeFrame", description = "Create timeFrame and save", responses = {
-            @ApiResponse(responseCode = "201", description = "Success create", content = @Content(schema = @Schema(implementation = SavedId.class)))
+    @PostMapping("/videos/{video_id}/timeframes")
+    @Operation(summary = "Create a specific timeframe", description = "Create timeframe and save.", responses = {
+            @ApiResponse(responseCode = "201", description = "Success create timeframe!", content = @Content(schema = @Schema(implementation = SavedId.class)))
     })
-    public ResponseEntity createTimeFrame(@PathVariable(name = "youtube_video_id") String youtubeVideoId, @Validated @RequestBody TimeframeCreateRequest timeFrameCreateRequest, @AuthMember Member member){
-        SavedId savedId = new SavedId(timeFrameService.create(timeFrameCreateRequest,youtubeVideoId,member));
-        String[] list = {"/api/v1/videos", youtubeVideoId, "timeframes", String.valueOf(savedId.getId())};
+    public ResponseEntity createTimeframe(@PathVariable(name = "video_id") String videoId, @Validated @RequestBody TimeframeCreateRequest timeframeCreateRequest, @AuthMember Member member) {
+        SavedId savedId = new SavedId(
+                timeFrameService.createTimeframe(timeframeCreateRequest, videoId, member)
+        );
+
+        String[] list = {"/api/v1/videos", videoId, "timeframes", String.valueOf(savedId.getId())};
+
         return ResponseEntity.created(
-                URI.create(String.join("/", list))).body(new BaseResponse(savedId, HttpStatus.CREATED.value(),
-                ProcessStatus.SUCCESS,
-                MessageCode.SUCCESS_CREATE));
+                URI.create(String.join("/", list))
+        ).body(
+                new BaseResponse(savedId, HttpStatus.CREATED.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_CREATE)
+        );
     }
 
     // 시간 수정 API

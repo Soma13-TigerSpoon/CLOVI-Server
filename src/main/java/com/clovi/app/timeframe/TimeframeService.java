@@ -74,6 +74,7 @@ public class TimeframeService {
         return new TimeShopItemResponse(timeframe);
     }
 
+    /* Function deprecated
     @Transactional
     public Long create(TimeframeCreateRequest timeFrameCreateRequest, String youtubeVideoId, Member member) {
         Video video = videoRepository.findByYoutubeVideoIdAndDeletedIsFalse(youtubeVideoId).orElseThrow(() -> new ResourceNotFoundException("video",youtubeVideoId));
@@ -81,12 +82,30 @@ public class TimeframeService {
         if(timeFrameRepository.existsByVideoIdAndCapturePointAndDeletedIsFalse(video.getId(),capturePoint)){
             throw new DuplicateResourceException("timeFrame");
         }
+
 //        channel 관련 권한 설정 논의
 //        if(member.getChannel().getId() != video.getChannel().getId()){
 //            throw new NoPermissionCreateException();
 //        }
+
         Timeframe timeFrame = new Timeframe(timeFrameCreateRequest,video,member.getId());
         Timeframe saved = timeFrameRepository.save(timeFrame);
+        return saved.getId();
+    }
+    */
+
+    @Transactional
+    public Long createTimeframe(TimeframeCreateRequest timeframeCreateRequest, String videoId, Member member) {
+        Video video = videoRepository.findByIdAndDeletedIsFalse(Long.parseLong(videoId))
+                .orElseThrow(() -> new ResourceNotFoundException("video", videoId));
+
+        if(timeFrameRepository.existsByVideoIdAndCapturePointAndDeletedIsFalse(video.getId(), timeframeCreateRequest.getTime())) {
+            throw new DuplicateResourceException("timeframe");
+        }
+
+        Timeframe saved = timeFrameRepository.save(
+                new Timeframe(timeframeCreateRequest, video, member.getId())
+        );
         return saved.getId();
     }
 
