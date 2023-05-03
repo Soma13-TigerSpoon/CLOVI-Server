@@ -25,4 +25,3 @@ public class TimeframeCreateRequest {
         return TimeFormatUtils.StringTimeToLong(this.time);
     }
 }
-
