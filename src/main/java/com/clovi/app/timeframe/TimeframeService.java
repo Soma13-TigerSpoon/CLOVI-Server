@@ -76,7 +76,7 @@ public class TimeframeService {
 
     /* Function deprecated
     @Transactional
-    public Long create(TimeframeCreateRequest timeFrameCreateRequest, String youtubeVideoId, Member member) {
+    public Long create(TimeframeCreateRequest timeframeCreateRequest, String youtubeVideoId, Member member) {
         Video video = videoRepository.findByYoutubeVideoIdAndDeletedIsFalse(youtubeVideoId).orElseThrow(() -> new ResourceNotFoundException("video",youtubeVideoId));
         Long capturePoint = timeFrameCreateRequest.getTime();
         if(timeFrameRepository.existsByVideoIdAndCapturePointAndDeletedIsFalse(video.getId(),capturePoint)){
@@ -109,8 +109,9 @@ public class TimeframeService {
         return saved.getId();
     }
 
+    /* Function deprecated
     @Transactional
-    public Long update(TimeframeUpdateRequest timeFrameUpdateRequest, Long timeFrameId, Member member) {
+    public Long update(TimeframeUpdateRequest timeframeUpdateRequest, Long timeFrameId, Member member) {
         Timeframe timeFrame = timeFrameRepository.findByIdAndDeletedIsFalse(timeFrameId).orElseThrow(() -> new ResourceNotFoundException("timeFrame",timeFrameId));
         Long memberId = member.getId();
         if(timeFrame.isNotCreatedBy(memberId)){ //수정 권한은 생성한 사람만 가지고 있음
@@ -120,7 +121,26 @@ public class TimeframeService {
         Timeframe updated = timeFrameRepository.save(timeFrame);
         return updated.getId();
     }
+    */
 
+    @Transactional
+    public Long updateTimeframe(TimeframeUpdateRequest timeframeUpdateRequest, String videoId, Long timeframeId, Member member) {
+        if(videoRepository.findByIdAndDeletedIsFalse(Long.parseLong(videoId)).isEmpty()) {
+            throw new ResourceNotFoundException("video", videoId);
+        }
+
+        Timeframe timeframe = timeFrameRepository.findByIdAndVideoIdAndDeletedIsFalse(timeframeId, Long.parseLong(videoId))
+                .orElseThrow(() -> new ResourceNotFoundException("timeframe", timeframeId));
+
+        // 수정 권한은 생성한 사람만 가지고 있음
+        if(timeframe.isNotCreatedBy(member.getId())) {
+            throw new NoPermissionUpdateException();
+        }
+
+        timeframe.update(timeframeUpdateRequest, member.getId());
+        Timeframe updated = timeFrameRepository.save(timeframe);
+        return updated.getId();
+    }
 
     @Transactional
     public void delete(Long timeFrameId, Member member) {

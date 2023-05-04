@@ -56,7 +56,8 @@ public class TimeframeController {
     @Operation(summary = "Create a specific timeframe", description = "Create timeframe and save.", responses = {
             @ApiResponse(responseCode = "201", description = "Success create timeframe!", content = @Content(schema = @Schema(implementation = SavedId.class)))
     })
-    public ResponseEntity createTimeframe(@PathVariable(name = "video_id") String videoId, @Validated @RequestBody TimeframeCreateRequest timeframeCreateRequest, @AuthMember Member member) {
+    public ResponseEntity createTimeframe(@PathVariable(name = "video_id") String videoId,
+                                          @Validated @RequestBody TimeframeCreateRequest timeframeCreateRequest, @AuthMember Member member) {
         SavedId savedId = new SavedId(
                 timeFrameService.createTimeframe(timeframeCreateRequest, videoId, member)
         );
@@ -71,13 +72,19 @@ public class TimeframeController {
     }
 
     // 시간 수정 API
-    @PutMapping("/videos/{youtube_video_id}/timeframes/{time_frame_id}")
-    @Operation(summary = "Update timeFrame", description = "Update timeFrame by id", responses = {
-            @ApiResponse(responseCode = "200", description = "Success update", content = @Content(schema = @Schema(implementation = SavedId.class)))
+    @PutMapping("/videos/{video_id}/timeframes/{timeframe_id}")
+    @Operation(summary = "Update a specific timeframe", description = "Update a timeframe by video ID and timeframe ID.", responses = {
+            @ApiResponse(responseCode = "200", description = "Success update timeframe!", content = @Content(schema = @Schema(implementation = SavedId.class)))
     })
-    public ResponseEntity updateTimeFrame(@Validated @RequestBody TimeframeUpdateRequest timeFrameUpdateRequest, @PathVariable(name = "time_frame_id") Long timeFrameId, @AuthMember Member member, @PathVariable(name = "youtube_video_id") String youtubeVideoId){
-        SavedId savedId = new SavedId(timeFrameService.update(timeFrameUpdateRequest,timeFrameId,member));
-        return ResponseEntity.ok(new BaseResponse(savedId,HttpStatus.OK.value(),ProcessStatus.SUCCESS, MessageCode.SUCCESS_UPDATE));
+    public ResponseEntity updateTimeframe(@PathVariable(name = "video_id") String videoId, @PathVariable(name = "timeframe_id") Long timeframeId,
+                                          @Validated @RequestBody TimeframeUpdateRequest timeframeUpdateRequest, @AuthMember Member member) {
+        SavedId savedId = new SavedId(
+                timeFrameService.updateTimeframe(timeframeUpdateRequest, videoId, timeframeId, member)
+        );
+
+        return ResponseEntity.ok(
+                new BaseResponse(savedId, HttpStatus.OK.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_UPDATE)
+        );
     }
 
     // 시간 삭제 API
