@@ -64,12 +64,7 @@ public class TimeframeService {
     */
 
     public TimeShopItemResponse getItemListByVideoIdAndTimeframeId(String videoId, Long timeFrameId) {
-        if(videoRepository.findByIdAndDeletedIsFalse(Long.parseLong(videoId)).isEmpty()) {
-            throw new ResourceNotFoundException("video", videoId);
-        }
-
-        Timeframe timeframe = timeFrameRepository.findByIdAndVideoIdAndDeletedIsFalse(timeFrameId, Long.parseLong(videoId))
-                .orElseThrow(() -> new ResourceNotFoundException("timeframe", timeFrameId));
+        Timeframe timeframe = checkIfVideoAndTimeframeExists(videoId, timeFrameId);
 
         return new TimeShopItemResponse(timeframe);
     }
@@ -125,12 +120,7 @@ public class TimeframeService {
 
     @Transactional
     public Long updateTimeframe(TimeframeUpdateRequest timeframeUpdateRequest, String videoId, Long timeframeId, Member member) {
-        if(videoRepository.findByIdAndDeletedIsFalse(Long.parseLong(videoId)).isEmpty()) {
-            throw new ResourceNotFoundException("video", videoId);
-        }
-
-        Timeframe timeframe = timeFrameRepository.findByIdAndVideoIdAndDeletedIsFalse(timeframeId, Long.parseLong(videoId))
-                .orElseThrow(() -> new ResourceNotFoundException("timeframe", timeframeId));
+        Timeframe timeframe = checkIfVideoAndTimeframeExists(videoId, timeframeId);
 
         // 수정 권한은 생성한 사람만 가지고 있음
         if(timeframe.isNotCreatedBy(member.getId())) {
@@ -156,12 +146,7 @@ public class TimeframeService {
 
     @Transactional
     public void deleteTimeframe(String videoId, Long timeframeId, Member member) {
-        if(videoRepository.findByIdAndDeletedIsFalse(Long.parseLong(videoId)).isEmpty()) {
-            throw new ResourceNotFoundException("video", videoId);
-        }
-
-        Timeframe timeframe = timeFrameRepository.findByIdAndVideoIdAndDeletedIsFalse(timeframeId, Long.parseLong(videoId))
-                .orElseThrow(() -> new ResourceNotFoundException("timeframe", timeframeId));
+        Timeframe timeframe = checkIfVideoAndTimeframeExists(videoId, timeframeId);
 
         // 삭제 권한은 생성한 사람만 가지고 있음
         if(timeframe.isNotCreatedBy(member.getId())) {
@@ -170,5 +155,14 @@ public class TimeframeService {
 
         timeframe.delete();
         timeFrameRepository.save(timeframe);
+    }
+
+    private Timeframe checkIfVideoAndTimeframeExists(String videoId, Long timeframeId) {
+        if(videoRepository.findByIdAndDeletedIsFalse(Long.parseLong(videoId)).isEmpty()) {
+            throw new ResourceNotFoundException("video", videoId);
+        }
+
+        return timeFrameRepository.findByIdAndVideoIdAndDeletedIsFalse(timeframeId, Long.parseLong(videoId))
+                .orElseThrow(() -> new ResourceNotFoundException("timeframe", timeframeId));
     }
 }
