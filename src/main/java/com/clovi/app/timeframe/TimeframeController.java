@@ -29,7 +29,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
 public class TimeframeController {
-    private final TimeframeService timeFrameService;
+    private final TimeframeService timeframeService;
 
     // 영상에 대한 모든 시간 조회
     @GetMapping("/videos/{video_id}/timeframes")
@@ -37,7 +37,7 @@ public class TimeframeController {
             @ApiResponse(responseCode = "200", description = "Success find timeframe list!", content = @Content(schema = @Schema(implementation = TimeframeResponse.class)))
     })
     public ResponseEntity findAllTimeframesByVideoId(@PathVariable(name = "video_id") String videoId) {
-        List<TimeframeResponse> response = timeFrameService.getTimeframeListByVideoId(videoId);
+        List<TimeframeResponse> response = timeframeService.getTimeframeListByVideoId(videoId);
         return ResponseEntity.ok(new BaseResponse(response, HttpStatus.OK.value(), MessageCode.SUCCESS_GET_LIST));
     }
 
@@ -47,7 +47,7 @@ public class TimeframeController {
             @ApiResponse(responseCode = "200", description = "Success find timeShopItem list!", content = @Content(schema = @Schema(implementation = TimeShopItemResponse.class)))
     })
     public ResponseEntity findItemsByVideoIdAndTimeframeId(@PathVariable(name = "video_id") String videoId, @PathVariable(name = "timeframe_id") Long timeframeId) {
-        TimeShopItemResponse response = timeFrameService.getItemListByVideoIdAndTimeframeId(videoId, timeframeId);
+        TimeShopItemResponse response = timeframeService.getItemListByVideoIdAndTimeframeId(videoId, timeframeId);
         return ResponseEntity.ok(new BaseResponse(response, HttpStatus.OK.value(), MessageCode.SUCCESS_GET));
     }
 
@@ -59,7 +59,7 @@ public class TimeframeController {
     public ResponseEntity createTimeframe(@PathVariable(name = "video_id") String videoId,
                                           @Validated @RequestBody TimeframeCreateRequest timeframeCreateRequest, @AuthMember Member member) {
         SavedId savedId = new SavedId(
-                timeFrameService.createTimeframe(timeframeCreateRequest, videoId, member)
+                timeframeService.createTimeframe(timeframeCreateRequest, videoId, member)
         );
 
         String[] list = {"/api/v1/videos", videoId, "timeframes", String.valueOf(savedId.getId())};
@@ -79,7 +79,7 @@ public class TimeframeController {
     public ResponseEntity updateTimeframe(@PathVariable(name = "video_id") String videoId, @PathVariable(name = "timeframe_id") Long timeframeId,
                                           @Validated @RequestBody TimeframeUpdateRequest timeframeUpdateRequest, @AuthMember Member member) {
         SavedId savedId = new SavedId(
-                timeFrameService.updateTimeframe(timeframeUpdateRequest, videoId, timeframeId, member)
+                timeframeService.updateTimeframe(timeframeUpdateRequest, videoId, timeframeId, member)
         );
 
         return ResponseEntity.ok(
@@ -94,7 +94,7 @@ public class TimeframeController {
     })
     public ResponseEntity deleteTimeframe(@PathVariable(name = "video_id") String videoId, @PathVariable(name = "timeframe_id") Long timeframeId,
                                           @AuthMember Member member) {
-        timeFrameService.deleteTimeframe(videoId, timeframeId, member);
+        timeframeService.deleteTimeframe(videoId, timeframeId, member);
 
         return ResponseEntity.ok(
                 new BaseResponse(HttpStatus.OK.value(),ProcessStatus.SUCCESS, MessageCode.SUCCESS_DELETE)

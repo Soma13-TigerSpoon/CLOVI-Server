@@ -24,8 +24,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class TimeframeService {
-
-    private final TimeframeRepository timeFrameRepository;
+    private final TimeframeRepository timeframeRepository;
     private final VideoRepository videoRepository;
 
     /* Function deprecated
@@ -44,7 +43,7 @@ public class TimeframeService {
         Video video = videoRepository.findByIdAndDeletedIsFalse(Long.parseLong(videoId))
                 .orElseThrow(() -> new ResourceNotFoundException("video", videoId));
 
-        List<Timeframe> timeframes = timeFrameRepository.findAllByVideoIdAndDeletedIsFalse(video.getId());
+        List<Timeframe> timeframes = timeframeRepository.findAllByVideoIdAndDeletedIsFalse(video.getId());
 
         Comparator<TimeframeResponse> compareCapturePoint = Comparator.comparing(TimeframeResponse::getStart);
 
@@ -63,8 +62,8 @@ public class TimeframeService {
     }
     */
 
-    public TimeShopItemResponse getItemListByVideoIdAndTimeframeId(String videoId, Long timeFrameId) {
-        Timeframe timeframe = checkIfVideoAndTimeframeExists(videoId, timeFrameId);
+    public TimeShopItemResponse getItemListByVideoIdAndTimeframeId(String videoId, Long timeframeId) {
+        Timeframe timeframe = checkIfVideoAndTimeframeExists(videoId, timeframeId);
 
         return new TimeShopItemResponse(timeframe);
     }
@@ -94,11 +93,11 @@ public class TimeframeService {
         Video video = videoRepository.findByIdAndDeletedIsFalse(Long.parseLong(videoId))
                 .orElseThrow(() -> new ResourceNotFoundException("video", videoId));
 
-        if(timeFrameRepository.existsByVideoIdAndCapturePointAndDeletedIsFalse(video.getId(), timeframeCreateRequest.getTime())) {
+        if(timeframeRepository.existsByVideoIdAndCapturePointAndDeletedIsFalse(video.getId(), timeframeCreateRequest.getTime())) {
             throw new DuplicateResourceException("timeframe");
         }
 
-        Timeframe saved = timeFrameRepository.save(
+        Timeframe saved = timeframeRepository.save(
                 new Timeframe(timeframeCreateRequest, video, member.getId())
         );
         return saved.getId();
@@ -128,7 +127,7 @@ public class TimeframeService {
         }
 
         timeframe.update(timeframeUpdateRequest, member.getId());
-        Timeframe updated = timeFrameRepository.save(timeframe);
+        Timeframe updated = timeframeRepository.save(timeframe);
         return updated.getId();
     }
 
@@ -154,7 +153,7 @@ public class TimeframeService {
         }
 
         timeframe.delete();
-        timeFrameRepository.save(timeframe);
+        timeframeRepository.save(timeframe);
     }
 
     private Timeframe checkIfVideoAndTimeframeExists(String videoId, Long timeframeId) {
@@ -162,7 +161,7 @@ public class TimeframeService {
             throw new ResourceNotFoundException("video", videoId);
         }
 
-        return timeFrameRepository.findByIdAndVideoIdAndDeletedIsFalse(timeframeId, Long.parseLong(videoId))
+        return timeframeRepository.findByIdAndVideoIdAndDeletedIsFalse(timeframeId, Long.parseLong(videoId))
                 .orElseThrow(() -> new ResourceNotFoundException("timeframe", timeframeId));
     }
 }
