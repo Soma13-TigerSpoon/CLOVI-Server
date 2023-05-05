@@ -88,12 +88,16 @@ public class TimeframeController {
     }
 
     // 시간 삭제 API
-    @DeleteMapping("/videos/{youtube_video_id}/timeframes/{time_frame_id}")
-    @Operation(summary = "Delete timeFrame", description = "Delete timeFrame by id", responses = {
-            @ApiResponse(responseCode = "200", description = "Success delete")
+    @DeleteMapping("/videos/{video_id}/timeframes/{timeframe_id}")
+    @Operation(summary = "Delete a specific timeframe", description = "Delete a timeframe by video ID and timeframe ID.", responses = {
+            @ApiResponse(responseCode = "200", description = "Success delete timeframe!")
     })
-    public ResponseEntity deleteTimeFrame(@Validated @PathVariable(name = "time_frame_id") Long timeFrameId, @AuthMember Member member, @PathVariable(name = "youtube_video_id") String youtubeVideoId){
-        timeFrameService.delete(timeFrameId,member);
-        return ResponseEntity.ok(new BaseResponse(HttpStatus.OK.value(),ProcessStatus.SUCCESS, MessageCode.SUCCESS_DELETE));
+    public ResponseEntity deleteTimeframe(@PathVariable(name = "video_id") String videoId, @PathVariable(name = "timeframe_id") Long timeframeId,
+                                          @AuthMember Member member) {
+        timeFrameService.deleteTimeframe(videoId, timeframeId, member);
+
+        return ResponseEntity.ok(
+                new BaseResponse(HttpStatus.OK.value(),ProcessStatus.SUCCESS, MessageCode.SUCCESS_DELETE)
+        );
     }
 }

@@ -142,6 +142,7 @@ public class TimeframeService {
         return updated.getId();
     }
 
+    /*
     @Transactional
     public void delete(Long timeFrameId, Member member) {
         Timeframe timeFrame = timeFrameRepository.findByIdAndDeletedIsFalse(timeFrameId).orElseThrow(() -> new ResourceNotFoundException("timeFrame",timeFrameId));
@@ -150,6 +151,24 @@ public class TimeframeService {
         }
         timeFrame.delete();
         timeFrameRepository.save(timeFrame);
+    }
+    */
 
+    @Transactional
+    public void deleteTimeframe(String videoId, Long timeframeId, Member member) {
+        if(videoRepository.findByIdAndDeletedIsFalse(Long.parseLong(videoId)).isEmpty()) {
+            throw new ResourceNotFoundException("video", videoId);
+        }
+
+        Timeframe timeframe = timeFrameRepository.findByIdAndVideoIdAndDeletedIsFalse(timeframeId, Long.parseLong(videoId))
+                .orElseThrow(() -> new ResourceNotFoundException("timeframe", timeframeId));
+
+        // 삭제 권한은 생성한 사람만 가지고 있음
+        if(timeframe.isNotCreatedBy(member.getId())) {
+            throw new NoPermissionDeleteException();
+        }
+
+        timeframe.delete();
+        timeFrameRepository.save(timeframe);
     }
 }
