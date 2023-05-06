@@ -12,7 +12,9 @@ import com.clovi.app.shopItem.dto.request.ShopItemUpdateRequest;
 import com.clovi.app.shopItem.dto.response.ShopItemResponse;
 import com.clovi.app.member.Member;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -94,4 +96,9 @@ public class ShopItemService {
     ShopItem findShopItem = shopItemRepository.findByIdAndDeletedIsFalse(shopItemId).orElseThrow(() -> new ResourceNotFoundException("shopItem",shopItemId));
     return new ShopItemResponse(findShopItem);
   }
+
+    public List<ShopItemResponse> findAllByItemInfo(Long itemInfoId) {
+      List<ShopItem> shopItems = shopItemRepository.findAllByItemInfoIdAndDeletedIsFalse(itemInfoId);
+      return shopItems.stream().map(shopItem -> new ShopItemResponse(shopItem)).collect(Collectors.toList());
+    }
 }

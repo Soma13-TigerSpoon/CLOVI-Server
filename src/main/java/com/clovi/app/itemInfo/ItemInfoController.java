@@ -6,6 +6,7 @@ import com.clovi.app.item.dto.response.ItemResponse;
 import com.clovi.app.base.dto.response.BaseResponse;
 import com.clovi.app.base.dto.response.MessageCode;
 import com.clovi.app.base.dto.response.ProcessStatus;
+import com.clovi.app.itemInfo.dto.response.ItemInfoResponse;
 import com.clovi.app.member.Member;
 import com.clovi.app.base.dto.response.SavedId;
 import com.clovi.app.auth.helper.AuthMember;
@@ -28,25 +29,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class ItemInfoController {
   private final ItemInfoService itemInfoService;
-  // private final ItemQueryService itemQueryService;
 
   // 상품 상세정보 조회 API
   @GetMapping("/v1/info/items/{item_info_id}")
   @Operation(summary = "Find itemInfo", description = "Find information of item by ID", responses = {
-          @ApiResponse(responseCode = "200", description = "Success Find information of item", content = @Content(schema = @Schema(implementation = ItemResponse.class)))
+          @ApiResponse(responseCode = "200", description = "Success Find information of item", content = @Content(schema = @Schema(implementation = ItemInfoResponse.class)))
   })
   public ResponseEntity getOneItem(@Validated @PathVariable(name = "item_info_id") Long itemInfoId) {
-    ItemResponse result = itemInfoService.getItemByIdV1(itemInfoId);
-
-    if(result == null) {
-      return ResponseEntity.badRequest().body(
-              new BaseResponse(HttpStatus.BAD_REQUEST.value(), ProcessStatus.FAIL, MessageCode.ERROR_REQ_PARAM_ITEM_ID)
-      );
-    }
-
-    return ResponseEntity.ok(
-            new BaseResponse(result, HttpStatus.OK.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET)
-    );
+    ItemInfoResponse response = itemInfoService.getItemInfoById(itemInfoId);
+    return ResponseEntity.ok(new BaseResponse(response, HttpStatus.OK.value(), MessageCode.SUCCESS_GET));
   }
 
   // 상품 상세정보 생성 API

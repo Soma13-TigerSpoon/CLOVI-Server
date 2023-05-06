@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.clovi.app.shopItem.dto.response.ShopItemResponse;
-import com.clovi.app.color.dto.response.ColorAndSizeResponse;
 import lombok.Getter;
 
 @Getter
@@ -24,7 +23,6 @@ public class ItemResponse {
   List<String> colorList = new ArrayList<>();
   List<String> sizeList = new ArrayList<>();
 
-  List<ColorAndSizeResponse> colorAndSizeList = new ArrayList<>();
   List<ShopItemResponse> shops = new ArrayList<>();
   List<ItemResponse> childItems = new ArrayList<>();
   public ItemResponse(ItemInfo itemInfo) {
@@ -94,6 +92,5 @@ public class ItemResponse {
         this.shops.add(new ShopItemResponse(shopItem));
       }
     }
-    this.colorAndSizeList  = item.stream().map(ColorAndSizeResponse::new).collect(Collectors.toList());
   }
 }
