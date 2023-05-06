@@ -9,6 +9,7 @@ import com.clovi.app.color.dto.response.ColorAndImgResponse;
 import com.clovi.app.member.Member;
 import com.clovi.app.auth.helper.AuthMember;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -42,7 +43,7 @@ public class ColorController {
     }
     @GetMapping("/info/items/{item_info_id}/colors")
     @Operation(summary = "find colors by itemInfo", description = "Find information all colors of item by itemInfoID", responses = {
-            @ApiResponse(responseCode = "200", description = "Success Find colors of items ", content = @Content(schema = @Schema(implementation = ColorAndImgResponse.class)))
+            @ApiResponse(responseCode = "200", description = "Success Find colors of items ", content = @Content(array = @ArraySchema(schema = @Schema(implementation = ColorAndImgResponse.class))))
     })
     public ResponseEntity getAllColorItemInfo(@Validated @PathVariable(name = "item_info_id") Long itemInfoId) {
         List<ColorAndImgResponse> response = colorService.findAllColors(itemInfoId);
