@@ -19,10 +19,18 @@ import javax.validation.constraints.NotNull;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class VideoService {
-
     private final VideoRepository videoRepository;
     private final ChannelRepository channelRepository;
 
+    public VideoResponse searchByVideoId(String videoId) {
+        // NumberFormatException 처리 필요
+        Optional<Video> video = videoRepository.findById(Long.parseLong(videoId));
+
+        if(video.isEmpty()) return null;
+        return new VideoResponse(video.get());
+    }
+
+    /*
     public VideoResponse search(String videoUrl){
         Optional<Video> video = videoRepository.findByYoutubeVideoId(videoUrl);
         if(video.isPresent()){
@@ -35,6 +43,7 @@ public class VideoService {
 //        );
 //        return new VideoResponse(video);
     }
+    */
 
     @Transactional
     public Long save(@NotNull VideoRequest videoRequest) {

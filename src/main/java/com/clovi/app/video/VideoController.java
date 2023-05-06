@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
-@Tag(name = "[video] 유튜브 영상 관리 API")
+@Tag(name = "[Video] 유튜브 영상 관리 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
@@ -28,6 +28,24 @@ public class VideoController {
   private final VideoService videoService;
 
   // Validation required
+  @GetMapping("/videos/{video_id}")
+  @Operation(summary = "Find a specific video", description = "Find a video by video ID.", responses = {
+          @ApiResponse(responseCode = "200", description = "Success find video!", content = @Content(schema = @Schema(implementation = VideoResponse.class)))
+  })
+  public ResponseEntity getVideoByVideoId(@PathVariable("video_id") String videoId) {
+    VideoResponse result = videoService.searchByVideoId(videoId);
+
+    if(result == null) {
+      return ResponseEntity.badRequest().body(
+              new BaseResponse(HttpStatus.BAD_REQUEST.value(), ProcessStatus.FAIL, MessageCode.ERROR_REQ_PARAM_VIDEO_ID)
+      );
+    }
+    return ResponseEntity.ok(
+            new BaseResponse(result, HttpStatus.OK.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET)
+    );
+  }
+
+  /*
   @GetMapping("/videos")
   public ResponseEntity getVideoV1(@RequestParam("videoUrl") String videoUrl) {
     VideoResponse result = videoService.search(videoUrl);
@@ -42,7 +60,7 @@ public class VideoController {
             new BaseResponse(result, HttpStatus.OK.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET)
     );
   }
-
+  */
 
   @PostMapping("/videos")
   @Operation(summary = "Create video", description = "Create video and save", responses = {
