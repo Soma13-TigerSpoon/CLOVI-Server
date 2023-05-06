@@ -27,12 +27,12 @@ import java.net.URI;
 public class VideoController {
   private final VideoService videoService;
 
-  // Validation required
+  // 영상 정보 조회 API (video ID가 주어진 경우)
   @GetMapping("/videos/{video_id}")
   @Operation(summary = "Find a specific video", description = "Find a video by video ID.", responses = {
           @ApiResponse(responseCode = "200", description = "Success find video!", content = @Content(schema = @Schema(implementation = VideoResponse.class)))
   })
-  public ResponseEntity getVideoByVideoId(@PathVariable(name = "video_id") String videoId) {
+  public ResponseEntity getVideoByVideoId(@PathVariable(name = "video_id") String videoId) { // Validation required
     VideoResponse result = videoService.searchByVideoId(videoId);
 
     if(result == null) {
@@ -45,7 +45,11 @@ public class VideoController {
     );
   }
 
+  // 영상 video ID 조회 API (Youtube video ID가 주어진 경우)
   @GetMapping("/videos")
+  @Operation(summary = "Find a specific video ID", description = "Find a video ID by Youtube video ID.", responses = {
+          @ApiResponse(responseCode = "200", description = "Success find video ID!", content = @Content(schema = @Schema(implementation = SavedId.class)))
+  })
   public ResponseEntity getVideoIdByYoutubeVideoId(@RequestParam(name = "youtube_video_id") String youtubeVideoId) {
     SavedId result = videoService.searchByYoutubeVideoId(youtubeVideoId);
 
@@ -54,6 +58,7 @@ public class VideoController {
     );
   }
 
+  // 영상 저장 API
   @PostMapping("/videos")
   @Operation(summary = "Create video", description = "Create video and save", responses = {
           @ApiResponse(responseCode = "201", description = "Success create", content = @Content(schema = @Schema(implementation = SavedId.class)))
