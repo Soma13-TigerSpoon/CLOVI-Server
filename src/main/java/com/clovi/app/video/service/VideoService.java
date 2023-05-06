@@ -1,5 +1,6 @@
 package com.clovi.app.video.service;
 
+import com.clovi.app.base.dto.response.SavedId;
 import com.clovi.app.channel.Channel;
 import com.clovi.app.channel.ChannelRepository;
 import com.clovi.exception.ResourceNotFoundException;
@@ -30,6 +31,13 @@ public class VideoService {
         return new VideoResponse(video.get());
     }
 
+    public SavedId searchByYoutubeVideoId(String youtubeVideoId) {
+        Video video = videoRepository.findByYoutubeVideoId(youtubeVideoId)
+                .orElseThrow(() -> new ResourceNotFoundException("video", youtubeVideoId));
+
+        return new SavedId(video.getId());
+    }
+
     /*
     public VideoResponse search(String videoUrl){
         Optional<Video> video = videoRepository.findByYoutubeVideoId(videoUrl);
@@ -38,10 +46,6 @@ public class VideoService {
             return result;
         }
         return null;
-//        Video video = videoRepository.findByVideoUrl(videoUrl).orElseThrow(
-//            ()->  new RuntimeException("")
-//        );
-//        return new VideoResponse(video);
     }
     */
 

@@ -32,7 +32,7 @@ public class VideoController {
   @Operation(summary = "Find a specific video", description = "Find a video by video ID.", responses = {
           @ApiResponse(responseCode = "200", description = "Success find video!", content = @Content(schema = @Schema(implementation = VideoResponse.class)))
   })
-  public ResponseEntity getVideoByVideoId(@PathVariable("video_id") String videoId) {
+  public ResponseEntity getVideoByVideoId(@PathVariable(name = "video_id") String videoId) {
     VideoResponse result = videoService.searchByVideoId(videoId);
 
     if(result == null) {
@@ -45,22 +45,14 @@ public class VideoController {
     );
   }
 
-  /*
   @GetMapping("/videos")
-  public ResponseEntity getVideoV1(@RequestParam("videoUrl") String videoUrl) {
-    VideoResponse result = videoService.search(videoUrl);
-
-    if(result == null) {
-      return ResponseEntity.badRequest().body(
-              new BaseResponse(HttpStatus.BAD_REQUEST.value(), ProcessStatus.FAIL, MessageCode.ERROR_REQ_PARAM_VIDEO_ID)
-      );
-    }
+  public ResponseEntity getVideoIdByYoutubeVideoId(@RequestParam(name = "youtube_video_id") String youtubeVideoId) {
+    SavedId result = videoService.searchByYoutubeVideoId(youtubeVideoId);
 
     return ResponseEntity.ok(
             new BaseResponse(result, HttpStatus.OK.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET)
     );
   }
-  */
 
   @PostMapping("/videos")
   @Operation(summary = "Create video", description = "Create video and save", responses = {
