@@ -38,6 +38,6 @@ public class ColorService {
     }
 
     public List<ColorAndImgResponse> findAllColors(Long itemInfoId) {
-        return itemColorRepository.findAllByItemInfoId(itemInfoId).stream().map(ColorAndImgResponse::new).collect(Collectors.toList());
+        return itemColorRepository.findAllByItemInfoId(itemInfoId).stream().map(itemColor -> ColorAndImgResponse.from(itemColor)).collect(Collectors.toList());
     }
 }

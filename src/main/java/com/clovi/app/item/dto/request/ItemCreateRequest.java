@@ -5,11 +5,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+
 @Getter
 @Schema(name = "아이템 색상, 사이즈 생성 요청")
 @NoArgsConstructor
 public class ItemCreateRequest {
 
+  @NotNull
   @Schema(description = "아이템 정보 ID", example = "1")
   private Long itemInfoId;
 

@@ -3,7 +3,6 @@ package com.clovi.app.shopItem;
 import com.clovi.app.itemInfo.ItemInfo;
 import com.clovi.app.shop.Shop;
 import com.clovi.app.shopItem.dto.request.ShopItemCreateRequest;
-import com.clovi.app.shopItem.dto.request.ShopItemRequest;
 import com.clovi.app.shopItem.dto.request.ShopItemUpdateRequest;
 import com.clovi.app.base.domain.BaseEntity;
 
@@ -35,6 +34,8 @@ public class ShopItem extends BaseEntity {
 
   private Long stock;
 
+  //private boolean isMain = false;
+
   @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   private Shop shop;
 
@@ -50,13 +51,6 @@ public class ShopItem extends BaseEntity {
     this.stock = stock;
     this.shop = shop;
     this.itemInfo = itemInfo;
-  }
-
-  public ShopItem(ShopItemRequest shopItemRequest, ItemInfo itemInfo, Shop shop) {
-    this.shopItemUrl = shopItemRequest.getShopItemUrl();
-    this.price = shopItemRequest.getPrice();
-    this.itemInfo = itemInfo;
-    this.shop = shop;
   }
 
 

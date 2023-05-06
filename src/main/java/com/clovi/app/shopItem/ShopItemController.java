@@ -12,6 +12,7 @@ import com.clovi.app.member.dto.response.MemberResponse;
 import com.clovi.app.auth.helper.AuthMember;
 import io.swagger.v3.oas.annotations.Operation;
 import java.net.URI;
+import java.util.List;
 
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -40,6 +41,16 @@ public class ShopItemController {
     ShopItemResponse response = shopItemService.findById(shopItemId);
     return ResponseEntity.ok(new BaseResponse(response, HttpStatus.OK.value(), MessageCode.SUCCESS_GET));
   }
+  // 아이템 info ID로 모든 쇼핑몰 링크 조회 API
+  @GetMapping("/items/{item_info_id}/shops")
+  @Operation(summary = "Find shop link", description = "Find shop link by ID", responses = {
+          @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = MemberResponse.class)))
+  })
+  public ResponseEntity findAllShopItemByItem(@PathVariable(name = "item_info_id") Long itemInfoId) {
+    List<ShopItemResponse> response = shopItemService.findAllByItemInfo(itemInfoId);
+    return ResponseEntity.ok(new BaseResponse(response, HttpStatus.OK.value(), MessageCode.SUCCESS_GET));
+  }
+
 
   // 쇼핑몰 링크 생성 API
   @PostMapping("/items/{item_info_id}/shops")
