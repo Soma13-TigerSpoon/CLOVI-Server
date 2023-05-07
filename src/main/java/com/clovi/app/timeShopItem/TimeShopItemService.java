@@ -53,7 +53,7 @@ public class TimeShopItemService {
                 .orElseThrow(() -> new ResourceNotFoundException("shopItem", shopItemId));
 
         TimeShopItem timeShopItem = timeShopItemRepository.findByTimeIdAndItemIdAndShopItemIdAndDeletedIsFalse(timeframeId, itemId, shopItemId)
-                .orElseThrow(() -> new ResourceNotFoundException("timeShopItem", ""));
+                .orElseThrow(() -> new ResourceNotFoundException("timeShopItem", timeframeId, itemId, shopItemId));
 
         if(timeShopItem.isNotCreatedBy(member.getId())) {
             throw new NoPermissionDeleteException();
