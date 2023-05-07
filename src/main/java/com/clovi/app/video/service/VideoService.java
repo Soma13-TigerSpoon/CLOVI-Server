@@ -27,7 +27,9 @@ public class VideoService {
         // NumberFormatException 처리 필요
         Optional<Video> video = videoRepository.findById(Long.parseLong(videoId));
 
-        if(video.isEmpty()) return null;
+        if(video.isEmpty()) {
+            return null;
+        }
         return new VideoResponse(video.get());
     }
 
@@ -50,18 +52,17 @@ public class VideoService {
     */
 
     @Transactional
-    public Long save(@NotNull VideoRequest videoRequest) {
+    public Long saveVideo(@NotNull VideoRequest videoRequest) {
         String channelId = videoRequest.getChannelId();
-        Channel channel = channelRepository.findByChannelIdAndDeletedFalse(channelId).orElseThrow(
-                () -> new ResourceNotFoundException("channelId", channelId)
-        );
+        Channel channel = channelRepository.findByChannelIdAndDeletedFalse(channelId)
+                .orElseThrow(() -> new ResourceNotFoundException("channelId", channelId));
 
-        String videoId = videoRequest.getYoutubeVideoId();
-        Optional<Video> video = videoRepository.findByYoutubeVideoId(videoId);
-        if(video.isPresent()) throw new DuplicateVideoIdException();
+        Optional<Video> video = videoRepository.findByYoutubeVideoId(videoRequest.getYoutubeVideoId());
+        if(video.isPresent()) {
+            throw new DuplicateVideoIdException();
+        }
 
-        Video newVideo = new Video(videoRequest, channel);
-        Video savedVideo = videoRepository.save(newVideo);
+        Video savedVideo = videoRepository.save(new Video(videoRequest, channel));
         return savedVideo.getId();
     }
 }

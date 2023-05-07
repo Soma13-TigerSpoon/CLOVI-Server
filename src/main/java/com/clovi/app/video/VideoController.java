@@ -60,14 +60,15 @@ public class VideoController {
 
   // 영상 저장 API
   @PostMapping("/videos")
-  @Operation(summary = "Create video", description = "Create video and save", responses = {
-          @ApiResponse(responseCode = "201", description = "Success create", content = @Content(schema = @Schema(implementation = SavedId.class)))
+  @Operation(summary = "Create a specific video", description = "Create a video and save.", responses = {
+          @ApiResponse(responseCode = "201", description = "Success create video!", content = @Content(schema = @Schema(implementation = SavedId.class)))
   })
   public ResponseEntity saveVideo(@Validated @RequestBody VideoRequest videoRequest) {
-    SavedId savedId = new SavedId(videoService.save(videoRequest));
-    String newUrl = "/api/v1/videos/".concat(savedId.getId().toString());
+    SavedId savedId = new SavedId(videoService.saveVideo(videoRequest));
 
-    return ResponseEntity.created(URI.create(newUrl)).body (
+    return ResponseEntity.created(
+            URI.create("/api/v1/videos/".concat(savedId.getId().toString()))
+    ).body(
             new BaseResponse(savedId, HttpStatus.CREATED.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_CREATE)
     );
   }
