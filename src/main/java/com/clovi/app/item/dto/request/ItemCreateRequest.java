@@ -18,10 +18,11 @@ public class ItemCreateRequest {
 
   @Schema(description = "사이즈", example = "M")
   private String size;
-  @Schema(description = "컬러", example = "M")
+
+  @Schema(description = "상품 색", example = "black")
   private String color;
 
-  @Schema(description = "선택한 이미지 ", example = "M")
+  @Schema(description = "상품 이미지 링크", example = "https://image.msscdn.net/images/goods_img/20221204/2970721/2970721_1_500.jpg")
   private String imgUrl;
 
   @Builder

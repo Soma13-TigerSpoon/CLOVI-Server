@@ -13,7 +13,7 @@ public class SearchResponse {
     private final Page<VideoResponse> videos;
 
     public SearchResponse(Page<Item> itemList, Page<Video> videoList) {
-        items = itemList.map(ItemResponse::new);
+        items = itemList.map(item -> ItemResponse.from(item));
         videos = videoList.map(VideoResponse::new);
     }
 }

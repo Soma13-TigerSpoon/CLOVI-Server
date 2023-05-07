@@ -25,11 +25,7 @@ public class ItemService {
   public ItemResponse findItemById(Long itemId) {
 
       Item item = itemRepository.findByIdAndDeletedIsFalse(itemId).orElseThrow(() -> new ResourceNotFoundException("item",itemId));
-
-      Long itemInfoId = item.getItemInfo().getId();
-      ItemInfo itemInfo = itemInfoRepository.findByIdAndDeletedIsFalse(itemInfoId).orElseThrow(() -> new ResourceNotFoundException("itemInfo",itemInfoId));
-
-      return new ItemResponse(itemInfo,item);
+      return ItemResponse.from(item);
 
   }
   @Transactional
