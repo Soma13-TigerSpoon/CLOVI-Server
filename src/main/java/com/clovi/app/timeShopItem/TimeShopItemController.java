@@ -44,4 +44,18 @@ public class TimeShopItemController {
                 new BaseResponse(savedId, HttpStatus.CREATED.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_CREATE)
         );
     }
+
+    // 시간에 대한 item 및 shopItem 연관관계 삭제 API
+    @DeleteMapping("/timeframes/{timeframe_id}")
+    @Operation(summary = "Delete relationship between timeframe and item and shopItem", description = "Delete a timeShopItem.", responses = {
+            @ApiResponse(responseCode = "200", description = "Success delete timeShopItem!")
+    })
+    public ResponseEntity deleteTimeShopItem(@NotBlank @PathVariable(name = "timeframe_id") Long timeframeId,
+                                             @NotBlank @RequestParam(name = "item_id") Long itemId, @NotBlank @RequestParam(name = "shop_item_id") Long shopItemId,
+                                             @AuthMember Member member) {
+        timeShopItemService.deleteTimeShopItem(timeframeId, itemId, shopItemId, member);
+        return ResponseEntity.ok(
+                new BaseResponse(HttpStatus.OK.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_DELETE)
+        );
+    }
 }

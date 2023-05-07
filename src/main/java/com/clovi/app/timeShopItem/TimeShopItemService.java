@@ -9,6 +9,7 @@ import com.clovi.app.shopItem.ShopItemRepository;
 import com.clovi.app.timeframe.Timeframe;
 import com.clovi.app.member.Member;
 import com.clovi.app.timeframe.repository.TimeframeRepository;
+import com.clovi.exception.auth.NoPermissionDeleteException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,5 +41,25 @@ public class TimeShopItemService {
                 new TimeShopItem(timeframe, item, shopItem, member.getId())
         );
         return saved.getId();
+    }
+
+    @Transactional
+    public void deleteTimeShopItem(Long timeframeId, Long itemId, Long shopItemId, Member member) {
+        timeframeRepository.findByIdAndDeletedIsFalse(timeframeId)
+                .orElseThrow(() -> new ResourceNotFoundException("timeframe", timeframeId));
+        itemRepository.findByIdAndDeletedIsFalse(itemId)
+                .orElseThrow(() -> new ResourceNotFoundException("item", itemId));
+        shopItemRepository.findByIdAndDeletedIsFalse(shopItemId)
+                .orElseThrow(() -> new ResourceNotFoundException("shopItem", shopItemId));
+
+        TimeShopItem timeShopItem = timeShopItemRepository.findByTimeIdAndItemIdAndShopItemIdAndDeletedIsFalse(timeframeId, itemId, shopItemId)
+                .orElseThrow(() -> new ResourceNotFoundException("timeShopItem", ""));
+
+        if(timeShopItem.isNotCreatedBy(member.getId())) {
+            throw new NoPermissionDeleteException();
+        }
+
+        timeShopItem.delete();
+        timeShopItemRepository.save(timeShopItem);
     }
 }
