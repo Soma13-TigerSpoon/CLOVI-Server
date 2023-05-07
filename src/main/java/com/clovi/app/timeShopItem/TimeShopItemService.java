@@ -17,23 +17,28 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class TimeShopItemService {
-
     private final TimeShopItemRepository timeShopItemRepository;
 
-    private final TimeframeRepository timeFrameRepository;
+    private final TimeframeRepository timeframeRepository;
     private final ItemRepository itemRepository;
     private final ShopItemRepository shopItemRepository;
 
     @Transactional
-    public Long create(Member member, Long timeFrameId, Long itemId, Long shopItemId) {
-        if(timeShopItemRepository.existsByTimeIdAndItemIdAndShopItemIdAndDeletedIsFalse(timeFrameId,itemId,shopItemId)){
+    public Long createTimeShopItem(Long timeframeId, Long itemId, Long shopItemId, Member member) {
+        if(timeShopItemRepository.existsByTimeIdAndItemIdAndShopItemIdAndDeletedIsFalse(timeframeId, itemId, shopItemId)) {
             throw new DuplicateResourceException("timeShopItem");
         }
-        Timeframe timeFrame = timeFrameRepository.findByIdAndDeletedIsFalse(timeFrameId).orElseThrow(()-> new ResourceNotFoundException("timeframe",timeFrameId));
-        Item item = itemRepository.findByIdAndDeletedIsFalse(itemId).orElseThrow(()-> new ResourceNotFoundException("item",itemId));
-        ShopItem shopItem = shopItemRepository.findByIdAndDeletedIsFalse(shopItemId).orElseThrow(()-> new ResourceNotFoundException("shopItem",shopItemId));
-        TimeShopItem timeShopItem = new TimeShopItem(timeFrame,item,shopItem,member.getId());
-        TimeShopItem saved = timeShopItemRepository.save(timeShopItem);
+
+        Timeframe timeframe = timeframeRepository.findByIdAndDeletedIsFalse(timeframeId)
+                .orElseThrow(() -> new ResourceNotFoundException("timeframe", timeframeId));
+        Item item = itemRepository.findByIdAndDeletedIsFalse(itemId)
+                .orElseThrow(() -> new ResourceNotFoundException("item", itemId));
+        ShopItem shopItem = shopItemRepository.findByIdAndDeletedIsFalse(shopItemId)
+                .orElseThrow(() -> new ResourceNotFoundException("shopItem", shopItemId));
+
+        TimeShopItem saved = timeShopItemRepository.save(
+                new TimeShopItem(timeframe, item, shopItem, member.getId())
+        );
         return saved.getId();
     }
 }

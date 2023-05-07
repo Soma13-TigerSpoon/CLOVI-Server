@@ -27,18 +27,21 @@ import java.net.URI;
 public class TimeShopItemController {
     private final TimeShopItemService timeShopItemService;
 
-    // 시간에 대한 item, shopitem 생성 API
-    @PostMapping("/videos/{video_id}/timeframes/{time_frame_id}/items/{item_id}/shopitems/{shop_item_id}")
-    @Operation(summary = "Create timeShopItem Relationship", description = "Create timeShopItem and save", responses = {
-            @ApiResponse(responseCode = "201", description = "Success create", content = @Content(schema = @Schema(implementation = SavedId.class)))
+    // 시간에 대한 item 및 shopItem 연관관계 생성 API
+    @PostMapping("/timeframes/{timeframe_id}")
+    @Operation(summary = "Create relationship between timeframe and item and shopItem", description = "Create a timeShopItem and save.", responses = {
+            @ApiResponse(responseCode = "201", description = "Success create timeShopItem!", content = @Content(schema = @Schema(implementation = SavedId.class)))
     })
-    public ResponseEntity createTimeShopItem(@NotBlank @PathVariable(name = "video_id") Long videoId, @AuthMember Member member, @NotBlank @PathVariable(name = "time_frame_id") Long timeFrameId
-            , @PathVariable(name = "item_id") Long itemId, @PathVariable(name = "shop_item_id") Long shopItemId){
-        SavedId savedId = new SavedId(timeShopItemService.create(member,timeFrameId,itemId,shopItemId));
-        String[] list = {"/api/v1/videos", String.valueOf(videoId), "timeframes", String.valueOf(timeFrameId)};
+    public ResponseEntity createTimeShopItem(@NotBlank @PathVariable(name = "timeframe_id") Long timeframeId,
+                                             @NotBlank @RequestParam(name = "item_id") Long itemId, @NotBlank @RequestParam(name = "shop_item_id") Long shopItemId,
+                                             @AuthMember Member member) {
+        SavedId savedId = new SavedId(timeShopItemService.createTimeShopItem(timeframeId, itemId, shopItemId, member));
+
+        String[] list = {"/api/v1/timeframes", String.valueOf(timeframeId)};
         return ResponseEntity.created(
-                URI.create(String.join("/", list))).body(new BaseResponse(savedId, HttpStatus.CREATED.value(),
-                ProcessStatus.SUCCESS,
-                MessageCode.SUCCESS_CREATE));
+                URI.create(String.join("/", list))
+        ).body(
+                new BaseResponse(savedId, HttpStatus.CREATED.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_CREATE)
+        );
     }
 }
