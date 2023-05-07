@@ -3,12 +3,12 @@ package com.clovi.app.video.service;
 import com.clovi.app.base.dto.response.SavedId;
 import com.clovi.app.channel.Channel;
 import com.clovi.app.channel.ChannelRepository;
+import com.clovi.exception.DuplicateResourceException;
 import com.clovi.exception.ResourceNotFoundException;
 import com.clovi.app.video.dto.request.VideoRequest;
 import com.clovi.app.video.dto.response.VideoResponse;
 import com.clovi.app.video.repository.VideoRepository;
 import com.clovi.app.video.Video;
-import com.clovi.exception.video.DuplicateVideoIdException;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -59,7 +59,7 @@ public class VideoService {
 
         Optional<Video> video = videoRepository.findByYoutubeVideoId(videoRequest.getYoutubeVideoId());
         if(video.isPresent()) {
-            throw new DuplicateVideoIdException();
+            throw new DuplicateResourceException("video");
         }
 
         Video savedVideo = videoRepository.save(new Video(videoRequest, channel));
