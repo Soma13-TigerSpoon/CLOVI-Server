@@ -14,13 +14,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotBlank;
 import java.net.URI;
 
 
-@Tag(name = "[TimeShopItem] 시간에 대한 아이템 및 쇼핑몰링크 관리 API")
+@Tag(name = "[TimeShopItem] 시간에 대한 아이템 및 쇼핑몰 링크 관리 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
@@ -32,8 +32,8 @@ public class TimeShopItemController {
     @Operation(summary = "Create relationship between timeframe and item and shopItem", description = "Create a timeShopItem and save.", responses = {
             @ApiResponse(responseCode = "201", description = "Success create timeShopItem!", content = @Content(schema = @Schema(implementation = SavedId.class)))
     })
-    public ResponseEntity createTimeShopItem(@NotBlank @PathVariable(name = "timeframe_id") Long timeframeId,
-                                             @NotBlank @RequestParam(name = "item_id") Long itemId, @NotBlank @RequestParam(name = "shop_item_id") Long shopItemId,
+    public ResponseEntity createTimeShopItem(@Validated @PathVariable(name = "timeframe_id") Long timeframeId,
+                                             @Validated @RequestParam(name = "item_id") Long itemId, @Validated @RequestParam(name = "shop_item_id") Long shopItemId,
                                              @AuthMember Member member) {
         SavedId savedId = new SavedId(timeShopItemService.createTimeShopItem(timeframeId, itemId, shopItemId, member));
 
@@ -50,8 +50,8 @@ public class TimeShopItemController {
     @Operation(summary = "Delete relationship between timeframe and item and shopItem", description = "Delete a timeShopItem.", responses = {
             @ApiResponse(responseCode = "200", description = "Success delete timeShopItem!")
     })
-    public ResponseEntity deleteTimeShopItem(@NotBlank @PathVariable(name = "timeframe_id") Long timeframeId,
-                                             @NotBlank @RequestParam(name = "item_id") Long itemId, @NotBlank @RequestParam(name = "shop_item_id") Long shopItemId,
+    public ResponseEntity deleteTimeShopItem(@Validated @PathVariable(name = "timeframe_id") Long timeframeId,
+                                             @Validated @RequestParam(name = "item_id") Long itemId, @Validated @RequestParam(name = "shop_item_id") Long shopItemId,
                                              @AuthMember Member member) {
         timeShopItemService.deleteTimeShopItem(timeframeId, itemId, shopItemId, member);
         return ResponseEntity.ok(
