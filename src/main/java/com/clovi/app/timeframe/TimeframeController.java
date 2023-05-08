@@ -29,59 +29,75 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
 public class TimeframeController {
-    private final TimeframeService timeFrameService;
+    private final TimeframeService timeframeService;
 
     // 영상에 대한 모든 시간 조회
-    @GetMapping("/videos/{youtube_video_id}/timeframes")
-    @Operation(summary = "Find all timeFrame", description = "Find all timeFrame by video ID.", responses = {
-            @ApiResponse(responseCode = "200", description = "Success Find timeFrame List", content = @Content(schema = @Schema(implementation = TimeframeResponse.class)))
+    @GetMapping("/videos/{video_id}/timeframes")
+    @Operation(summary = "Find all timeframes", description = "Find all timeframes by video ID.", responses = {
+            @ApiResponse(responseCode = "200", description = "Success find timeframe list!", content = @Content(schema = @Schema(implementation = TimeframeResponse.class)))
     })
-    public ResponseEntity findAllTimeFramesByVideoId(@PathVariable(name = "youtube_video_id") String youtubeVideoId){
-        List<TimeframeResponse> response = timeFrameService.getTimeFrameListByYoutubeVideoId(youtubeVideoId);
+    public ResponseEntity findAllTimeframesByVideoId(@PathVariable(name = "video_id") String videoId) {
+        List<TimeframeResponse> response = timeframeService.getTimeframeListByVideoId(videoId);
         return ResponseEntity.ok(new BaseResponse(response, HttpStatus.OK.value(), MessageCode.SUCCESS_GET_LIST));
     }
 
     // 시간으로 해당 시간에 있는 아이템 리스트 조회 API
-    @GetMapping("/videos/{youtube_video_id}/timeframes/{time_frame_id}")
-    @Operation(summary = "Find timeFrame", description = "Find timeFrame by ID.", responses = {
-            @ApiResponse(responseCode = "200", description = "Success Find timeFrame", content = @Content(schema = @Schema(implementation = TimeShopItemResponse.class)))
+    @GetMapping("/videos/{video_id}/timeframes/{timeframe_id}")
+    @Operation(summary = "Find a specific timeframe", description = "Find a timeframe by video ID and timeframe ID.", responses = {
+            @ApiResponse(responseCode = "200", description = "Success find timeShopItem list!", content = @Content(schema = @Schema(implementation = TimeShopItemResponse.class)))
     })
-    public ResponseEntity findItemsByTimeFrameId(@PathVariable(name = "youtube_video_id") String youtubeVideoId, @PathVariable(name = "time_frame_id") Long timeFrameId){
-        TimeShopItemResponse response = timeFrameService.getItemListByTimeFrameId(timeFrameId);
+    public ResponseEntity findItemsByVideoIdAndTimeframeId(@PathVariable(name = "video_id") String videoId, @PathVariable(name = "timeframe_id") Long timeframeId) {
+        TimeShopItemResponse response = timeframeService.getItemListByVideoIdAndTimeframeId(videoId, timeframeId);
         return ResponseEntity.ok(new BaseResponse(response, HttpStatus.OK.value(), MessageCode.SUCCESS_GET));
     }
 
     // 시간 생성 API
-    @PostMapping("/videos/{youtube_video_id}/timeframes")
-    @Operation(summary = "Create timeFrame", description = "Create timeFrame and save", responses = {
-            @ApiResponse(responseCode = "201", description = "Success create", content = @Content(schema = @Schema(implementation = SavedId.class)))
+    @PostMapping("/videos/{video_id}/timeframes")
+    @Operation(summary = "Create a specific timeframe", description = "Create timeframe and save.", responses = {
+            @ApiResponse(responseCode = "201", description = "Success create timeframe!", content = @Content(schema = @Schema(implementation = SavedId.class)))
     })
-    public ResponseEntity createTimeFrame(@PathVariable(name = "youtube_video_id") String youtubeVideoId, @Validated @RequestBody TimeframeCreateRequest timeFrameCreateRequest, @AuthMember Member member){
-        SavedId savedId = new SavedId(timeFrameService.create(timeFrameCreateRequest,youtubeVideoId,member));
-        String[] list = {"/api/v1/videos", youtubeVideoId, "timeframes", String.valueOf(savedId.getId())};
+    public ResponseEntity createTimeframe(@PathVariable(name = "video_id") String videoId,
+                                          @Validated @RequestBody TimeframeCreateRequest timeframeCreateRequest, @AuthMember Member member) {
+        SavedId savedId = new SavedId(
+                timeframeService.createTimeframe(timeframeCreateRequest, videoId, member)
+        );
+
+        String[] list = {"/api/v1/videos", videoId, "timeframes", String.valueOf(savedId.getId())};
+
         return ResponseEntity.created(
-                URI.create(String.join("/", list))).body(new BaseResponse(savedId, HttpStatus.CREATED.value(),
-                ProcessStatus.SUCCESS,
-                MessageCode.SUCCESS_CREATE));
+                URI.create(String.join("/", list))
+        ).body(
+                new BaseResponse(savedId, HttpStatus.CREATED.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_CREATE)
+        );
     }
 
     // 시간 수정 API
-    @PutMapping("/videos/{youtube_video_id}/timeframes/{time_frame_id}")
-    @Operation(summary = "Update timeFrame", description = "Update timeFrame by id", responses = {
-            @ApiResponse(responseCode = "200", description = "Success update", content = @Content(schema = @Schema(implementation = SavedId.class)))
+    @PutMapping("/videos/{video_id}/timeframes/{timeframe_id}")
+    @Operation(summary = "Update a specific timeframe", description = "Update a timeframe by video ID and timeframe ID.", responses = {
+            @ApiResponse(responseCode = "200", description = "Success update timeframe!", content = @Content(schema = @Schema(implementation = SavedId.class)))
     })
-    public ResponseEntity updateTimeFrame(@Validated @RequestBody TimeframeUpdateRequest timeFrameUpdateRequest, @PathVariable(name = "time_frame_id") Long timeFrameId, @AuthMember Member member, @PathVariable(name = "youtube_video_id") String youtubeVideoId){
-        SavedId savedId = new SavedId(timeFrameService.update(timeFrameUpdateRequest,timeFrameId,member));
-        return ResponseEntity.ok(new BaseResponse(savedId,HttpStatus.OK.value(),ProcessStatus.SUCCESS, MessageCode.SUCCESS_UPDATE));
+    public ResponseEntity updateTimeframe(@PathVariable(name = "video_id") String videoId, @PathVariable(name = "timeframe_id") Long timeframeId,
+                                          @Validated @RequestBody TimeframeUpdateRequest timeframeUpdateRequest, @AuthMember Member member) {
+        SavedId savedId = new SavedId(
+                timeframeService.updateTimeframe(timeframeUpdateRequest, videoId, timeframeId, member)
+        );
+
+        return ResponseEntity.ok(
+                new BaseResponse(savedId, HttpStatus.OK.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_UPDATE)
+        );
     }
 
     // 시간 삭제 API
-    @DeleteMapping("/videos/{youtube_video_id}/timeframes/{time_frame_id}")
-    @Operation(summary = "Delete timeFrame", description = "Delete timeFrame by id", responses = {
-            @ApiResponse(responseCode = "200", description = "Success delete")
+    @DeleteMapping("/videos/{video_id}/timeframes/{timeframe_id}")
+    @Operation(summary = "Delete a specific timeframe", description = "Delete a timeframe by video ID and timeframe ID.", responses = {
+            @ApiResponse(responseCode = "200", description = "Success delete timeframe!")
     })
-    public ResponseEntity deleteTimeFrame(@Validated @PathVariable(name = "time_frame_id") Long timeFrameId, @AuthMember Member member, @PathVariable(name = "youtube_video_id") String youtubeVideoId){
-        timeFrameService.delete(timeFrameId,member);
-        return ResponseEntity.ok(new BaseResponse(HttpStatus.OK.value(),ProcessStatus.SUCCESS, MessageCode.SUCCESS_DELETE));
+    public ResponseEntity deleteTimeframe(@PathVariable(name = "video_id") String videoId, @PathVariable(name = "timeframe_id") Long timeframeId,
+                                          @AuthMember Member member) {
+        timeframeService.deleteTimeframe(videoId, timeframeId, member);
+
+        return ResponseEntity.ok(
+                new BaseResponse(HttpStatus.OK.value(),ProcessStatus.SUCCESS, MessageCode.SUCCESS_DELETE)
+        );
     }
 }
