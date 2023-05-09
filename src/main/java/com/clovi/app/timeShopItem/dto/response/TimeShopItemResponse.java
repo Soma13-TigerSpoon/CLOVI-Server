@@ -32,6 +32,7 @@ public class TimeShopItemResponse {
     if(timeframe.getItems() != null) {
       this.items = timeframe.getItems()
               .stream()
+              .filter((item)->item.isNotDeleted())
               .map((item) -> new ItemShopItemResponse(item.getShopItem(),item.getItem()))
               .sorted(new ItemOrderComparator())
               .collect(Collectors.toList());
