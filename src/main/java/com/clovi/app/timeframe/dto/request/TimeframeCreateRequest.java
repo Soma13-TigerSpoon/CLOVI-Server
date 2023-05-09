@@ -1,5 +1,7 @@
 package com.clovi.app.timeframe.dto.request;
 
+import com.clovi.app.timeframe.Timeframe;
+import com.clovi.app.video.Video;
 import com.clovi.utils.TimeFormatUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -23,5 +25,17 @@ public class TimeframeCreateRequest {
 
     public Long getTime() {
         return TimeFormatUtils.StringTimeToLong(this.time);
+    }
+
+    public Timeframe toEntity(Video video, Long id) {
+        Timeframe timeframe = Timeframe.builder()
+                .capturePoint(Long.parseLong(this.time))
+                .video(video)
+                .build();
+
+        timeframe.setCreateBy(id);
+        timeframe.setLastModifiedBy(id);
+
+        return timeframe;
     }
 }

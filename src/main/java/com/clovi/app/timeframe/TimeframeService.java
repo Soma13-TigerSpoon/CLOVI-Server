@@ -98,7 +98,8 @@ public class TimeframeService {
         }
 
         Timeframe saved = timeframeRepository.save(
-                new Timeframe(timeframeCreateRequest, video, member.getId())
+                // new Timeframe(timeframeCreateRequest, video, member.getId())
+                timeframeCreateRequest.toEntity(video, member.getId())
         );
         return saved.getId();
     }
