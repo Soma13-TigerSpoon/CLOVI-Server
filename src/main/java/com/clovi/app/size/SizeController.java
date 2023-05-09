@@ -45,7 +45,7 @@ public class SizeController {
             @ApiResponse(responseCode = "200", description = "Success Find all size of items ", content = @Content(array = @ArraySchema(schema = @Schema(implementation = String.class))))
     })
     public ResponseEntity getAllSizeByItemInfo(@Validated @PathVariable(name = "item_info_id") Long itemInfoId) {
-        List<String> response = sizeService.findAllColors(itemInfoId);
+        List<String> response = sizeService.findAllSize(itemInfoId);
         return ResponseEntity.ok(
                 new BaseResponse(response, HttpStatus.OK.value(), ProcessStatus.SUCCESS, MessageCode.SUCCESS_GET_LIST)
         );
