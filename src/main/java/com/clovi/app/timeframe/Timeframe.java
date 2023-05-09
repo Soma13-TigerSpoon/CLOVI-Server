@@ -41,13 +41,11 @@ public class Timeframe extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   private Video video;
 
-
   @OneToMany(mappedBy = "time", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   private List<TimeShopItem> items = new ArrayList<>();
 
   @ManyToOne(fetch = FetchType.LAZY)
   private Model model;
-
 
   @Builder
   public Timeframe(Long capturePoint, Model model, Video video) {
@@ -62,13 +60,21 @@ public class Timeframe extends BaseEntity {
     this.createBy = id;
     this.lastModifiedBy = id;
   }
+
   public void update(TimeframeUpdateRequest timeFrameUpdateRequest, Long id){
     this.capturePoint = timeFrameUpdateRequest.getTime();
+    this.lastModifiedBy = id;
+  }
+
+  public void setCreateBy(Long id) {
+    this.createBy = id;
+  }
+
+  public void setLastModifiedBy(Long id) {
     this.lastModifiedBy = id;
   }
 
   public void addItem(TimeShopItem timeShopItem) {
     this.items.add(timeShopItem);
   }
-
 }
