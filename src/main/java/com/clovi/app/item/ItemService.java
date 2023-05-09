@@ -30,10 +30,10 @@ public class ItemService {
   }
   @Transactional
   public Long create(ItemCreateRequest itemCreateRequest, Member member) {
-    Long itemId = itemCreateRequest.getItemInfoId();
+    Long itemInfoId = itemCreateRequest.getItemInfoId();
     Long userId = member.getId();
-    ItemInfo findItemInfo = itemInfoRepository.findByIdAndDeletedIsFalse(itemId).orElseThrow(() -> new ResourceNotFoundException("Item", itemId));
-    Item newItem = new Item(itemCreateRequest, findItemInfo,userId);
+    ItemInfo findItemInfo = itemInfoRepository.findByIdAndDeletedIsFalse(itemInfoId).orElseThrow(() -> new ResourceNotFoundException("ItemInfo", itemInfoId));
+    Item newItem = itemCreateRequest.toEntity(findItemInfo,userId);
     Item saved = itemRepository.save(newItem);
     return saved.getId();
   }
