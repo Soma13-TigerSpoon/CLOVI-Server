@@ -1,5 +1,6 @@
 package com.clovi.app.item;
 
+import com.clovi.app.color.ColorService;
 import com.clovi.app.item.dto.request.ItemCreateRequest;
 import com.clovi.app.item.dto.request.ItemUpdateRequest;
 import com.clovi.app.item.dto.response.ItemResponse;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 public class ItemController {
 
   private final ItemService itemService;
+  private final ColorService colorService;
 
   // 상품 조회 API
   @GetMapping("/items/{item_id}")
@@ -46,6 +48,8 @@ public class ItemController {
   })
   public ResponseEntity createItem(@Validated @RequestBody ItemCreateRequest itemCreateRequest, @AuthMember Member member){
     SavedId savedId = new SavedId(itemService.create(itemCreateRequest,member));
+    Long itemInfoId = itemCreateRequest.getItemInfoId();
+    colorService.save(itemCreateRequest.getColor(), itemCreateRequest.getImgUrl(), itemInfoId, member.getId()); // 컬러 엔티티 생성
     return ResponseEntity.created(
         URI.create("/api/v1/items" + savedId.getId())).body(new BaseResponse(savedId, HttpStatus.CREATED.value(),
         ProcessStatus.SUCCESS,

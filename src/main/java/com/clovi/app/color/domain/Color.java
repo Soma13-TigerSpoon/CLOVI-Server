@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.checkerframework.common.aliasing.qual.Unique;
 
 @Entity
 @Getter
@@ -18,6 +19,7 @@ public class Color extends BaseTimeEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", nullable = false)
   private Long id;
+  @Unique
   private String name;
 
   public Color(String name) {
