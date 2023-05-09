@@ -27,17 +27,8 @@ public class ItemInfo extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
   private String name;
-
   private String brand;
-  @Lob
-  private String imgUrl;
-
-  private String color;
-
-  private Integer countOfColors;
-
   //=연관관계 매핑=//
 
   @ManyToOne(fetch = FetchType.LAZY)
@@ -49,29 +40,31 @@ public class ItemInfo extends BaseEntity {
   @OneToMany(mappedBy = "itemInfo", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   private List<ShopItem> shopItems = new ArrayList<>();
 
-  @Builder
-  public ItemInfo(String name, String color, String imgUrl) {
-    this.color = color;
-    this.name = name;
-    this.imgUrl = imgUrl;
-  }
   public ItemInfo(ItemInfoCreateRequest itemInfoCreateRequest, Category category, Long userId) {
     this.createBy = userId;
     this.lastModifiedBy = userId;
     this.name = itemInfoCreateRequest.getItemName();
     this.brand = itemInfoCreateRequest.getBrand();
     this.category = category;
-    this.color = itemInfoCreateRequest.getColor();
   }
+
+  @Builder
+  public ItemInfo(Long id, String name, String brand, ItemInfo parent, Category category, List<ShopItem> shopItems, Long userId) {
+    this.id = id;
+    this.name = name;
+    this.brand = brand;
+    this.parent = parent;
+    this.category = category;
+    this.shopItems = shopItems;
+    this.createBy = userId;
+    this.lastModifiedBy = userId;
+  }
+
   public void update(ItemInfoUpdateRequest itemInfoUpdateRequest, Category category, Long userId) {
     this.lastModifiedBy = userId;
     this.name = itemInfoUpdateRequest.getItemName();
     this.brand = itemInfoUpdateRequest.getBrand();
     this.category = category;
-    this.color = itemInfoUpdateRequest.getColor();
   }
 
-    public void addShopItem(ShopItem shopItem) {
-      this.shopItems.add(shopItem);
-    }
 }

@@ -8,6 +8,7 @@ import com.clovi.app.videoItem.VideoItem;
 import com.clovi.app.itemInfo.ItemInfo;
 import com.querydsl.core.annotations.QueryInit;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -49,6 +50,19 @@ public class Item extends BaseEntity {
     this.color = itemCreateRequest.getColor();
     this.imgUrl = itemCreateRequest.getImgUrl();
     this.itemInfo = itemInfo;
+  }
+
+  @Builder
+  public Item(Long id, String size, String color, String imgUrl, ItemInfo itemInfo, List<TimeShopItem> times, List<VideoItem> videoItems, Long userId) {
+    this.id = id;
+    this.size = size;
+    this.color = color;
+    this.imgUrl = imgUrl;
+    this.itemInfo = itemInfo;
+    this.times = times;
+    this.videoItems = videoItems;
+    this.createBy = userId;
+    this.lastModifiedBy = userId;
   }
 
   public void update(ItemUpdateRequest itemUpdateRequest, Long userId) {
