@@ -1,7 +1,8 @@
 package com.clovi.app.item.dto.request;
 
+import com.clovi.app.item.Item;
+import com.clovi.app.itemInfo.ItemInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,11 +26,20 @@ public class ItemCreateRequest {
   @Schema(description = "상품 이미지 링크", example = "https://image.msscdn.net/images/goods_img/20221204/2970721/2970721_1_500.jpg")
   private String imgUrl;
 
-  @Builder
   public ItemCreateRequest(Long itemInfoId, String size, String color, String imgUrl) {
     this.itemInfoId = itemInfoId;
     this.size = size;
     this.color = color;
     this.imgUrl = imgUrl;
+  }
+
+  public Item toEntity(ItemInfo itemInfo, Long userId){
+    return Item.builder()
+            .color(color)
+            .imgUrl(imgUrl)
+            .size(size)
+            .itemInfo(itemInfo)
+            .userId(userId)
+            .build();
   }
 }

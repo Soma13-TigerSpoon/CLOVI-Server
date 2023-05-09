@@ -1,5 +1,7 @@
 package com.clovi.app.itemInfo.dto.request;
 
+import com.clovi.app.category.Category;
+import com.clovi.app.itemInfo.ItemInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import javax.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -18,13 +20,15 @@ public class ItemInfoCreateRequest {
   @Schema(description = "상품명", example = "엠보 브이넥 니트")
   private String itemName;
 
-  @NotBlank(message = "상품 이미지 링크는 필수 항목입니다!")
-  @Schema(description = "상품 이미지 링크", example = "https://image.msscdn.net/images/goods_img/20221204/2970721/2970721_1_500.jpg")
-  private String itemImgUrl;
-
-  @Schema(description = "상품 색", example = "black")
-  private String color;
-
   @Schema(description = "카테고리", example = "203")
   private Long categoryId;
+
+  public ItemInfo toEntity(Category category,Long userId){
+    return ItemInfo.builder()
+            .brand(brand)
+            .name(itemName)
+            .category(category)
+            .userId(userId)
+            .build();
+  }
 }

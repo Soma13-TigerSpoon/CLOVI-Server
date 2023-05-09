@@ -2,9 +2,7 @@ package com.clovi.app.itemInfo;
 
 import com.clovi.app.category.Category;
 import com.clovi.app.category.repository.CategoryRepository;
-import com.clovi.app.color.repository.ItemColorRepository;
 import com.clovi.app.itemInfo.dto.response.ItemInfoResponse;
-import com.clovi.app.size.repository.ItemSizeRepository;
 import com.clovi.exception.ResourceNotFoundException;
 import com.clovi.exception.auth.NoPermissionDeleteException;
 import com.clovi.exception.auth.NoPermissionUpdateException;
@@ -21,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class ItemInfoService {
   private final ItemInfoRepository itemInfoRepository;
-
   private final CategoryRepository categoryRepository;
 
 
@@ -38,7 +35,7 @@ public class ItemInfoService {
 
     Category category = categoryRepository.findByIdAndDeletedIsFalse(categoryId).orElseThrow(() -> new ResourceNotFoundException("category",categoryId));
 
-    ItemInfo newItemInfo = new ItemInfo(itemInfoCreateRequest,category,userId);
+    ItemInfo newItemInfo = itemInfoCreateRequest.toEntity(category,userId);
 
     ItemInfo saved = itemInfoRepository.save(newItemInfo);
 

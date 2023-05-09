@@ -29,13 +29,13 @@ public class ItemColor extends BaseEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
   private Color color;
-  @ManyToOne(fetch = FetchType.LAZY)
-  private ItemInfo itemInfo;
 
-  public ItemColor(ItemInfo itemInfo, Color color, String imgUrl, Long memberId) {
+  private Long itemInfoId;
+
+  public ItemColor(Long itemInfoId, Color color, String imgUrl, Long memberId) {
     this.imgUrl = imgUrl;
     this.color = color;
-    this.itemInfo = itemInfo;
+    this.itemInfoId = itemInfoId;
     this.createBy = memberId;
     this.lastModifiedBy = memberId;
   }

@@ -1,5 +1,6 @@
 package com.clovi.app.item;
 
+import com.clovi.app.color.ColorService;
 import com.clovi.app.item.dto.request.ItemCreateRequest;
 import com.clovi.app.item.dto.request.ItemUpdateRequest;
 import com.clovi.app.item.dto.response.ItemResponse;
@@ -9,6 +10,7 @@ import com.clovi.app.base.dto.response.ProcessStatus;
 import com.clovi.app.member.Member;
 import com.clovi.app.base.dto.response.SavedId;
 import com.clovi.app.auth.helper.AuthMember;
+import com.clovi.app.size.SizeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -28,6 +30,8 @@ import org.springframework.web.bind.annotation.*;
 public class ItemController {
 
   private final ItemService itemService;
+  private final SizeService sizeService;
+  private final ColorService colorService;
 
   // 상품 조회 API
   @GetMapping("/items/{item_id}")
@@ -46,6 +50,9 @@ public class ItemController {
   })
   public ResponseEntity createItem(@Validated @RequestBody ItemCreateRequest itemCreateRequest, @AuthMember Member member){
     SavedId savedId = new SavedId(itemService.create(itemCreateRequest,member));
+    Long itemInfoId = itemCreateRequest.getItemInfoId();
+    sizeService.save(itemCreateRequest.getSize(),itemInfoId, member.getId()); // 사이즈 엔티티 생성
+    colorService.save(itemCreateRequest.getColor(), itemCreateRequest.getImgUrl(), itemInfoId, member.getId()); // 컬러 엔티티 생성
     return ResponseEntity.created(
         URI.create("/api/v1/items" + savedId.getId())).body(new BaseResponse(savedId, HttpStatus.CREATED.value(),
         ProcessStatus.SUCCESS,

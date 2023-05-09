@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 
 import com.clovi.app.itemInfo.ItemInfo;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,12 +28,13 @@ public class ItemSize extends BaseEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
   private Size size;
-  @ManyToOne(fetch = FetchType.LAZY)
-  private ItemInfo itemInfo;
 
-  public ItemSize(Size size, ItemInfo itemInfo, Long memberId) {
+  private Long itemInfoId;
+
+  @Builder
+  public ItemSize(Size size, Long itemInfoId, Long memberId) {
     this.size = size;
-    this.itemInfo = itemInfo;
+    this.itemInfoId = itemInfoId;
     this.createBy = memberId;
     this.lastModifiedBy = memberId;
   }

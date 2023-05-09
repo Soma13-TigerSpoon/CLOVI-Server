@@ -26,16 +26,22 @@ public class SizeService {
 
     public Long create(ItemSizeCreateRequest itemSizeCreateRequest, Member member, Long itemInfoId) {
         ItemInfo itemInfo = itemInfoRepository.findByIdAndDeletedIsFalse(itemInfoId).orElseThrow(() -> new ResourceNotFoundException("ItemInfo",itemInfoId));
-        String sizeName = itemSizeCreateRequest.getSize().trim();
-        Size size = sizeRepository.findByName(sizeName).orElse(
-                sizeRepository.save(new Size(sizeName))
-        );
-        ItemSize itemSize = new ItemSize(size,itemInfo,member.getId());
-        ItemSize saved = itemSizeRepository.save(itemSize);
+        String sizeName = itemSizeCreateRequest.getSize();
+        return save(sizeName,itemInfo.getId(),member.getId());
+    }
+
+    public List<String> findAllSize(Long itemInfoId) {
+        return itemSizeRepository.findAllByItemInfoId(itemInfoId).stream().map(ItemSize::getSizeName).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public Long save(String sizeName,Long itemInfoId,Long userId){
+        sizeName = sizeName.trim();
+        Size size = sizeRepository.existsByNameAndDeletedIsFalse(sizeName) ?
+                sizeRepository.findByNameAndDeletedIsFalse(sizeName).get():sizeRepository.save(new Size(sizeName));
+        ItemSize saved = itemSizeRepository.existsByItemInfoIdAndSizeIdAndDeletedIsFalse(itemInfoId,size.getId()) ?
+                itemSizeRepository.findByItemInfoIdAndSizeIdAndDeletedIsFalse(itemInfoId, size.getId()).get() : itemSizeRepository.save(new ItemSize(size,itemInfoId,userId));
         return saved.getId();
     }
 
-    public List<String> findAllColors(Long itemInfoId) {
-        return itemSizeRepository.findAllByItemInfoId(itemInfoId).stream().map(ItemSize::getSizeName).collect(Collectors.toList());
-    }
 }

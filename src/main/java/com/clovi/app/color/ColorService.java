@@ -26,18 +26,31 @@ public class ColorService {
     private final ColorRepository colorRepository;
     private final ItemColorRepository itemColorRepository;
 
-    public Long create(ItemColorCreateRequest itemInfoCreateRequest, Member member, Long itemInfoId) {
+    public Long create(ItemColorCreateRequest itemColorCreateRequest, Member member, Long itemInfoId) {
         ItemInfo itemInfo = itemInfoRepository.findByIdAndDeletedIsFalse(itemInfoId).orElseThrow(() -> new ResourceNotFoundException("ItemInfo",itemInfoId));
-        String colorName = itemInfoCreateRequest.getColor().trim();
-        Color color = colorRepository.findByName(colorName).orElse(
-                colorRepository.save(new Color(colorName))
-        );
-        ItemColor itemColor = new ItemColor(itemInfo,color,itemInfoCreateRequest.getImgUrl(), member.getId());
-        ItemColor saved = itemColorRepository.save(itemColor);
-        return saved.getId();
+        String colorName = itemColorCreateRequest.getColor();
+        String imgUrl = itemColorCreateRequest.getImgUrl();
+        return save(colorName,imgUrl,itemInfo.getId(),member.getId());
     }
 
     public List<ColorAndImgResponse> findAllColors(Long itemInfoId) {
         return itemColorRepository.findAllByItemInfoId(itemInfoId).stream().map(itemColor -> ColorAndImgResponse.from(itemColor)).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public Long save(String colorName, String imgUrl, Long itemInfoId, Long userId){
+        colorName = colorName.trim();
+        // 아래 로직으로 처리해봤는데 color, itemColor 테이블 모두에 중복 데이터가 계속 생김
+//        Color color = colorRepository.findByNameAndDeletedIsFalse(colorName).orElse(
+//                new Color(colorName)
+//        );
+//        ItemColor saved = itemColorRepository.findByItemInfoIdAndColorIdAndImgUrlAndDeletedIsFalse(itemInfoId, color.getId(), imgUrl).orElse(
+//                itemColorRepository.save(new ItemColor(itemInfoId,color,imgUrl, userId))
+//        );
+        Color color = colorRepository.existsByNameAndDeletedIsFalse(colorName) ?
+                colorRepository.findByNameAndDeletedIsFalse(colorName).get() : colorRepository.save(new Color(colorName));
+        ItemColor saved = itemColorRepository.existsByItemInfoIdAndColorIdAndImgUrlAndDeletedIsFalse(itemInfoId, color.getId(),imgUrl) ?
+                itemColorRepository.findByItemInfoIdAndColorIdAndImgUrlAndDeletedIsFalse(itemInfoId, color.getId(), imgUrl).get() : itemColorRepository.save(new ItemColor(itemInfoId,color,imgUrl, userId));
+        return saved.getId();
     }
 }

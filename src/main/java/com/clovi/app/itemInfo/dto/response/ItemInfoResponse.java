@@ -43,7 +43,9 @@ public class ItemInfoResponse {
                 .name(itemInfo.getName())
                 .brand(itemInfo.getBrand())
                 .categoryId(itemInfo.getCategory().getId())
-                .shopItems(itemInfo.getShopItems().stream().map(shopItem -> ShopItemResponse.from(shopItem)).collect(Collectors.toList()))
+                .shopItems(itemInfo.getShopItems().stream()
+                        .filter(shopItem -> shopItem.isNotDeleted()) // 삭제되지 않은 것들만
+                        .map(shopItem -> ShopItemResponse.from(shopItem)).collect(Collectors.toList()))
                 .build();
     }
 }
