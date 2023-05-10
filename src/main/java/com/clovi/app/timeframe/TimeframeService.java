@@ -127,7 +127,8 @@ public class TimeframeService {
             throw new NoPermissionUpdateException();
         }
 
-        timeframe.update(timeframeUpdateRequest, member.getId());
+        // timeframe.update(timeframeUpdateRequest, member.getId());
+        timeframe = timeframeUpdateRequest.update(timeframe, member.getId());
         Timeframe updated = timeframeRepository.save(timeframe);
         return updated.getId();
     }

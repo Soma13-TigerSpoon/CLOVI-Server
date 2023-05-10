@@ -1,5 +1,6 @@
 package com.clovi.app.timeframe.dto.request;
 
+import com.clovi.app.timeframe.Timeframe;
 import com.clovi.utils.TimeFormatUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -23,5 +24,12 @@ public class TimeframeUpdateRequest {
 
     public Long getTime() {
         return TimeFormatUtils.StringTimeToLong(this.time);
+    }
+
+    public Timeframe update(Timeframe timeframe, Long id) {
+        timeframe.setCapturePoint(Long.parseLong(this.time));
+        timeframe.setLastModifiedBy(id);
+
+        return timeframe;
     }
 }
