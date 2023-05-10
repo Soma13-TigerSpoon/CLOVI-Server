@@ -4,7 +4,6 @@ import com.clovi.app.timeShopItem.TimeShopItem;
 import com.clovi.app.base.domain.BaseEntity;
 import com.clovi.app.model.Model;
 import com.clovi.app.timeframe.dto.request.TimeframeCreateRequest;
-import com.clovi.app.timeframe.dto.request.TimeframeUpdateRequest;
 import com.clovi.app.video.Video;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(indexes = {
-    @Index(name = "i_start_time", columnList = "capturePoint"),
+    @Index(name = "i_start_time", columnList = "capturePoint")
 })
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -61,9 +60,8 @@ public class Timeframe extends BaseEntity {
     this.lastModifiedBy = id;
   }
 
-  public void update(TimeframeUpdateRequest timeFrameUpdateRequest, Long id){
-    this.capturePoint = timeFrameUpdateRequest.getTime();
-    this.lastModifiedBy = id;
+  public void setCapturePoint(Long capturePoint) {
+    this.capturePoint = capturePoint;
   }
 
   public void setCreateBy(Long id) {
@@ -74,7 +72,8 @@ public class Timeframe extends BaseEntity {
     this.lastModifiedBy = id;
   }
 
-  public void addItem(TimeShopItem timeShopItem) {
+  /* Function never used
+  public void addItems(TimeShopItem timeShopItem) {
     this.items.add(timeShopItem);
-  }
+  */
 }
