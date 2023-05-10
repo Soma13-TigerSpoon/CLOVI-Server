@@ -3,7 +3,6 @@ package com.clovi.app.timeframe;
 import com.clovi.app.timeShopItem.TimeShopItem;
 import com.clovi.app.base.domain.BaseEntity;
 import com.clovi.app.model.Model;
-import com.clovi.app.timeframe.dto.request.TimeframeCreateRequest;
 import com.clovi.app.video.Video;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,13 +50,6 @@ public class Timeframe extends BaseEntity {
     this.capturePoint = capturePoint;
     this.model = model;
     this.video = video;
-  }
-
-  public Timeframe(TimeframeCreateRequest timeFrameCreateRequest, Video video, Long id) {
-    this.capturePoint = timeFrameCreateRequest.getTime();
-    this.video = video;
-    this.createBy = id;
-    this.lastModifiedBy = id;
   }
 
   public void setCapturePoint(Long capturePoint) {
