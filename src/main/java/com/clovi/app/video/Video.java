@@ -3,11 +3,9 @@ package com.clovi.app.video;
 import com.clovi.app.base.domain.BaseTimeEntity;
 import com.clovi.app.channel.Channel;
 import com.clovi.app.timeframe.Timeframe;
-import com.clovi.app.video.dto.request.VideoRequest;
 import com.clovi.app.videoItem.VideoItem;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -23,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -44,7 +43,6 @@ public class Video extends BaseTimeEntity {
   @Column(unique = true, nullable = false)
   private String youtubeVideoId; // 유튜브 영상마다 있는 고유 ID 
 
-
   private Long length;
 
   private LocalDateTime uploadDate;
@@ -58,28 +56,25 @@ public class Video extends BaseTimeEntity {
   @OneToMany(mappedBy = "video", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   private List<Timeframe> timeframes = new ArrayList<>();
 
+  @Builder
   public Video(String title, String youtubeVideoId, Long length,
-      Channel channel) {
+               LocalDateTime uploadDate, Channel channel) {
     this.title = title;
     this.youtubeVideoId = youtubeVideoId;
     this.length = length;
+    this.uploadDate = uploadDate;
     this.channel = channel;
   }
 
-  public Video(VideoRequest videoRequest, Channel channel) {
-    this.title = videoRequest.getVideoTitle();
-    this.youtubeVideoId = videoRequest.getYoutubeVideoId();
-    this.length = videoRequest.getVideoLength();
-    this.channel = channel;
-    this.uploadDate = LocalDateTime.parse(videoRequest.getUploadDate(),DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-  }
-
-  public void addTimeFrame(Timeframe timeFrame) {
+  /* Function never used
+  public void addTimeframes(Timeframe timeFrame) {
     this.timeframes.add(timeFrame);
   }
+  */
 
-  public void addVideoItem(VideoItem videoItem) {
+  /* Function never used
+  public void addVideoItems(VideoItem videoItem) {
     this.videoItems.add(videoItem);
   }
-
+  */
 }
