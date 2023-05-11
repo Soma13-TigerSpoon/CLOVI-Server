@@ -38,6 +38,16 @@ public class VideoRequest {
   @Schema(description = "영상 업로드 날짜", example = "2023-03-09 19:15:00")
   private String uploadDate;
 
+  public VideoRequest(String channelName, String channelId, String youtubeVideoId,
+                      String videoTitle, Long videoLength, String uploadDate) {
+    this.channelName = channelName;
+    this.channelId = channelId;
+    this.youtubeVideoId = youtubeVideoId;
+    this.videoTitle = videoTitle;
+    this.videoLength = videoLength;
+    this.uploadDate = uploadDate;
+  }
+
   public Video toEntity(Channel channel) {
     return Video.builder()
             .title(this.videoTitle)
