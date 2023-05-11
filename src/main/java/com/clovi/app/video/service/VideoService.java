@@ -40,10 +40,10 @@ public class VideoService {
         return new SavedId(video.getId());
     }
 
-    /*
-    public VideoResponse search(String videoUrl){
+    /* Function deprecated
+    public VideoResponse search(String videoUrl) {
         Optional<Video> video = videoRepository.findByYoutubeVideoId(videoUrl);
-        if(video.isPresent()){
+        if(video.isPresent()) {
             VideoResponse result = new VideoResponse(video.get());
             return result;
         }
@@ -62,7 +62,7 @@ public class VideoService {
             throw new DuplicateResourceException("video");
         }
 
-        Video savedVideo = videoRepository.save(new Video(videoRequest, channel));
+        Video savedVideo = videoRepository.save(videoRequest.toEntity(channel));
         return savedVideo.getId();
     }
 }
