@@ -28,13 +28,15 @@ public class ShopItem extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
   @Lob
   private String shopItemUrl;
+
   private Long price;
 
   private Long stock;
 
-  //private boolean isMain = false;
+  // private boolean isMain;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   private Shop shop;
@@ -42,17 +44,26 @@ public class ShopItem extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   private ItemInfo itemInfo;
 
-
   @Builder
-  public ShopItem(String itemUrl,Long price, Long stock,
-      Shop shop, ItemInfo itemInfo) {
-    this.shopItemUrl = itemUrl;
+  public ShopItem(String shopItemUrl, Long price, Long stock, Shop shop, ItemInfo itemInfo) {
+    this.shopItemUrl = shopItemUrl;
     this.price = price;
     this.stock = stock;
     this.shop = shop;
     this.itemInfo = itemInfo;
   }
 
+  public void setShop(Shop shop) {
+    this.shop = shop;
+  }
+
+  public void setItemInfo(ItemInfo itemInfo) {
+    this.itemInfo = itemInfo;
+  }
+
+  public void setCreateBy(Long userId) {
+    this.createBy = userId;
+  }
 
   public ShopItem(ShopItemCreateRequest shopItemCreateRequest, ItemInfo findItemInfo, Shop findShop, Long userId) {
     this.createBy = userId;
