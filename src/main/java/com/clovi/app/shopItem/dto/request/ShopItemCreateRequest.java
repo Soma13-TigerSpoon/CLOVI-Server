@@ -1,5 +1,8 @@
 package com.clovi.app.shopItem.dto.request;
 
+import com.clovi.app.itemInfo.ItemInfo;
+import com.clovi.app.shop.Shop;
+import com.clovi.app.shopItem.ShopItem;
 import io.swagger.v3.oas.annotations.media.Schema;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -22,4 +25,17 @@ public class ShopItemCreateRequest {
   @NotNull(message = "상품 가격은 필수 항목입니다!")
   @Schema(description = "상품 가격", example = "36000")
   private Long price;
+
+  public ShopItem toEntity(Shop shop, ItemInfo itemInfo, Long userId) {
+    ShopItem shopItem =  ShopItem.builder()
+            .shopItemUrl(this.shopItemUrl)
+            .price(this.price)
+            .build();
+
+    shopItem.setShop(shop);
+    shopItem.setItemInfo(itemInfo);
+    shopItem.setCreateBy(userId);
+
+    return shopItem;
+  }
 }

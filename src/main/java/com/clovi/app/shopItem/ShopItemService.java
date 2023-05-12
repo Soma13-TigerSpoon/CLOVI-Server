@@ -47,7 +47,7 @@ public class ShopItemService {
         new Shop(hostname)
     );
 
-    ShopItem newShopItem = new ShopItem(shopItemCreateRequest, findItemInfo,findShop, member.getId());
+    ShopItem newShopItem = shopItemCreateRequest.toEntity(findShop, findItemInfo, member.getId());
 
     ShopItem saved = shopItemRepository.save(newShopItem);
 
