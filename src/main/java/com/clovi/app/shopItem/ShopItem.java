@@ -2,7 +2,6 @@ package com.clovi.app.shopItem;
 
 import com.clovi.app.itemInfo.ItemInfo;
 import com.clovi.app.shop.Shop;
-import com.clovi.app.shopItem.dto.request.ShopItemCreateRequest;
 import com.clovi.app.shopItem.dto.request.ShopItemUpdateRequest;
 import com.clovi.app.base.domain.BaseEntity;
 
@@ -63,14 +62,6 @@ public class ShopItem extends BaseEntity {
 
   public void setCreateBy(Long userId) {
     this.createBy = userId;
-  }
-
-  public ShopItem(ShopItemCreateRequest shopItemCreateRequest, ItemInfo findItemInfo, Shop findShop, Long userId) {
-    this.createBy = userId;
-    this.shopItemUrl = shopItemCreateRequest.getShopItemUrl();
-    this.price = shopItemCreateRequest.getPrice();
-    this.itemInfo = findItemInfo;
-    this.shop = findShop;
   }
 
   public void update(ShopItemUpdateRequest shopItemUpdateRequest, Shop findShop, Long userId) {
