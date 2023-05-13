@@ -66,10 +66,10 @@ public class ShopItemService {
             new Shop(hostname)
     );
 
-    if (findShopItem.isNotCreatedBy(userId)){
+    if(findShopItem.isNotCreatedBy(userId)) {
       throw new NoPermissionUpdateException();
     }
-    findShopItem.update(shopItemUpdateRequest,findShop,userId);
+    findShopItem = shopItemUpdateRequest.toEntity(findShopItem, findShop, userId);
 
     ShopItem saved = shopItemRepository.save(findShopItem);
 

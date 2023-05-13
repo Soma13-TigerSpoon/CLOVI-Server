@@ -1,5 +1,7 @@
 package com.clovi.app.shopItem.dto.request;
 
+import com.clovi.app.shop.Shop;
+import com.clovi.app.shopItem.ShopItem;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,4 +25,13 @@ public class ShopItemUpdateRequest {
   @NotNull(message = "상품 가격은 필수 항목입니다!")
   @Schema(description = "상품 가격", example = "36000")
   private Long price;
+
+  public ShopItem toEntity(ShopItem shopItem, Shop shop, Long userId) {
+    shopItem.setShopItemUrl(this.shopItemUrl);
+    shopItem.setPrice(this.price);
+    shopItem.setShop(shop);
+    shopItem.setLastModifiedBy(userId);
+
+    return shopItem;
+  }
 }
