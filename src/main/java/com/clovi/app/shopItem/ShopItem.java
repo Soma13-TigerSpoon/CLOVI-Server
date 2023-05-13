@@ -2,7 +2,6 @@ package com.clovi.app.shopItem;
 
 import com.clovi.app.itemInfo.ItemInfo;
 import com.clovi.app.shop.Shop;
-import com.clovi.app.shopItem.dto.request.ShopItemUpdateRequest;
 import com.clovi.app.base.domain.BaseEntity;
 
 import javax.persistence.CascadeType;
@@ -74,12 +73,5 @@ public class ShopItem extends BaseEntity {
 
   public void setLastModifiedBy(Long userId) {
     this.lastModifiedBy = userId;
-  }
-
-  public void update(ShopItemUpdateRequest shopItemUpdateRequest, Shop findShop, Long userId) {
-    this.lastModifiedBy = userId;
-    this.shopItemUrl = shopItemUpdateRequest.getShopItemUrl();
-    this.price = shopItemUpdateRequest.getPrice();
-    this.shop = findShop;
   }
 }
