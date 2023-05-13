@@ -52,6 +52,14 @@ public class ShopItem extends BaseEntity {
     this.itemInfo = itemInfo;
   }
 
+  public void setShopItemUrl(String shopItemUrl) {
+    this.shopItemUrl = shopItemUrl;
+  }
+
+  public void setPrice(Long price) {
+    this.price = price;
+  }
+
   public void setShop(Shop shop) {
     this.shop = shop;
   }
@@ -62,6 +70,10 @@ public class ShopItem extends BaseEntity {
 
   public void setCreateBy(Long userId) {
     this.createBy = userId;
+  }
+
+  public void setLastModifiedBy(Long userId) {
+    this.lastModifiedBy = userId;
   }
 
   public void update(ShopItemUpdateRequest shopItemUpdateRequest, Shop findShop, Long userId) {
