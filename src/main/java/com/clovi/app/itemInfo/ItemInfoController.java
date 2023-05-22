@@ -45,7 +45,7 @@ public class ItemInfoController {
   @Operation(summary = "Create itemInfo", description = "Create information of item and save", responses = {
           @ApiResponse(responseCode = "201", description = "Success create", content = @Content(schema = @Schema(implementation = SavedId.class)))
   })
-  public ResponseEntity createItemInfo(@Validated @RequestBody ItemInfoCreateRequest itemInfoCreateRequest, @AuthMember Member member){
+  public ResponseEntity createItemInfo( @RequestBody ItemInfoCreateRequest itemInfoCreateRequest, @AuthMember Member member){
     SavedId savedId = new SavedId(itemInfoService.create(itemInfoCreateRequest,member));
     return ResponseEntity.created(
         URI.create("/api/v1/info/items" + savedId.getId())).body(new BaseResponse(savedId, HttpStatus.CREATED.value(),ProcessStatus.SUCCESS,
