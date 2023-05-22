@@ -26,14 +26,16 @@ public class ItemInfoService {
     ItemInfo itemInfo = itemInfoRepository.findByIdAndDeletedIsFalse(itemInfoId).orElseThrow(() -> new ResourceNotFoundException("아이템",itemInfoId));
     return ItemInfoResponse.from(itemInfo);
   }
-  // 아래의 세 메소드 모두 유저 찾아서 권한 확인하는 부분 추가해야함.
+
   @Transactional
   public Long create(ItemInfoCreateRequest itemInfoCreateRequest, Member member){
     Long categoryId = itemInfoCreateRequest.getCategoryId();
 
     Long userId = member.getId();
 
-    Category category = categoryRepository.findByIdAndDeletedIsFalse(categoryId).orElseThrow(() -> new ResourceNotFoundException("category",categoryId));
+    Category category = categoryRepository.findByIdAndDeletedIsFalse(categoryId).orElse(
+            categoryRepository.findByIdAndDeletedIsFalse(10000L).get() // 빈 객체 생성시 사용되는 의미 없는 카테고리
+    );
 
     ItemInfo newItemInfo = itemInfoCreateRequest.toEntity(category,userId);
 
