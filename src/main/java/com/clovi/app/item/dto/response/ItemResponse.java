@@ -1,5 +1,7 @@
 package com.clovi.app.item.dto.response;
 
+import com.clovi.app.color.domain.ItemColor;
+import com.clovi.app.color.dto.response.ColorAndImgResponse;
 import com.clovi.app.itemInfo.ItemInfo;
 import com.clovi.app.item.Item;
 import java.util.ArrayList;
@@ -33,10 +35,16 @@ public class ItemResponse {
   @Schema(description = "정렬순서", example = "1")
   private int order;
 
-  List<ShopItemResponse> shops = new ArrayList<>();
-  List<ItemResponse> childItems = new ArrayList<>();
+  @Schema(description = "색상, 이미지 주소 리스트 ")
+  private List<ColorAndImgResponse> colorAndImgUrlList = new ArrayList<>();
+
+  @Schema(description = "사이즈 리스트")
+  private List<String> sizeList = new ArrayList<>();
+
+  private List<ShopItemResponse> shops = new ArrayList<>();
+  private List<ItemResponse> childItems = new ArrayList<>();
   @Builder
-  public ItemResponse(Long id, Long itemInfoId, String name, int order, String imgUrl, String color, String size, String brand, List<ShopItemResponse> shops, List<ItemResponse> childItems) {
+  public ItemResponse(Long id, Long itemInfoId, String name, int order, String imgUrl, String color, String size, String brand, List<ColorAndImgResponse> colorAndImgUrlList, List<String> sizeList, List<ShopItemResponse> shops, List<ItemResponse> childItems) {
     this.id = id;
     this.itemInfoId = itemInfoId;
     this.name = name;
@@ -45,6 +53,8 @@ public class ItemResponse {
     this.color = color;
     this.size = size;
     this.brand = brand;
+    this.colorAndImgUrlList = colorAndImgUrlList;
+    this.sizeList = sizeList;
     this.shops = shops;
     this.childItems = childItems;
   }
@@ -60,6 +70,8 @@ public class ItemResponse {
             .color(item.getColor())
             .size(item.getSize())
             .order(itemInfo.getCategory().getOrders())
+            .colorAndImgUrlList(itemInfo.getItemColors().stream().map(itemColor -> ColorAndImgResponse.from(itemColor)).collect(Collectors.toList()))
+            .sizeList(itemInfo.getItemSizes().stream().map(itemSize -> itemSize.getSize().getName()).collect(Collectors.toList()))
             .shops(itemInfo.getShopItems().stream().filter(shopItem -> shopItem.getShop().getId() != 100)
                     .map(shopItem -> ShopItemResponse.from(shopItem)).collect(Collectors.toList()))
             .build();
